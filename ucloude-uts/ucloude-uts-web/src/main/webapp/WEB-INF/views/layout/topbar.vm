@@ -1,0 +1,108 @@
+<link type="text/css" rel="stylesheet" href="${contextPath}/assets/css/current-sprite.css" />
+<div class="navbar-top">
+	<div class="header_logo l"></div>
+	<div id="topMenu" class="l"></div>
+	<div class="header_toolbar r">
+		<div class="login l">
+			<div class="login_img l">
+				<img alt="头像" src="${contextPath}/assets/css/images/adm.png">
+			</div>
+			<div class="login_name l">
+				<span class="userNo"></span>
+			</div>
+			<i class="current-sprite i-down"></i>
+			<b></b>
+			<div class="login_msg">
+				<div class="user">
+					<div class="user_img l"></div>
+					<div class="user_name l">
+						<span class="userNo"></span>
+						<svg class="icon" aria-heidden="true">
+							<use xlink:href="#icon-bianji-01"></svg>
+						</svg>				
+					</div>
+				</div>
+				<div class="user_msg">
+					<div id="userName" class="user_text"></div>
+					<ul class="user_info">
+						<li>手机号：<i id="userPone"></i></li>
+						<li>邮箱号：<i id="userEmail"></i></li>
+						<li><a href="${contextPath}/logout">退出平台</a></li>
+					</ul>
+				</div>
+			</div>
+		</div>
+		<div class="toolbar_list l">
+			<i class="current-sprite i-upcoming" title="待办"></i>	
+			<i class="current-sprite i-file" title="文件"></i>	
+			<i class="current-sprite i-theme" title="主题"></i>					
+		</div>
+	</div>
+</div>
+<script>	
+	require([ "jquery"], function($, ufa) {
+		//一级菜单
+		function topMenuFn(data){
+			var topMenu = data,
+				html = '<ul id="header_tab" class="header_tab l">';
+			for(var i=0;i<topMenu.length;i++){
+				html += '<li><a href=" '+ topMenu[i].menuUrl +' " hidefocus="true">'+ topMenu[i].menuName +'</a></li>';
+			}
+			html += '</ul>';
+			document.getElementById('topMenu').innerHTML=html;		
+			
+			if($('.header_tab li:first').find("a")[0].href!=String(window.location)){
+				$('.header_tab li:first').find("a").addClass('tab_active');
+			}
+			$('.header_tab a').each(function(i){
+			    if($(this)[0].href==String(window.location)){
+			    	if(i!=3){		    	
+			    		$('.header_tab li a').removeClass("tab_active")
+			        	$(this).addClass('tab_active');	
+			        	$('.nav_logger').show();
+			        }else{
+			        	$('.header_tab li a').removeClass("tab_active");
+			        	$('.name_logger').addClass('tab_active').html('更多');
+			        	$('.nav_logger').hide();
+			        }	    	
+			    }
+			});
+		}
+		$.ajax({
+			type : "get",
+			url : "${contextPath}/api/admin/getmenu",
+			dataType : "json",
+			success : function(obj) {
+				if (obj.success) {
+					console.log(obj);
+					topMenuFn(obj.data.childrens);
+				} else {
+					alert("获取菜单失败。");
+				}
+			},
+			error:function(){
+				alert("获取菜单异常。");
+			}
+		});
+		
+		$.ajax({
+			type : "get",
+			url : "${contextPath}/api/admin/getuserinfo",
+			dataType : "json",
+			success : function(obj) {
+				if (obj.success) {
+					$(".userNo").text(obj.data.userNo);
+					$("#userName").text(obj.data.userName);
+					$("#userMobile").text(obj.data.mobile);
+					$("#userEmail").text(obj.data.email);
+				} else {
+					alert("获取用户信息失败。");
+				}
+			},
+			error:function(){
+				alert("获取用户信息异常。");
+			}
+		});		
+	});
+	
+</script>	

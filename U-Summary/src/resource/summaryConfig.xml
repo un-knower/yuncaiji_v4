@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<!-- 加载配置表 -->
+	<bean name="webserviceAddr" class="java.lang.String">
+		<constructor-arg type="java.lang.String">
+			<value>${system.ws.address}</value>
+		</constructor-arg>
+	</bean>
+	
+	<!-- 缓存刷新时间间隔  -->
+	<bean name="systemCachePeriodMinutes" class="java.lang.Integer">
+		<constructor-arg>
+		<value type="java.lang.Integer">${system.cache.period.minutes}</value>
+		</constructor-arg>
+	</bean>
+	
+	<!-- DES秘钥 -->
+	<bean name="systemDesKey" class="java.lang.String">
+		<constructor-arg type="java.lang.String">
+			<value>${system.des.key}</value>
+		</constructor-arg>
+	</bean>
+	
+	<!-- 仓库暂存数据条数 当达到该条数时，仓库将暂存数据分发至Exporter模块 -->
+	<bean name="tempRegisterSize" class="java.lang.Integer">
+		<constructor-arg>
+			<value type="java.lang.Integer">${system.tempRegister.maxSize}</value>
+		</constructor-arg>
+	</bean>
+	
+	<bean name="mappingFileCount" class="java.lang.String">
+		<constructor-arg type="java.lang.String">
+			<value>${system.cache.mappingFileCount}</value>
+		</constructor-arg>
+	</bean>
+	
+	<bean name="elementsInMemery" class="java.lang.Integer">
+		<constructor-arg type="java.lang.String">
+			<value>${system.cache.elementsInMemery}</value>
+		</constructor-arg>
+	</bean>
+	
+	<bean name="cacheFileSizeMB" class="java.lang.Integer">
+		<constructor-arg type="java.lang.String">
+			<value>${system.cache.cacheFileSizeMB}</value>
+		</constructor-arg>
+	</bean>
+	
+	<bean name="cacheFileDir" class="java.lang.String">
+		<constructor-arg type="java.lang.String">
+			<value>./cachefile/</value>
+		</constructor-arg>
+	</bean>
+	
+</beans>

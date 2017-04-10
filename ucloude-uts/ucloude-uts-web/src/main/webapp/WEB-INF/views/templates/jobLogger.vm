@@ -1,0 +1,24 @@
+<div class="page-wrapper">
+	<header class="header-column-logger">
+		<div class="monitor-panl-head">
+			<h4>任务日志查询</h4>
+		</div>
+		<ul class="header-column-status" style="padding:0 32px">
+			<li><label>任务ID</label><input type="text" id="txtTaskID" class="k-textbox" ></li>
+			<li><label>节点组</label><input type="text" id="ddlNodeGroup" class="k-input" ></li>
+			<li><label>时间</label><input type="text" id="startTime"><span style="padding: 0 .5em;">到</span><input type="text" id="endTime"></li>		
+			<li class="k-header-btn"><button id="btnSearch" class="k-button k-primary">搜索</button></li>
+		</ul>
+	</header>
+	<div class="content_data">
+		<div class="monitor-panl-head">
+			<h4>任务日志列表</h4>
+		</div>
+		<div class="cloud-panl-con" id="gdJobLogger"></div>
+	</div>
+	<div id="winWrap">
+		<div class="details" style="word-break: break-all;white-space: normal;"></div>
+	</div>
+</div>
+<script src="assets/js/ufa.util.js"></script>
+<script src="assets/js/job.logger.js"></script>

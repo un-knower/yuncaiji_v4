@@ -1,0 +1,70 @@
+#parse('/layout/menu.vm')
+<div class="content_right">	
+	<header class="header-column">
+		<ul class="header-column-status">
+			<li><label>任务ID</label><input type="text" id="txtTaskID" class="k-input k-textbox" ></li>
+			<li><label>提交节点组</label><input id="ddlClientNodeGroups"></li>
+			<li><label>反馈客户端</label><input type="text" id="swtichFeedBackClient"></li>
+			<li><label>执行节点组</label><input id="ddlTaskTrackeNodeGroup" ></li>
+			<li><label>任务类型</label><input type="text" id="ddlTaskType"  ></li>
+			<li class="k-header-btn"><button id="btnSearch" class="k-button k-primary">搜索</button>&nbsp;<button id="btnReset" class="k-button k-primary k-add">重置</button></li>
+		</ul>
+	</header>
+	<div class="content_data">
+		<h4>Repeat任务列表</h4>
+		<div id="gdJobs"></div>
+	</div>	
+
+</div>	
+<script id="executableJobDetail" type="text/x-ufa-template">
+	<input type="hidden"  name="jobId" value="#:jobId#"/>
+    <input type="hidden"  id="taskId" value="#:realTaskId#"/>
+     <div>
+    <span >
+        	执行节点组#:taskTrackerNodeGroup#
+    </span>
+   </div>
+    <div>
+    <span >
+        	类型#:jobType#
+    </span>
+   </div>
+	<div>
+    <span >
+        	执行时间#:triggerTime#
+    </span>
+   </div>    
+</script>
+<script id="executableJobEdit" type="text/x-ufa-template"> 
+</script>
+<script type="text/javascript">
+var jobClients = $jobClientNodeGroupsJson;
+var taskTracks = $taskTrackerNodeGroupsJson;
+var jobTypes = [{
+						text : "实时任务",
+						value : "0"
+					}, {
+						text : "定时任务",
+						value : "1"
+					}, {
+						text : "周期性任务",
+						value : "2"
+					}, {
+						text : "重复性任务",
+						value : "3"
+					}];
+var enumEnJobTypes=[{
+						text : "实时任务",
+						value : "REAL_TIME"
+					}, {
+						text : "定时任务",
+						value : "TRIGGER_TIME"
+					}, {
+						text : "周期性任务",
+						value : "CRON"
+					}, {
+						text : "重复性任务",
+						value : "REPEAT"
+					}];
+</script>
+<script src="assets/js/jobqueue.repeat.js"></script>

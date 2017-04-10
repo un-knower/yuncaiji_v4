@@ -1,0 +1,6 @@
+.current-sprite{ width: 24px; height: 24px; display: inline-block; overflow: hidden;float: left; background: url(./images/current-sprite.png) no-repeat center;box-sizing: content-box; vertical-align: text-top; font-size: 0;
+  line-height: 0;}
+.i-down { background-position: 0 0; }
+.i-upcoming { background-position: -24px 0; }
+.i-file { background-position: -48px 0; }
+.i-theme { background-position: -72px 0; }

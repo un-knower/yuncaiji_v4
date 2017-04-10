@@ -1,0 +1,73 @@
+#parse('/layout/menu.vm')
+<div class="content_right">
+	<header class="header-column">
+		<ul class="header-column-status">
+			<li><label>节点标识</label><input type="text" id="txtidentity" class="k-input k-textbox" placeholder="请输入节点标识" /></li>
+			<li><label>IP</label><input type="text" id="txtIP" placeholder="请输入IP" class="k-input k-textbox"/></li>
+			<li><label>节点组</label><input type="text" id="txtNodeGroup" class="k-input k-textbox"></li>
+			<li><label>节点类</label><input type="text" id="ddlNodeTypes"  ></li>
+			<li><label>状态</label><input type="text" id="state"  ></li>
+		</ul>
+		<ul class="header-column-status">
+			<li><label>创建时间</label><input type="text" id="strat_time" style="width:160px" >
+			<span>到</span>
+			<input type="text" id="send_time"style="width:160px"></li>
+			<li class="k-header-btn"><button id="btnSearch" class="k-button k-primary">搜索</button><button id="btnRefresh" class="k-button k-primary" title="强制刷新:会从注册中心重新拉取节点信息">强制刷新</button></li>		
+		</ul>
+	</header>
+	<div class="content_data">
+		<h4>节点管理列表</h4>
+		<div id="gdNodes"></div>
+	</div>
+	
+     <div id="jvmInfos"></div>
+</div>
+<style type="text/css">
+                #details-container
+                {
+                    padding: 10px;
+                }
+
+                #details-container h2
+                {
+                    margin: 0;
+                }
+
+                #details-container em
+                {
+                    color: #8c8c8c;
+                }
+
+                #details-container dt
+                {
+                    margin:0;
+                    display: inline;
+                }
+            </style>
+           <script type="text/x-ufa-template" id="template">
+        <div class="ibox border-bottom">
+        <div class="ibox-title">
+            <h2>JVM信息 <span class="text-navy">#:identity#</span></h2>
+        </div>
+        <div class="ibox-content" id="cloud-unit">
+            <table class="table table-stripped footable footable-loaded no-paging" style="word-break:break-all; word-wrap:break-all;">
+                <thead>
+                <tr>
+                    <th class="footable-sortable" style="cursor: default;width:140px;">属性名称</th>
+                    <th class="footable-sortable" style="cursor: default;">属性值</th>
+                </tr>
+                </thead>
+                <tbody>
+               
+                 #for(var item in KYE_LABEL_MAP){#
+                <tr  style="display: table-row;">
+                    <td><span class="footable-toggle"></span>#:item#</td>
+                    <td>#:data[item]#</td>
+                </tr>
+                #}#
+                </tbody>
+            </table>
+        </div>
+    </div>
+            </script>
+<script src="assets/js/node.manager.js"></script>

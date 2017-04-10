@@ -1,0 +1,115 @@
+#set($layout = "/layout/empty.vm")
+<link rel="stylesheet" type="text/css" href="../assets/css/login.css">
+	<div class="login-bg"><span class="cloud-1"></span></div>
+	<div class="login-box">
+		<h4 class="login-box-item login-title">
+			<strong>欢迎使用</strong>
+			<span>调度平台管理系统</span>
+		</h4>
+		<form class="login-form" id="loginForm" autocomplete="off">
+			<div class="login-box-item login-np">
+				<i class="login-icon icon-user"></i>
+				<input type="text" name="userName" id="userName" placeholder="请输入用户名" autocomplete="off"/>
+				<b class="login-icon icon-close" id="clearVal"></b>
+			</div>
+			<div class="login-box-item login-np" style="margin-top: 16px;">
+				<i class="login-icon icon-password"></i>
+				<input type="password" name="password" id="password" placeholder="请输入密码" autocomplete="off"/>
+			</div>
+			<div id="divVerify" class="login-box-item login-re">
+				<input type="text" name="verifyCode" id="verifyCode" placeholder="请输入验证码" autocomplete="off"/>
+				<img id="verifyImg" src="" alt="点击获取验证码" title = "点击刷新验证码" />
+			</div>
+			<div class="login-box-item pw-operate c">
+				<div class="l">
+					<div class="checkboxFour">
+			  			<input type="checkbox" value="1" id="checkboxFourInput" name="" />
+				  		<label for="checkboxFourInput">记住密码</label>
+			  		</div>
+				</div>				
+				<div class="r">
+					<a href="javascript:;">忘记密码？</a>
+				</div>
+			</div>
+			<div class="login-box-item login-btn">
+				<button id="btnLogin" type="submit">登录</button>
+			</div>
+			<div class="login-box-item mes" id="mes"></div>
+		</form>
+	</div>
+	<p class="info">优网科技2015-2017优网科技2015-2017</p>
+	<script type="text/javascript">		
+		require(["jquery"], function($, ufa) {
+			function refreshVerifyCode(){
+				 $("#verifyImg").attr('src',"verifyImg.jpeg?_="+new Date().getTime());
+			}
+			if($isNeedCode){
+				refreshVerifyCode();
+				$("#divVerify").show();
+			}else{
+				$("#divVerify").hide();
+			}
+			$("#verifyImg").click(function(){
+				refreshVerifyCode();
+			});
+			$("#loginForm").submit(function(){				
+				var u = $('#userName').val();
+				var p = $('#password').val();
+				if(u==""){
+					$("#mes").text("请输入用户名").show();
+					return false;
+				}else if(p==""){
+					$("#mes").text("请输入密码").show();
+					return false;
+				}			
+				$("#btnLogin").attr("disabled","disabled");
+				$.ajax({
+					type : "get",
+					url : "../api/admin/login",
+					data : {
+						userName :$("#userName").val(),
+						password:$("#password").val(),
+						verifyCode:$("#verifyCode").val()
+					},
+					dataType : "json",
+					success : function(obj) {
+						if (obj.success) {
+							window.location.href ="../index.htm";
+						} else {
+							$("#mes").text(obj.msg).show();
+							if(obj.code=="true"){
+								$("#divVerify").show();
+								refreshVerifyCode();
+							}
+						}
+						$("#btnLogin").removeAttr("disabled");
+					},
+					error:function(){
+						$("#btnLogin").removeAttr("disabled");
+						$("#mes").text("登录异常。").show();
+					}
+				});
+				var event = event || window.event;
+  				event.preventDefault(); // 兼容标准浏览器
+  				window.event.returnValue = false; // 兼容IE6~8
+				return false;
+			});
+			$('#userName').on("change",function(){
+				var than = $(this),
+					b = than.siblings("b");
+				if(than.val() !== ""){
+					b.show();
+				}else{
+					b.hide();
+				}
+			});
+			$("#remember").on("click",function(){
+				$(this).toggleClass("icon-check-true")
+			});
+			$("#clearVal").on("click",function(){
+				$("#userName").val("");
+				$(this).hide();
+			})
+		});
+		
+	</script>

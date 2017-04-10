@@ -1,0 +1,210 @@
+#parse('/layout/menu.vm')
+<div class="content_right">
+	<header class="header-column">
+		<ul class="header-column-status">
+			<li><span>节点组：</span><input type="text" class="k-input k-textbox" id="txtNodeGroup" placeholder="请输入节点组"></li>
+			<li><span>节点类型：</span><input type="text" id="ddlnodeGroupType"/></li>
+			<li class="k-header-btn"><button id="btnSearch" class="k-button k-primary">搜索</button>&nbsp;<button id="btnAdd" class="k-button k-primary k-add ">新增</button></li>
+		</ul>
+	</header>
+	<div class="content_data">
+		<h4>节点组管理列表</h4>
+		<div id="gdNodeGroup" ></div>
+	</div>
+</div>
+<div id="editWindow" style="display:none">
+	<ul class="editData">
+		<li><span>节点组名称：</span><input type='text' id="addNodeGroup" name="nodeGroup" class="k-input k-textbox" placeholder="请输入节点组"/></li>
+		<li><span>节点组类型：</span><input type='text' id="addNodeGroupType"name="nodeType" /></li>
+		<li style="text-align: center;"><button id="btnSave" class="k-button k-primary">保存</button></li>
+	</ul>
+</div>
+<script>
+var nodeTypes = [{ NodeType:"0", NodeTypeText: "JOB_TRACKER",create:false},{ NodeType:"1", NodeTypeText: "TASK_TRACKER",create:true},
+{ NodeType:"2", NodeTypeText: "JOB_CLIENT",create:true},{ NodeType:"3", NodeTypeText: "MONITOR",create:false}];
+require([ "jquery","ufa.dropdownlist" ,"ufa.grid","ufa.dialog","messages/ufa.messages.zh-CN","cultures/ufa.culture.zh-CN" ], function($, ufa) {
+        	ufa.culture("zh-CN");
+			ufa.ui.Confirm.prototype.options.messages =
+				$.extend(true, ufa.ui.Confirm.prototype.options.messages,{
+				  "okText": "确定",
+				  "cancel": "取消",
+				  "title":"警告"
+			});
+			ufa.ui.Alert.prototype.options.messages =
+				$.extend(true, ufa.ui.Alert.prototype.options.messages,{
+				  "okText": "确定"
+			});
+        	$("#ddlnodeGroupType").ufaDropDownList({
+        		optionLabel : "全部",
+        		dataValueField:"NodeType",
+        		dataTextField:"NodeTypeText",
+        		dataSource: nodeTypes.filter(function(item){return item.create;})
+        	});
+        	$("#addNodeGroupType").ufaDropDownList({
+        		optionLabel : "请选择节点组类型",
+        		dataValueField:"NodeType",
+        		dataTextField:"NodeTypeText",
+        		dataSource: nodeTypes.filter(function(item){return item.create;})
+        	});
+        	$("#editWindow").ufaWindow({
+        		width:300,
+        		height:150,
+        		title:"新增节点组"
+        	});
+        	$("#gdNodeGroup").ufaGrid({
+        		 columns: [
+								{ 
+								
+								  field: "nodeType",
+								  width:100,
+								  title:"节点类型"
+								},
+								{ field: "name",/* group by this column to see the footer template */
+								  width:100,
+								  title: "节点组名"
+								}, 
+								{ 
+								  field: "gmtCreated", 
+								  width:100,
+								  format:"{0:yyyy-MM-dd HH:mm:ss}",
+								  title: "节点组创建时间"
+								},
+								{ 
+									title:"操作",
+								  width:100,
+								  command:{ text: "删除", click: delNodeGroup }
+								}
+							  ],
+							  groupable: false,
+							  sortable: true,
+							  resizable : true,
+							  pageable : {
+					            refresh: true, pageSizes: true,
+					            pageSizes: [10, 20, 30],
+				                messages: {
+				                    display: "显示{0}-{1}条，共{2}条",
+				                    empty: "没有数据",
+				                    page: "页",			                   
+				                    itemsPerPage: "条/页",
+				                    first: "第一页",
+				                    previous: "前一页",
+				                    next: "下一页",
+				                    last: "最后一页",
+				                    refresh: "刷新"
+				                }								
+							  },							  
+							  detailTemplate: '<div>节点类型: #: nodeType #</div><div>节点组名: #: name #</div><div>创建时间: #: ufa.toString(gmtCreated,"yyyy-MM-dd HH:mm:ss") #</div>'
+		          });
+		          
+		          
+		          
+		          function getparameters(){
+	        		 var params = {};
+			          params["nodeGroup"]= $("#txtnodeGroup").val();
+			          params["nodeType"]= $("#ddlnodeGroupType").data("ufaDropDownList").value()?$("#ddlnodeGroupType").data("ufaDropDownList").value():-1;
+			          return params;
+	        	}
+	        	
+	        	function delNodeGroup(e){
+	        		var that = this;
+				    var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
+					var name =  dataItem.name;
+					var nodeType=nodeTypes.filter(function(item){return item.NodeTypeText==dataItem.nodeType})[0].NodeType;
+					ufa.confirm({title:"系统提示",content:"是否删除当前节点组？"}).then(function () {
+						$.ajax({
+	                        url: 'api/node/node-group-del',
+	                        type: 'POST',
+	                        dataType: 'json',
+	                        data: {nodeGroup: name, nodeType: nodeType},
+	                        success: function (json) {
+	                            if (json && json.success) {
+	                                ufa.alert('系统提示',"删除成功！");
+	                                $(e.currentTarget).closest("tr").remove();
+	                            } else {
+	                                ufa.alert('系统提示',"删除失败,"+(json?json.msg:''));
+	                            }
+	                        }
+	                    });
+                    });
+	        	}
+	        	
+	        	function getDataSource(){
+		          	return  new ufa.data.DataSource({
+								transport: {
+						                read: {
+						                    url: 'api/node/node-group-get',
+						                    data: function () {
+						                        return getparameters();
+						                    },
+						                    type: "POST",
+						                    dataType: "json"
+						                },
+						
+						            },
+						            
+						            pageSize: 30,
+						            serverPaging: true,
+						            serverFiltering: false,
+						            serverSorting: false,
+						            schema: {
+						                "data": "data", "total": "total", "errors": "errors",
+						            },
+						            requestEnd: function (e) {
+						            	console.log(e);
+						                var data = e.response;
+						                console.log(data);
+
+						            }
+							  });
+		          }	        	
+		          function initDataSource(dataSource){
+		          	$("#gdNodeGroup").data("ufaGrid").setDataSource(dataSource);
+		          }
+		          
+		          initDataSource(getDataSource());
+		          
+		          $("#btnSearch").on("click",function(){
+		          	 initDataSource(getDataSource());
+		          });
+		          
+		          $("#btnSave").click(function(){
+			          var param={
+			          	nodeGroup:$("#addNodeGroup").val(),
+			          	nodeType:$("#addNodeGroupType").val()
+			          };
+			          if(!param.nodeGroup){
+			          	ufa.alert('系统提示',"请输入节点组名称。");
+			          	return;
+			          }
+			          if(!param.nodeType){
+			          	ufa.alert('系统提示',"请选择节点组类型。");
+			          	return;
+			          }
+			          $.ajax({
+						type : "get",
+						url : "api/node/node-group-add",
+						data : param,
+						dataType : "json",
+						success : function(obj) {
+							if (obj.success) {
+								$("#editWindow").data().ufaWindow.close();
+								$("#gdNodeGroup").data().ufaGrid.dataSource.read();
+							} else {
+								ufa.alert('系统提示',obj.msg);
+							}
+						},
+						error:function(){
+							ufa.alert('系统提示',"保存异常，请重试！");
+						}
+					});
+		          });
+		          
+		          $("#btnAdd").click(function(){
+		          	$("#addNodeGroup").val('');
+		          	$("#addNodeGroupType").data().ufaDropDownList.value(null);
+		          	$("#editWindow").data().ufaWindow.center().open();
+		          });
+        });
+        </script>
+</script>
+        

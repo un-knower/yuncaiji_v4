@@ -1,0 +1,50 @@
+#parse('/layout/menu.vm')
+<div class="content_right">
+	<header class="header-column">
+		<ul class="header-column-status">
+			<li><label>执行节点组</label><input id="ddlTaskTrackeNodeGroup"/></li>
+			<li class="k-header-btn"><button id="btnLoad" class="k-button k-primary">加载</button></li>
+		</ul>
+	</header>
+   <div class="text-explain">
+
+                    <p>1. 主要适用于，当紧急添加一个任务的时候，由于JobTracker是采取的预加载的形式，会将一批到了执行任务时间的任务加载到内存中，只有当内存中的数据低于一定数量的
+                    时候才会去加载(内存中的数据也是有序的)。</p>
+                    <p>2. 所以有可能紧急添加的任务需要排队很久，那么这里提供可以手动通知JobTracker去加载最新的任务到内存中的操作。</p>
+                    <p>3. 要注意一点的是，如果需要紧急执行某一个任务，需要把该任务的执行时间设置早于当前时间（最好能预估一个比其他任务都最早的时间），然后优先级设置小一点(相同执行时间的情况下，数值越小，优先级越大)。</p>
+                    <p>4. 如果选择所有，将会加载所有队列，如果选择指定节点组，那么只会加载指定节点组。</p>
+          
+    </div>
+</div>    
+<script>
+var taskTracks = $taskTrackerNodeGroupsJson;
+ require([ "jquery","ufa.datetimepicker","ufa.dropdownlist","ufa.dialog","messages/ufa.messages.zh-CN","cultures/ufa.culture.zh-CN" ], function($, ufa) {
+    	ufa.culture("zh-CN");
+    	$("#ddlTaskTrackeNodeGroup").ufaDropDownList({
+	    	dataTextField : "name",
+			dataValueField : "name",
+    		dataSource:taskTracks
+    	});
+    	$("#btnLoad").bind("click",function(){
+    		var taskTrackerNodeGroup = $("#ddlTaskTrackeNodeGroup").val();
+    		if(taskTrackerNodeGroup){
+    			$.ajax({
+	                url: 'api/job-queue/load-add.do',
+	                type: 'POST',
+	                dataType: 'json',
+	                data: {"taskTrackerNodeGroup": taskTrackerNodeGroup},
+	                success: function (obj) {
+	                    if (obj.success) {
+	                        ufa.alert("系统提示","加载成功!");
+	                    }else{
+	                    	ufa.alert("系统提示",obj.msg);
+	                    }
+	                },
+	                error:function(){
+	                	ufa.alert("系统提示","加载异常!");
+	                }
+            	});
+    		}
+    	});
+   });
+ </script>

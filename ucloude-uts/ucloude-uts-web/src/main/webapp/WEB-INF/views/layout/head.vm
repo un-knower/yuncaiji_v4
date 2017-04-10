@@ -1,0 +1,17 @@
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+#set($contextPath= $request.getContextPath())
+<title>云支撑台</title>
+<link rel="shortcut icon" href="${contextPath}/assets/favicon.ico">
+<link href="${contextPath}/assets/css/metro.css" rel="stylesheet">
+<link href="${contextPath}/assets/css/metro.mobile.css" rel="stylesheet">
+<link href="${contextPath}/assets/css/common.css" rel="stylesheet">
+<link href="${contextPath}/assets/css/iconfont.css" rel="stylesheet">
+<link href="${contextPath}/assets/css/basic.css" rel="stylesheet">
+<link href="${contextPath}/assets/css/ufa.switch.css" rel="stylesheet">
+<link href="${contextPath}/assets/css/home.css" rel="stylesheet">
+<script src="${contextPath}/assets/js/icon/iconfont.js"></script>
+<script src="${contextPath}/assets/js/ufa/require.js"></script>
+
+

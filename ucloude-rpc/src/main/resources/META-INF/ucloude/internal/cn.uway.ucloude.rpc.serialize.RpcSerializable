@@ -1,0 +1,2 @@
+adaptive=cn.uway.ucloude.rpc.serialize.AdaptiveSerializable
+fastjson=cn.uway.ucloude.rpc.serialize.FastJsonSerializable

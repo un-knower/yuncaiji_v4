@@ -1,0 +1,258 @@
+/*样式重置*/
+html,body{
+	height: 100%;
+	background-color: #fff;
+}
+body,input,h4{	
+	font-size: 13px;
+	font-family: Arial,'Microsoft YaHei';
+	color: #333;
+	padding: 0;margin: 0;
+}
+input{
+    outline: none;
+    box-sizing: border-box;
+}
+input:-webkit-autofill {
+	-webkit-box-shadow: 0 0 0px 1000px white inset !important;
+}
+h4{
+	font-weight: normal;
+}
+button{
+	border: 0;
+    border-radius: 2px;
+    background-color: #7ea700;
+    font-family: Arial,"Microsoft YaHei";
+    cursor: pointer;
+    color: #fff;
+    font-size: 18px;
+}
+button:hover{
+	box-shadow: 0px 0px 5px 0px rgba(255,149,0,.6);
+}
+
+.l{
+	float: left;
+}
+.r{
+	float: right;
+}
+.c:after{
+	content: "";
+	display: block;
+	clear: both;
+	visibility: visible;
+}
+/*动画预设*/
+@keyframes cloud{
+	0% {margin-left: -245px;}
+	50% {margin-left: -230px;}
+	100% {margin-left: -245px;}
+}
+/*图标样式*/
+.login-icon{
+	background-image: url(./images/login-icon.png);
+	background-repeat: no-repeat;
+	width: 24px;
+    height: 24px;
+    float: left;
+}
+.icon-user{
+	background-position: 0px 0px;
+}
+.icon-password{
+	background-position: 0px -24px;
+}
+.icon-close{
+	background-position: 0px -48px;
+	cursor: pointer;
+}
+.icon-check{
+	background-position: -24px 0px;
+	cursor: pointer;
+}
+.icon-check-true{
+	background-position: -24px -24px;
+	cursor: pointer;
+}
+/*登录背景*/
+.login-bg{
+	position: relative;
+	height: 61.8%;
+	background-color: #89c82f;
+	background-image: url(./images/login-bg.png);
+	background-repeat: no-repeat;
+	background-position: center bottom;
+	box-shadow: 0px 0px 8px 1px rgba(153,153,153,.4);
+}
+.cloud-1{
+    background-image: url(./images/cloud.png);
+    background-repeat: no-repeat;
+    background-position: 0 0;
+    display: block;
+    width: 52px;
+    height: 29px;
+    position: absolute;
+    bottom: 272px;
+    left: 50%;
+    margin-left: -245px;
+    animation: cloud 4s;
+	-moz-animation: cloud 4s;	/* Firefox */
+	-webkit-animation: cloud 4s;	/* Safari 和 Chrome */
+	-o-animation: cloud 4s;	/* Opera */
+}
+/*登录容器*/
+.login-box{
+	width: 328px;
+	min-height: 380px;
+	border-radius: 4px;
+	background-color: #fff;
+	box-shadow: 0px 0px 8px 1px rgba(153,153,153,.4);
+	position: absolute;
+	left: 50%;
+	top: 61.8%;
+	margin-top: -308px;
+	margin-left: -164px;
+}
+.login-box-item {
+	padding: 0 24px;
+}
+.login-title{	
+	line-height: 112px;
+}
+.login-title strong{
+	color: #7ea700;
+	font-size: 24px;
+}
+.login-title span{
+	color: #888;
+	font-size: 14px;
+}
+.login-np{
+	height: 48px;	
+	position: relative;		
+}
+.login-np input{
+    border: 1px solid #e1e1e1;
+    width: 100%;
+    height: 48px;    
+    text-indent: 48px;
+    border-radius: 2px;
+}
+.login-np input:hover{
+	box-shadow: 0px 0px 5px 0px rgba(255,149,0,.6);
+	border: 1px solid rgba(255,149,0,.6);
+}
+.login-np i,.login-np b{
+	position: absolute;
+	top: 12px;
+}
+.login-np i{	
+	left: 36px;	
+}
+.login-np b{
+	right: 36px;
+	display:none;
+}
+.login-re{
+    padding-top: 10px;
+}
+.login-re input{
+    border: 1px solid #e1e1e1;
+    line-height: 26px;
+    text-indent: 1em;
+    float: left;
+    border-radius: 2px;
+}
+/*记住密码，忘记密码*/
+.pw-operate{
+	line-height: 24px;
+    padding-top: 10px;
+    padding-bottom: 10px;    
+    color: #777;
+}
+.pw-operate .r a{
+	color: #7ea700;
+	text-decoration:none;
+}
+input[type=checkbox] {
+	visibility: hidden;
+    float: left;
+    width:16px;
+    height:16px;
+}
+.checkboxFour{
+    padding: 4px 0;
+}
+.checkboxFour label{
+    height: 16px;
+    display: block;
+    position: relative;
+    width: 100px;
+    line-height: 17px;
+    text-indent: 4px;
+    cursor: pointer;
+}
+/**
+ * Checkbox Four
+ */
+.checkboxFour label:before{
+	content:"";
+	display:block;
+    width: 16px;
+    height: 16px;
+    background: #e1e1e1;
+    position: absolute;
+    border-radius:100%;
+}
+/**
+ * Create the checkbox button
+ */
+.checkboxFour label:after {
+	content:"";
+	display: block;
+	width: 14px;
+	height: 14px; 
+	-webkit-transition: all .5s ease;
+	-moz-transition: all .5s ease;
+	-o-transition: all .5s ease;
+	-ms-transition: all .5s ease;
+	transition: all .5s ease;
+	cursor: pointer;
+	position: absolute;
+	top: 1px;
+	left: 1px;
+	z-index: 1; 
+	background: #fff;
+	border-radius:100%;
+}
+/**
+ * Create the checked state
+ */
+.checkboxFour input[type=checkbox]:checked + label:after {
+	background: #7ea700;
+}
+/*登录按钮*/
+.login-btn{
+    margin-top: 16px;
+}
+.login-btn button{
+    width: 100%;
+    height: 48px;    
+}
+/*提示信息*/
+.mes{
+	line-height: 36px;
+	color: red;
+	display:none;
+}
+/*公司信息*/
+.info{
+    color: #999;
+    line-height: 26px;
+    position: absolute;
+    bottom: 0;
+    text-align: center;
+    width: 100%;
+}

@@ -1,0 +1,51 @@
+.cloud-wrapper{
+    background-color: #eff4f8;
+    border-top: 1px solid #ededed;
+    padding: 16px;
+    font-size: 13px;
+    position: absolute;
+    left: 0;
+    top: 62px;
+    right: 0;
+    bottom: 0;
+    overflow: auto;
+}
+.cloud-panl{	
+	margin-bottom:16px;
+}
+.cloud-panl-head{
+	border-bottom:1px solid #e7eaec;
+	font-family:Arial,"Microsoft YaHei";
+	padding:0 12px;
+	background-color:#fff;
+}
+.cloud-panl-head h4{
+	line-height:40px;
+	color:#999;
+}
+.cloud-panl-con{
+	font-family:Arial,"宋体";
+	color:#787878;
+	background-color:#fff;
+}
+.cloud-panl-con-lists{
+	padding:0 32px;
+}
+.cloud-panl-con-lists:after{
+	content:"";
+	display:block;
+	height:0;
+	clear:both;
+	visibility:hidden;
+}
+.cloud-panl-con-lists li{
+	float:left;
+	line-height:60px;
+	margin-right:24px;
+}
+.cloud-panl-con-lists li label{
+	margin-right:12px;
+}
+.cloud-panl-con-lists li button{
+	margin-right:8px;
+}

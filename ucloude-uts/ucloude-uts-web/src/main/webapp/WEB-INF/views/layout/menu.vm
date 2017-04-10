@@ -1,0 +1,79 @@
+<div class="navbar-side" id="navbarSide"></div>
+<script>
+	var off = true;
+	require([ "jquery"], function($, ufa) {
+		//三级菜单
+		function sanMenuFn(data){
+			var menu = data;
+				html = '</h3><ul class="task_list">';
+			for(var i=0;i<menu.length;i++){
+				html += '<li><a href="'+ menu[i].menuUrl +'"><svg class="icon" aria-hidden="true"><use xlink:href="'+ menu[i].menuIcon +'"></use></svg>'+ menu[i].menuName +'</a></li>';
+			}
+			html += '</ul></li>';
+			return html;
+		}
+		//二级菜单
+		function manageMenuFn(data){
+			var manageMenu = data.childrens,
+				html = '<ul>';		
+			for(var i=0;i<manageMenu.length;i++){
+				if(manageMenu[i].menuName == "节点操作"){
+					html += '<li class="node list_wrap"><h3>'+ manageMenu[i].menuName +'</h3>';
+				}else if(manageMenu[i].menuName == "任务队列"){
+					html += '<li class="task list_wrap"><h3>'+ manageMenu[i].menuName +'<span class="r"><svg class="icon sl-more" aria-hidden="true" ><use xlink:href="#icon-shangjiantou"></use></svg></span></h3>';
+				}
+				html += sanMenuFn(manageMenu[i].childrens);			
+			}
+			html += '</ul>';
+			document.getElementById('navbarSide').innerHTML=html;
+			$('.sl-more').click(function(){
+				if(off == true){
+					$(".task .task_list").slideUp();
+					$('.sl-more use').attr("xlink:href","#icon-moreunfold");
+					off = false;
+				}else{
+					$(".task .task_list").slideDown();
+					$('.sl-more use').attr("xlink:href","#icon-shangjiantou");
+					off = true;			
+				}
+			})
+	        function textFill(input){			
+				input.blur(function(){
+					var val = $(this).val()
+					if(val!=''){
+						$(this).remove();
+						$('.jobs_task_list li:first').find('a').append('<i>'+val+'</i>')	
+					}
+				});		
+			}
+			
+			if($('.task_list li').find("a")[0].href !=String(window.location)){
+	    		$('.task_list a').removeClass("a_active")
+	        	$('.task_list a').eq(2).addClass('a_active');
+			}	
+	 		$('.task_list a').each(function(){
+			    if($(this)[0].href==String(window.location)){
+		    		$('.task_list a').removeClass("a_active")
+		        	$(this).addClass('a_active');		    	
+			    }
+			});  
+		}
+		
+		$.ajax({
+			type : "get",
+			url : "./api/admin/getmenu",
+			dataType : "json",
+			success : function(obj) {
+				if (obj.success) {
+					console.log(obj);
+					manageMenuFn(obj.data.childrens[0]);
+				} else {
+					alert("获取菜单失败。");
+				}
+			},
+			error:function(){
+				alert("获取菜单异常。");
+			}
+		});				
+	});
+</script>

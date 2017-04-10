@@ -1,0 +1,26 @@
+.monitor-charts{
+	
+}
+.monitor-charts>ul>li:after{
+	content:"";
+	display:block;
+	height:0;
+	clear:both;
+	visibility:hidden;
+}
+.left-half{
+    float: left;
+    width: 50%;
+    padding-right: 8px;
+    box-sizing: border-box;
+}
+.right-half{
+    float: right;
+    width: 50%;
+    padding-left: 8px;
+    box-sizing: border-box;
+}
+.chart {
+	height: 320px;
+	margin: 0 auto
+}

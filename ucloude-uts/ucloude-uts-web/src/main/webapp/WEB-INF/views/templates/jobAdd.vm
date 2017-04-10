@@ -1,0 +1,238 @@
+#if($jobId != $null)
+	#set($layout = "/layout/empty.vm")
+#else
+	#set($layout = "/layout/main.vm")
+	#parse('/layout/menu.vm')
+#end
+<div id="page-wrapper" class="content_right">
+	<form action='' method='post' >
+		<ul class="add-job">
+			<li>
+		        <label >任务ID：</label>	
+		        <input type="hidden" value="$!jobqueue" name="jobqueue" id="jobqueue"/>
+		        <input type="hidden" value="$!jobId" name="jobId" id="jobId"/>
+		        <input type="hidden" value="" name="realTaskId" id="realTaskId"/>
+		       	<input type="text"  id="taskId" class="k-input k-textbox" style="width:161px" title="请输入任务ID(TaskId)"
+		        placeholder="请输入任务ID(TaskId)"><span class="register-prompt">*</span><i class="idHint"  style="display:none; color:red"></i>
+		    </li>
+		    <li>
+		        <label >任务类型：</label>
+		        <input type="text" id="jobType"/><span class="register-prompt"></span><i class="jobHint"  style="display:none"></i>
+		    </li>
+		    <li id="liCron">                  				 
+		    	<label >运行周期：</label>                                
+		        <input type="text" class="k-input k-textbox" id="cronExpression" placeholder="请输入CronExpression"style="width:161px" readonly="readonly">
+		        <button class="k-button k-primary" type="button" id="cronGeneratorBtn">工具生成</button><span class="register-prompt">*</span><i class="cronHint"  style="display:none; color:red"></i>
+		    </li>
+		    <li id="liTrigger">
+		        <label >触发时间：</label>
+				<input  type="text" style="width:160px" id="triggerTime" name="triggerTime" placeholder="请选择触发时间"/><span class="register-prompt">*</span><i class="triggerHint"  style="display:none; color:red"></i>
+			</li>
+		    <li id="liRepeatInterval">
+				<label >触发时间间隔：</label>								
+		        <input type="text" id="repeatInterval" min="0" placeholder="请输入触发时间间隔"/><span>秒</span>
+		    </li>
+		    <li id="liRepeatCount">
+		    	<label >重复次数：</label>
+			    <input type="text"  id="repeatCount" value="100" min="0"  placeholder="请输入重复次数"/>
+		    </li>
+		    <li id="liRely">
+		    	<label >依赖上一周期:</label>		
+		    	<input id="relyOnPrevCycle"/>                              
+		    </li>
+		    <li>
+		    	<label >反馈客户端:</label>		
+		    	<input id="needFeedback"/>
+			</li >
+		    <li >
+		         <label >优先级：</label>
+				<input type="text"  id="priority" value="100" min="0"  placeholder="必须为数字，数值越小，优先级越大"/>
+		    </li >
+		    <li >
+		         <label >最大重试次数：</label>
+				<input type="text" id="maxRetryTimes" value="0 " min="0"  placeholder="最大重试次数, 必须为非负数"/>
+			</li >
+		    <li >
+		        <label>提交节点组：</label>
+				<input id="submitNodeGroup" type="text"/>
+		 	</li >
+		    <li >
+		        <label>执行节点组：</label>
+				<input id="taskTrackerNodeGroup" type="text"/><span class="register-prompt">*</span><i class="registerHint"  style="display:none; color:red"></i>                              
+			</li >
+		    <li >
+		        <label>用户参数：</label>
+				<input  type="text" id="extParams" class="k-input k-textbox" placeholder="请输入用户参数 JSON格式" style="width:250px"></input>
+		        <div class="hr-line-dashed"></div>
+		    </li >
+		    <li >
+		         <button class="k-button k-primary" type="button" id="addBtn">添加</button>
+		         <button class="k-button k-primary" type="reset" id="resetBtn">重置</button>
+			</li>
+		</ul>
+	</form>	
+</div>
+<script type="text/javascript">
+    var jobTypes= [
+    	{name:"实时任务", value:"0",code:"REAL_TIME"},
+    	{name:"定时任务", value:"1",code:"TRIGGER_TIME"},
+    	{name:"Cron任务", value:"2",code:"CRON"},
+    	{name:"Repeat任务", value:"3",code:"REPEAT"},
+    ];    
+    var jobClientNodeGroups = $jobClientNodeGroupsJson;
+	var taskTrackerNodeGroups = $taskTrackerNodeGroupsJson;
+</script>
+<script src="assets/js/ufa.util.js"></script>
+<script src="assets/js/job.add.js"></script>
+<script src="assets/js/ufa.cron.js"></script>
+<div id="cronWindow" style="display:none">
+	<div id="cronTabstrip">
+	    <ul>
+	        <li class="k-state-active">秒</li>
+	        <li>分钟</li>
+	        <li>小时</li>
+	        <li>天</li>
+	        <li>周</li>
+	        <li>月</li>
+	        <li>年</li>
+	    </ul>
+	    <div title="秒">
+	    	<ul class="time-list">
+	    		<li><input type="radio" checked="checked" name="second" onclick="everyTime(this)"><span> 每秒 允许的通配符[, - * /]</span></li>
+				<li><input type="radio" name="second" onclick="cycle(this)"><span> 周期从</span> <input type="number" value="0" min="0" max="59" step="1" > - <input type="number" value="59" min="0" max="59" step="1"> <span> 秒 </span></li>
+				<li><input type="radio" name="second" onclick="startOn(this)"><span> 从</span> <input type="number" value="0" min="0" max="59" step="1" ><span> 秒开始,每</span> <input type="number" value="59" min="0" max="59" step="1"><span> 秒执行一次</span></li>
+				<li><input type="radio" name="second" id="sencond_appoint" onclick="appoint(this)"><span> 指定</span></li>
+				<li id= "secondList">
+				</li>
+			</ul>
+	    </div>
+	    <div title="分钟">
+	    	<ul class="time-list">
+	    		<li class="line"><input type="radio" checked="checked" name="min" onclick="everyTime(this)"> <span>每分钟 允许的通配符[, - * /]</span></li>
+				<li class="line"><input type="radio" name="min" onclick="cycle(this)"><span>周期从</span> <input type="number" min="0" max="59" step="1" value="1"> - <input type="number" min="0" max="59" step="1" value="2"><span>分钟</span></li>
+				<li class="line"><input type="radio" name="min" onclick="startOn(this)"><span> 从</span> <input type="number" min="0" max="59" step="1" value="0"><span> 分钟开始,每 </span><input type="number" min="0" max="59" step="1" value="1"><span>分钟执行一次</span></li>
+				<li class="line"><input type="radio" name="min" id="min_appoint" onclick="appoint(this)"><span> 指定</span></li>
+				<li id= "minList">
+				</li>
+			</ul>
+	    </div>
+	    <div title="小时">
+	    	<ul class="time-list">
+	    		<li class="line"><input type="radio" checked="checked" name="hour" onclick="everyTime(this)"><span>每小时 允许的通配符[, - * /]</span></li>
+				<li class="line"><input type="radio" name="hour" onclick="cycle(this)"> <span>周期从 </span><input type="number" min="0" max="23" step="1" value="0"> - <input type="number" min="0" max="23" step="1" value="2"><span>小时</span></li>
+				<li class="line"><input type="radio" name="hour" onclick="startOn(this)"><span> 从 </span><input type="number" min="0" max="23" step="1" value="0"><span> 小时开始,每</span> <input type="number" min="0" max="23" step="1" value="1"><span>小时执行一次</span></li>
+				<li class="line"><input type="radio" name="hour" id="hour_appoint" onclick="appoint(this)"><span> 指定</span></li>
+				<li id= "hourList">
+			</li>
+			</ul>
+	    </div>
+	    <div title="天">
+	    	<ul class="time-list">
+	    		<li class="line"><input type="radio" checked="checked" name="day" onclick="everyTime(this)"><span>每日 允许的通配符[, - * / L W]</span></li>
+				<li class="line"><input type="radio" name="day" onclick="unAppoint(this)"><span> 不指定</span></li>
+				<li class="line"><input type="radio" name="day" onclick="cycle(this)"><span> 周期从</span> <input type="number" min="0" max="31" step="1" value="1"> - <input type="number" min="0" max="31" step="1" value="2"><span>日</span></li>
+				<li class="line"><input type="radio" name="day" onclick="startOn(this)"> <span>从</span> <input type="number" min="0" max="31" step="1" value="1"> 日开始,每 <input type="number" min="0" max="31" step="1" value="1"><span>天执行一次</span></li>
+				<li class="line"><input type="radio" name="day" onclick="workDay(this)"><span> 每月</span> <input type="number" min="0" max="31" step="1" value="1"><span>号最近的那个工作日</span></li>
+				<li class="line"><input type="radio" name="day" onclick="lastDay(this)"> <span>本月最后一天</span></li>
+				<li class="line"><input type="radio" name="day" id="day_appoint" onclick="appoint(this)"><span> 指定</span></li>
+	    		<li id= "dayList"></li>
+	   		</ul>
+	   	</div>
+	    <div title="周">
+	    <ul class="time-list">
+	    	<li class="line"><input type="radio" checked="checked" name="week" onclick="everyTime(this)"><span> 每周 允许的通配符[, - * / L #]</span></li>
+			<li class="line"><input type="radio" name="week" onclick="unAppoint(this)"><span> 不指定</span></li>
+			<li class="line"><input type="radio" name="week" onclick="startOn(this)"><span> 周期 从星期</span><input type="number" min="0" max="7" step="1" value="1"> - <input type="number" min="0" max="7" step="1" value="2"></li>
+			<li class="line"><input type="radio" name="week" onclick="weekOfDay(this)"> <span>第</span><input type="number" min="0" max="4" step="1" value="1"><span> 周 的星期</span><input type="number" min="0" max="7" step="1" value="1"></li>
+			<li class="line"><input type="radio" name="week" onclick="lastWeek(this)"> <span>本月最后一个星期</span><input type="number" min="0" max="7" step="1" value="1"></li>
+			<li class="line"><input type="radio" name="week" id="week_appoint" onclick="appoint(this)"><span> 指定</span></li>
+			<li id= "weekList">
+			</li>
+			</ul>
+	    </div>
+	    <div title="月">
+	    <ul class="time-list">
+	    	<li class="line"><input type="radio" checked="checked" name="mouth" onclick="everyTime(this)"><span> 每月 允许的通配符[, - * /]</span></li>
+			<li class="line"><input type="radio" name="mouth" onclick="unAppoint(this)"><span> 不指定</span></li>
+			<li class="line"><input type="radio" name="mouth" onclick="cycle(this)"><span> 周期从</span> <input type="number" min="0" max="12" step="1" value="1"> - <input type="number" min="0" max="12" step="1" value="2"><span> 月</span></li>
+			<li class="line"><input type="radio" name="mouth" onclick="startOn(this)"> 从 <input type="number" min="0" max="12" step="1" value="1"><span> 日开始,每</span> <input type="number" min="0" max="12" step="1" value="1" ><span> 月执行一次</span></li>
+			<li class="line"><input type="radio" name="mouth" id="mouth_appoint" onclick="appoint(this)"><span>指定</span></li>
+			<li id= "mouthList">
+			</li>
+			</ul>
+	    </div>
+	    <div title="年">
+	    <ul class="time-list">
+	    	<li class="line"><input type="radio" checked="checked" name="year" onclick="unAppoint(this)" ><span> 不指定 允许的通配符[, - * /] 非必填</span></li>
+			<li class="line"><input type="radio" name="year" onclick="everyTime(this)"><span> 每年</span></li>
+			<li class="line"><input type="radio" name="year" onclick="cycle(this)"><span>周期 从 </span><input type="number" min="0" max="3000" step="1" value="2013" > - <input type="number" min="0" max="3000" step="1" value="2014" ></li>
+	    </ul>
+	    </div>
+	    
+	</div>
+	<fieldset style="margin-top: 20px; padding:10px;">
+	<legend style="padding: 0 5px;font-size: 12px;font-weight: 600;">表达式</legend>
+	<table style="height: 100px;">
+		<tbody>
+			<tr>
+				<td ></td>
+				<td align="center">
+					秒
+				</td>
+				<td align="center">
+					分钟
+				</td>
+				<td align="center">
+					小时
+				</td>
+				<td align="center">
+					日
+				</td>
+				<td align="center">
+					月<br/>
+				</td>
+				<td align="center">
+					星期
+				</td>
+				<td align="center">
+					年
+				</td>
+			</tr>
+			<tr>
+				<td>
+					表达式字段:
+				</td>
+				<td>
+					<input type="text" name="v_second" class="col k-textbox" value="*" readonly="readonly"/>
+				</td>
+				<td>
+					<input type="text" name="v_min" class="col k-textbox" value="*" readonly="readonly"/>
+				</td>
+				<td >
+					<input type="text" name="v_hour" class="col k-textbox" value="*" readonly="readonly"/>
+				</td>
+				<td >
+					<input type="text" name="v_day" class="col k-textbox" value="*" readonly="readonly"/>
+				</td>
+				<td >
+					<input type="text" name="v_mouth" class="col k-textbox" value="*" readonly="readonly"/>
+				</td>
+				<td >
+					<input type="text" name="v_week" class="col k-textbox" value="?" readonly="readonly"/>
+				</td>
+				<td >
+					<input type="text" name="v_year"  class="col k-textbox" readonly="readonly"/>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					Cron表达式:
+				</td>
+				<td colspan="7">
+					<input type="text" name="cron" class="k-input k-textbox" style="width:100%;" value="* * * * * ? " id="cron" readonly="readonly"/>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+	</fieldset>
+</div>

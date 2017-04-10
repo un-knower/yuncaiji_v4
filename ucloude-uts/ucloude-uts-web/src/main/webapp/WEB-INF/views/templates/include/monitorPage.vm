@@ -1,0 +1,18 @@
+#set($JVM_CHART_TYPE_LIST = ["Cpu", "Heap", "NonHeap", "PermGen", "OldGen", "EdenSpace","Survivor", "GCCount", "GCTime",
+    "ThreadCount"])
+#set($index = 0)
+#foreach($jvmChartType in $JVM_CHART_TYPE_LIST)
+ #if($index % 2 == 0)
+ 	 #if($index != 0)
+ 	  </div>
+ 	  #end
+ 	  <div style="width:100%">
+ 	#end
+ 	   <div style="width:48%">
+ 	   	<div id="JVM_$jvmChartType" style="min-width: 310px; height: 300px; margin: 0 auto"></div>
+ 	   </div>
+ 	   #set($index = $index +1)
+ 	 #if($index == ${JVM_CHART_TYPE_LIST.size()})
+    	</div>
+    #end
+#end

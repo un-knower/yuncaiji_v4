@@ -1,0 +1,33 @@
+<div class="content_right">
+	<header class="header-column">
+		<ul class="header-column-status">
+			<li><span>任务ID：</span><input type="text" id="txtTaskID" class="k-input" /></li>
+			<li><span>提交节点组：</span><input id="ddlClientNodeGroups" /></li>
+			<li><span>反馈客户端：</span><input type="checkbox" id="swtichFeedBackClient" / ></li>
+			<li><span>执行节点组：</span> <input id="ddlTaskTrackeNodeGroup" /></li>
+			<li class="k-header-btn"><button id="btnSearch" class="k-button k-primary">搜索</button>&nbsp;<button id="btnReset" class="k-button k-primary k-add">重置</button></li>
+		</ul>
+	</header>
+	<div id="gdJobs"></div>
+</div>
+<script type="text/javascript">
+var enumEnJobTypes=[{
+						text : "实时任务",
+						value : "REAL_TIME"
+					}, {
+						text : "定时任务",
+						value : "TRIGGER_TIME"
+					}, {
+						text : "周期性任务",
+						value : "CRON"
+					}, {
+						text : "重复性任务",
+						value : "REPEAT"
+					}];
+var jobClients = $jobClientNodeGroupsJson;
+var taskTracks = $taskTrackerNodeGroupsJson;
+
+
+</script>
+
+<script src="assets/js/jobqueue.cron.js"></script>

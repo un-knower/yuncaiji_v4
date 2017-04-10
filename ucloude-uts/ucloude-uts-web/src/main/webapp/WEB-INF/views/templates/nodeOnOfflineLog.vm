@@ -1,0 +1,24 @@
+<link type="text/css" rel="stylesheet" href="./assets/css/cloud.css" />
+<div class="cloud-wrapper">
+	<div class="cloud-panl">
+		<div class="cloud-panl-head">
+			<h4>数据查询 </h4>
+		</div>
+		<div class="cloud-panl-con">
+			<ul class="cloud-panl-con-lists">
+				<li><label>节点组</label><input type="text" id="txtNodeGroup" class="k-textbox" placeholder="请输入节点组"></li>
+				<li><label>提交节点组</label><input type="text" id="txtNode" class="k-textbox" placeholder="请输入节点标识"></li>
+				<li><label>事件类型</label><input type="text" id="ddlEvent"  ></li>
+				<li><label>创建时间</label><input type="text" id="dtStartTime"><span style="padding: 0 .5em;">到</span><input type="text" id="dtEndTime"></li>
+				<li class="k-header-btn"><button id="btnSearch" class="k-button k-primary">搜索</button></li>
+			</ul>
+		</div>
+	</div>
+	<div class="cloud-panl">
+		<div class="cloud-panl-head">
+			<h4>上下线日志列表 </h4>
+		</div>
+		<div class="cloud-panl-con" id="gdNodeLogger"></div>
+	</div>
+</div>
+<script src="assets/js/node.onoffline.log.js"></script>

@@ -1,0 +1,414 @@
+body {
+    background: #eff4f8; 
+    margin:0;
+    font-size:13px;
+    font-family: Arial,"宋体";
+}
+
+
+.icon {
+   width: 1em; height: 1em;
+   vertical-align: -0.15em;
+   fill: currentColor;
+   overflow: hidden;
+   
+}
+
+.icon_lists .icon {
+    font-size: 14px;
+    padding-right: 10px;
+    color: #fff;
+    -webkit-transition: font-size 0.25s ease-out 0s;
+    -moz-transition: font-size 0.25s ease-out 0s;
+    transition: font-size 0.25s ease-out 0s;
+}
+/*顶部*/
+.nav .icon{
+	color: #000;
+}
+.navbar-top{
+	height:62px;
+	line-height:62px;
+	background: #eff4f8;
+	font-family:Arial,"Microsoft YaHei";
+}
+.header_logo{
+	width:200px;
+	height: 62px;
+	background-image:url(./images/logo.png);
+	background-repeat:no-repeat;
+}
+.header_toolbar{
+
+}
+.header_tab{
+	font-size:16px;
+}
+.header_tab li{
+	float:left;
+	padding:0 28px;
+	cursor:pointer;
+}
+.header_tab li span{
+	padding:8px 0;
+}
+.header_tab a{
+	color:#5f5e5f;
+	padding-bottom: 8px;
+}
+ .tab_active{
+     border-bottom: 4px solid #7ea700;
+     color:#7ea700!important;
+     border-radius: 0 2px 2px;
+    
+ }
+ .login{
+ 	cursor:pointer;
+ }
+ .login_img{
+    width: 38px;
+    height: 38px;
+    text-align: center;
+    padding: 12px 0;
+ }
+ .login_img img{
+    width: 38px;
+    height: 38px;
+    border-radius: 100%;
+    background-color: #f1f1f1;
+    text-align: center;
+    line-height: 34px;
+    border: 2px solid #d8dce0;
+    box-sizing: border-box;
+    font-size: 12px;
+    color: #999;
+ }
+ .login>i{
+     margin: 19px 0;
+ }
+ .login>b{
+    width: 1px;
+    height: 12px;
+    background-color: #7e9780;
+    float: left;
+    margin: 26px 0 19px 12px;
+  }
+ .login_name{
+ 	color:#436742;
+    width: 58px;
+    text-indent: 1em;
+    overflow: hidden;
+    text-overflow: ellipsis;
+ }
+ .login_name .icon{
+    fill: currentColor;
+    overflow: hidden;
+    font-size: 18px;
+ }
+ .login_name em{
+ 	border-right:1px solid #7ea700;
+ 	display: inline-block;
+    height: 12px;
+    padding: 0 5px
+ }
+ .toolbar_list{
+     padding: 19px 12px;
+ }
+ .toolbar_list .current-sprite{
+    margin-left: 12px;
+    color: #436742;
+    cursor:pointer;
+ 
+ }
+ .login_msg{
+    position: absolute;
+    width: 240px;
+    top: 72px;
+    z-index: 9;
+    right: 24px;
+    -webkit-box-shadow: 0 0 6px 0px rgba(0,0,0,0.2);
+    -moz-box-shadow:0 0 6px 0px rgba(0,0,0,0.2);
+    box-shadow:0 0 6px 0px rgba(0,0,0,0.2);
+    background:#fff;
+    display:none;
+ }
+ 
+ .login:hover .login_msg{
+ 	display:block;
+ }
+ .user{
+    height: 104px;
+    line-height: 104px;
+ 	background:url(images/greenbg.png) no-repeat;
+ 	position: absolute;
+    top: -10px;
+    width: 100%;
+ }
+ .user_img{
+ 	width:92px;
+ 	height: 104px;
+ 	background:url(images/Background-copy-2.png) no-repeat;
+ 	background-position: 20px 27px;
+ }
+ .user_name{
+ 	color:#fff;
+ }
+ .user_name span{
+ 	padding-right:5px;
+ 	font-size:14px;
+ }
+ .user_name .icon{
+ 	font-size: 18px;
+ }
+ .user_msg{
+ 	padding: 98px 0 14px 20px;
+ }
+ .user_text{
+ 	height:80px;
+ 	line-height:80px;
+ 	color:#7ea700;
+ 	font-size: 14px;
+ }
+ .user_info li{
+ 	padding:10px 0;
+ 	line-height: normal !important;
+ 	color: #5b6b5b;
+ }
+ .user_info li a{
+ 	color: #5b6b5b;
+ }
+
+
+
+.content_right{
+	position:absolute;
+	left:200px;
+	top:62px;
+	right:0;
+	bottom:0;
+	background:#fff;
+}
+
+.fa-caret-down{
+	float:right;
+}
+.footer{
+    /*position: absolute;
+    bottom: 20px;*/
+    width: 100%;
+    text-align: center;	
+    color: #999;
+}   
+.text-explain{
+	line-height:30px;
+}
+
+/*侧边 管理菜单*/
+ 
+.navbar-side{
+	font-family:Arial,"Microsoft YaHei";
+	width: 200px;
+    position:absolute;
+    left: 0;
+    bottom: 0;
+    top: 62px;
+	background: #eff4f8;
+}
+
+.list_wrap h3{
+	padding:10px 0;
+	color:#b2b2b3;
+	font-size:12px
+}
+.list_wrap li{
+	height: 32px;
+    line-height: 32px;	
+}
+.a_active{
+	background: #7ea700; 
+    color: #fff!important; 
+}
+.list_wrap a{
+	display: inline-block;
+	width:100%;
+	height:100%;
+	color:#444444;
+	text-indent: 26px;	
+}
+.list_wrap h3{
+	text-indent: 26px;
+}
+.list_wrap .icon{
+	padding-right:10px;
+}
+.node .icon{
+	font-size:16px;
+	width: 18px;
+    height: 18px;
+    vertical-align: -0.3em;
+    color:#666666
+	
+}
+.task .icon{
+	font-size:16px;
+	width: 18px;
+    height: 18px;
+    vertical-align: -0.3em;
+	
+}
+.task h3 .icon{
+	cursor:pointer;
+}
+.new-menu{
+	display:inline-block;
+	width:110px;
+}
+
+/* 主模块 */
+.monitor-panl-head{
+	border-bottom:1px solid #e7eaec;
+	font-family:Arial,"Microsoft YaHei";
+	padding:0 12px;
+	background-color:#fff;
+}
+.monitor-panl-head h4{
+	line-height:40px;
+	color:#999;
+}
+.content_right{
+	padding:25px 24px 0 29px;
+	border-radius: 5px 0 0 0; 
+	border: 1px solid #ededed;   
+}
+.content_data h4{
+	line-height: 40px;
+    color: #a7a7a7;;
+}
+
+.page-wrapper{
+	padding:16px;
+}
+.min-wrap{
+	padding:0 16px;
+}
+.logger_nav{
+	border-top: 1px solid #ededed;
+	font-family:Arial,"Microsoft YaHei";
+}
+.logger_nav_list{
+    width: 680px;
+    margin: 0 auto;
+    overflow: hidden;
+    padding-top: 65px;
+}
+.logger_nav_list li{
+	float:left;
+	padding-bottom:50px;
+}
+.logger_nav_list li a{
+	padding:10px 65px 0 65px;
+	display:inline-block;
+	text-align:center;
+	font-size:12px;
+	color:#444444;
+	border:1px solid border: 1px solid transparent;
+	cursor:pointer;
+	
+}
+.logger_nav_list li a:hover{
+	color:#7ea700;
+    font-weight: bolder;
+}
+.logger_nav_list p{
+	padding:20px 0;
+}
+.logger_nav_list div{
+	width:94px;
+	height:94px;
+	background:url(images/logger-img.png)no-repeat;
+	
+}
+.logger_nav_list li:nth-of-type(1) div{
+	background-position:-5px 0px;
+}
+.logger_nav_list li:nth-of-type(2) div{
+	background-position:-105px -2px;
+}
+.logger_nav_list li:nth-of-type(3) div{
+	background-position:-205px -2px;
+}
+.logger_nav_list li:nth-of-type(4) div{
+	background-position:-2px -100px;
+}
+.logger_nav_list li:nth-of-type(5) div{
+	background-position:-200px -103px;
+}
+.logger_nav_list li:nth-of-type(6) div{
+	background-position:-102px -98px;
+}
+.page-wrapper{
+	position:absolute;
+	left:0;
+	top:62px; 
+	right:0;
+	bottom:0;
+	border-top: 1px solid #ededed;
+}
+.ibox-title
+{
+    border-bottom: 1px solid #ccc;
+}
+.ibox-title h2{
+	line-height: 40px;
+    height: 40px;
+}
+.ibox-content
+{
+	padding: 0 10px;	
+}
+.ibox-content th{
+	padding:11px 5px;
+	font-weight: bold;
+}
+
+.ibox-content table td {
+	padding:11px 5px;
+}
+.even{background:#f7f7f7;} 
+.node{
+    padding: 12px 0 15px;
+}
+.add-job li{
+	padding:10px 0;
+}
+.add-job li label{
+	width:100px;
+	display:inline-block;
+}
+.register-prompt{
+	padding-left:5px;
+	color: #E50011;
+    padding-right: 15px;
+    font-size: 20px;
+    vertical-align: middle;	
+}
+.time-list li{
+	padding:5px 0;
+}
+#secondList label{
+	margin:0 8px
+}
+#secondList span,#minList span,#hourList span,#dayList span span,#weekList span,#mouthList span{
+	width:50px;
+	display:inline-block;
+}
+.col {
+    width: 100px;
+}
+#cronTabstrip .k-content{
+	height: 320px !important;
+}
+.editData li{
+	padding:8px 0
+}
+

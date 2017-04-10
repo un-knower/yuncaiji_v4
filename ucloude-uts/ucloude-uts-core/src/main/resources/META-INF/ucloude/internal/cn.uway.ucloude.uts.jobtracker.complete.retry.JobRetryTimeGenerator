@@ -1,0 +1,1 @@
+default=cn.uway.ucloude.uts.jobtracker.complete.retry.DefaultJobRetryTimeGenerator

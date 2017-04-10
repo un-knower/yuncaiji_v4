@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans:beans xmlns:security="http://www.springframework.org/schema/security"
+	xmlns:beans="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd  
+                                 http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-4.2.xsd">
+
+	<security:http pattern="/assets/**" security="none" />
+	<security:http pattern="/login/**" security="none" />
+	<security:http pattern="/api/admin/login" security="none" />
+	<security:http auto-config="false" use-expressions="true"
+		create-session="ifRequired" disable-url-rewriting="true">
+		<security:intercept-url pattern="/**"
+			access="isAuthenticated()" />
+		<security:form-login login-page="/login/index.htm"
+			authentication-success-handler-ref="authenticationSuccess"
+			authentication-failure-handler-ref="exceptionMappingAuthenticationFailureHandler" />
+		<security:logout invalidate-session="true"
+			logout-success-url="/login/index.htm" logout-url="/logout"
+			delete-cookies="JSESSIONID" />
+		<security:csrf disabled="true" />
+		<security:session-management
+			invalid-session-url="/login/index.htm">
+			<security:concurrency-control
+				max-sessions="1" error-if-maximum-exceeded="false" expired-url="/login/index.htm" />
+		</security:session-management>
+	</security:http>
+	<security:authentication-manager alias="utsAuthenticationManager">
+		<security:authentication-provider
+			user-service-ref="utsUserService"></security:authentication-provider>
+	</security:authentication-manager>
+	<!-- 登陆成功跳转 -->
+	<beans:bean id="authenticationSuccess"
+		class="cn.uway.ucloude.uts.web.security.CustomSavedRequestAwareAuthenticationSuccessHandler">
+		<beans:property name="defaultTargetUrl" value="/index.htm" />
+	</beans:bean>
+	<beans:bean id="exceptionMappingAuthenticationFailureHandler"
+		class="org.springframework.security.web.authentication.ExceptionMappingAuthenticationFailureHandler">
+		<beans:property name="exceptionMappings">
+			<beans:props>
+				<beans:prop
+					key="org.springframework.security.authentication.DisabledException">/login/index.htm</beans:prop>
+				<beans:prop
+					key="org.springframework.security.authentication.BadCredentialsException">/login/index.htm</beans:prop>
+				<beans:prop
+					key="org.springframework.security.authentication.LockedException">/login/index.htm</beans:prop>
+			</beans:props>
+		</beans:property>
+	</beans:bean>
+	<beans:bean id="userManager"
+		class="cn.uway.ucloude.uts.web.access.db.DbUserManager"></beans:bean>
+	<beans:bean id="loginConfigService"
+		class="cn.uway.ucloude.uts.web.access.db.DbLoginConfigAccess"></beans:bean>
+</beans:beans>

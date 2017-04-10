@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<!-- 加载配置表 -->
+	<bean name="sqlForLoadConf" class="java.lang.String">
+		<constructor-arg type="java.lang.String">
+			<value><![CDATA[ select sqlnum,sql,is_placeholder,operation_type,storage_type,group_id from usummary_cfg_conf where is_used = 1 ]]></value>
+		</constructor-arg>
+	</bean>
+	
+	<!-- 根据sql编号查询 -->
+	<bean name="sqlForQueryConfById" class="java.lang.String">
+		<constructor-arg type="java.lang.String">
+			<value><![CDATA[ select sqlnum,sql,is_placeholder,operation_type,storage_type,group_id from usummary_cfg_conf where sqlnum = ? and is_used = 1 ]]></value>
+		</constructor-arg>
+	</bean>
+	
+	<!-- 获取db输出信息 -->
+	<bean name="sqlForDBExport" class="java.lang.String">
+		<constructor-arg type="java.lang.String">
+			<value><![CDATA[ 
+			select t.id,t.table_name,t.batch_num,d.url,d.driver,d.user_name,d.pass_word,d.description,d.connet_pool_maxwait,
+		d.connet_pool_maxactive,d.connet_pool_maxidle,d.connet_pool_validatequery,d.port,d.id dbid,d.passive 
+		from usummary_cfg_db_export t left join ufa_connection_db_info d on t.conn_id = d.id 
+		where t.is_used=1 and t.group_id=?
+			 ]]></value>
+		</constructor-arg>
+	</bean>
+	
+	<!-- 获取ftp输出信息 -->
+	<bean name="sqlForFTPExport" class="java.lang.String">
+		<constructor-arg type="java.lang.String">
+			<value><![CDATA[ 
+			select f.id,f.export_filename,f.export_path,f.batch_num,f.split_char,f.export_header,
+		f.encode,f.addition_params,f.compress_format,d.url,d.driver,d.user_name,d.pass_word,d.description,d.connet_pool_maxwait,
+		d.connet_pool_maxactive,d.connet_pool_maxidle,d.connet_pool_validatequery,d.port,d.id dbid,d.passive 
+		from usummary_cfg_ftp_export f left join ufa_connection_db_info d on f.conn_id = d.id 
+		where f.is_used=1 and f.group_id=?
+			 ]]></value>
+		</constructor-arg>
+	</bean>
+</beans>

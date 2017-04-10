@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+    #parse('/layout/head.vm')
+</head>
+<body class="pace-done">
+<script>
+require.config({
+          baseUrl: "${contextPath}/assets/js/ufa/ufa", // the path where the ufa scripts are present
+          paths: {
+            "jquery": "jquery",
+          }
+        });
+</script>
+<div id="wrapper" class="wrapper">
+    <div id="page-wrapper" class="gray-bg" style="min-height:100%;">       
+        #parse('/layout/topbar.vm')           
+        $screen_content        
+    </div>
+</div>
+</body>
+</html>

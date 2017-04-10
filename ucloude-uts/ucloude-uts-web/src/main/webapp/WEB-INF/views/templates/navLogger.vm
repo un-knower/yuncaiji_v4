@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<div class="logger_nav" id="loggerNav"></div>
+</body>
+</html>
+<script>
+require([ "jquery"], function($, ufa) {
+	//二级菜单
+	function erMenuFn(data){
+		var menu = data.childrens;
+		var html = '<ul class="logger_nav_list">';
+		for(var i=0;i<menu.length;i++){
+			html += '<li><a href="'+ menu[i].menuUrl +'"><div></div><p>'+ menu[i].menuName +'</p></a></li>';
+		}
+		html += '</ul>';
+		document.getElementById('loggerNav').innerHTML=html;
+		
+		$('.logger_nav_list a').each(function(i){		
+		    if($(this)[0].href==String(window.location)){
+		    	if(i!=3){		    	
+		    		$('.header_tab li a').removeClass("tab_active")
+		        	$(this).addClass('tab_active');	
+		        	$('.nav_logger').show();
+		        }else{
+		        	$('.header_tab li a').removeClass("tab_active");
+		        	$('.name_logger').addClass('tab_active').html('日志');
+		        	$('.nav_logger').hide();
+		        }	    	
+		    }
+		});
+	}
+	$.ajax({
+		type : "get",
+		url : "./api/admin/getmenu",
+		dataType : "json",
+		success : function(obj) {
+			if (obj.success) {				
+				erMenuFn(obj.data.childrens[2]);
+			} else {
+				alert("获取菜单失败。");
+			}
+		},
+		error:function(){
+			alert("获取菜单异常。");
+		}
+	});		
+});
+</script>

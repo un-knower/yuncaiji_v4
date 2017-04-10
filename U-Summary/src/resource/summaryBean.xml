@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+	
+	<!--  配置表数据源   --> 
+	<bean name="datasource" class="org.apache.commons.dbcp.BasicDataSource">
+		<property name="driverClassName" value="${system.db.driver}" />
+		<property name="url">
+			<value><![CDATA[${system.db.driver.url}]]></value>
+		</property>
+		<property name="username" value="${system.db.conf.username}" />
+		<property name="password" value="${system.db.conf.password}" />
+		<property name="maxActive" value="${system.db.conf.maxConnection}" />
+		<property name="maxIdle" value="${system.db.conf.maxConnection}" />
+		<property name="maxWait" value="${system.db.conf.maxWait}" />
+		<property name="testOnBorrow" value="${system.db.conf.testOnBorrow}" />
+		<property name="validationQuery" value="${system.db.conf.validationQuery}" />
+	</bean>
+	
+	<!--  不是impala作为数据来源时，注释掉  
+	<bean name="impalaDatasource" class="org.apache.commons.dbcp.BasicDataSource">
+		<property name="driverClassName" value="${system.db.impala.driver}" />
+		<property name="url">
+			<value>${system.db.impala.url}</value>
+		</property>
+	</bean>  -->
+	
+	<!--  使用impala作为数据来源时，注释掉   -->
+	<bean name="summaryDatasource" class="org.apache.commons.dbcp.BasicDataSource">
+		<property name="driverClassName" value="${system.summary.db.driver}" />
+		<property name="url">
+			<value><![CDATA[${system.summary.db.driver.url}]]></value>
+		</property>
+		<property name="username" value="${system.summary.db.conf.username}" />
+		<property name="password" value="${system.summary.db.conf.password}" />
+		<property name="maxActive" value="${system.summary.db.conf.maxConnection}" />
+		<property name="maxIdle" value="${system.summary.db.conf.maxConnection}" />
+		<property name="maxWait" value="${system.summary.db.conf.maxWait}" />
+		<property name="testOnBorrow" value="${system.summary.db.conf.testOnBorrow}" />
+		<property name="validationQuery" value="${system.summary.db.conf.validationQuery}" />
+	</bean> 
+	
+	<bean name="usummaryDao" class="cn.uway.usummary.dao.USummaryDao">
+		<property name="datasource" ref="datasource" />
+		<property name="sqlForLoadConf" ref="sqlForLoadConf" />
+		<property name="sqlForQueryConfById" ref="sqlForQueryConfById" />
+		<property name="sqlForDBExport" ref="sqlForDBExport" />
+		<property name="sqlForFTPExport" ref="sqlForFTPExport" />
+	</bean>
+	
+	<bean name="impalaDao" class="cn.uway.usummary.dao.ImpalaDao">
+		<property name="datasource" ref="${system.summary.db.bean}" />
+	</bean>
+	
+	<bean name="mapCacheImpl" class="cn.uway.usummary.cache.impl.MapCacheImpl">
+		<property name="usummaryDao" ref="usummaryDao" />
+	</bean>
+	<bean name="cacheManager" class="cn.uway.usummary.cache.CacheManager">
+		<property name="cache" ref="${system.cache.bean.name}"/>
+		<property name="periodMinutes" value="${system.cache.period.minutes}"/>
+	</bean>
+	
+	<bean name="dataAnalyzeParser" class="cn.uway.usummary.parser.impl.DataAnalyzeParser" scope="prototype">
+		<property name="usummaryDao" ref="usummaryDao" />
+		<property name="datasource" ref="${system.summary.db.bean}" />
+	</bean>
+	
+	<bean name="syncStringKeyFTPClientPoolMgr"
+		class="cn.uway.usummary.conn.pool.ftp.FTPClientPoolMgr">
+	</bean>
+	
+	<bean name="basicFTPClientPoolFactory"
+		class="cn.uway.usummary.conn.pool.ftp.BasicFTPClientPoolFactory">
+	</bean>
+</beans>
