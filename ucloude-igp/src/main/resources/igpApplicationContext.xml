@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<!-- 导入话单采集的spring配置 -->
+	<import resource="framework_accessor.xml" />
+	<import resource="conn-sql.xml" />
+	<import resource="framework.xml" />
+	<import resource="status-sql.xml" />
+	<import resource="task-sql.xml" />
+
+	<!-- cdma需要导入。
+	<import resource="cdma_cdl_parser.xml" />
+	<import resource="cdma_cdl.xml" />
+	<import resource="cdma_cdl_solution.xml" />
+	<import resource="cdma_extradata_parser.xml" />
+	<import resource="cdma_extradata_solution.xml" />
+	<import resource="cdma-sql.xml" /> -->
+	
+	<!-- LTE数据采集。 --> 
+	<import resource="lte_extradata_parser.xml" />
+	<import resource="lte_extradata_solution.xml" />
+	<import resource="lte-sql.xml" />
+	<import resource="lte.xml" />
+	<import resource="lte_parser.xml" />
+	<import resource="lte_solution.xml" /> 
+	
+	<!-- wcdma需要导入。
+	<import resource="wcdma_cdl_parser.xml" />
+	<import resource="wcdma_cdl_solution.xml" />
+	<import resource="wcdma_cdl.xml" />
+	<import resource="wcdma_extradata_parser.xml" />
+	<import resource="wcdma_extradata_solution.xml" />
+	<import resource="wcdma-sql.xml" /> -->
+	
+	<!-- MR 需要导入。
+	<import resource="mr_extradata_parser.xml" />
+	<import resource="mr_extradata_solution.xml" />
+	<import resource="mr_parser.xml" />
+	<import resource="mr_solution.xml" />
+	<import resource="mr.xml" />
+	<import resource="mr_sql.xml" /> -->
+	
+	<!-- omc数据采集。
+	<import resource="omc-sql.xml" />
+	<import resource="omc.xml" />
+	<import resource="omc_parser.xml" />
+	<import resource="omc_solution.xml" /> -->
+	
+	<!-- summary数据采集。
+	<import resource="summary.xml" />
+	<import resource="summary-sql.xml" />
+	<import resource="summary_parser.xml" />
+	<import resource="summary_solution.xml" /> -->
+	
+	<!--  
+	<bean name="memCleaner" class="cn.uway.util.MemCleaner">
+		<property name="periodMills" value="60000" />
+		<property name="threoldPercent" value="80" />
+	</bean>
+	-->
+
+	<!-- Spring配置读取器，从另外的ini文件中读取配置内容，然后在spring的bean配置中用“${}”方式获取配置值。 -->
+	<bean id="propertyConfigurer"
+		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="ignoreUnresolvablePlaceholders" value="true" />
+		<property name="location" value="file:${UTS_IGP_ROOT_PATH}/conf/igp/config.ini" />
+	</bean>
+	
+	<!--  
+	<bean name="runner" class="cn.uway.igp3.appRunner.Runner"
+		init-method="runnerValidate">
+		<property name="taskTrigger" ref="taskTrigger" />
+		<property name="taskLoader" ref="taskLoader" />
+		<property name="console" ref="console" />
+		<property name="memCleaner" ref="memCleaner" />
+		<property name="pwCommandLine" ref="pwCommandLine" />
+	</bean>
+	-->
+	
+	<bean name="pwCommandLine" class="java.lang.String">
+		<constructor-arg type="java.lang.String">
+			<value>${pwCommandLine}</value>
+		</constructor-arg>
+	</bean>
+	
+	<!--    国际码 默认为 46003 ， 其中 中国：46003 ， 澳门： 45502  -->
+	<bean  name ="international_code "  class ="java.lang.String">
+		<constructor-arg>
+	      <value>46003</value>
+		</constructor-arg>
+	</bean>
+</beans>

@@ -163,6 +163,9 @@
             <artifactId>spring-boot-configuration-processor</artifactId>
             <version>${spring.boot.version}</version>
         </dependency>
+        
+       
+     
             	 <dependency>
                     <groupId>log4j</groupId>
                     <artifactId>log4j</artifactId>
@@ -328,7 +331,6 @@
 						<version>2.6</version>
 					</dependency>
 					
-	
 					<dependency>
 				         <groupId>SmgwClient</groupId>
 				         <artifactId>SmgwClient</artifactId>

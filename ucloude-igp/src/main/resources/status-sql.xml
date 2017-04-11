@@ -1,0 +1,260 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<!-- 插入一条新的采集对象状态信息到数据表 -->
+	<bean name="sqlForInsertGatherObjStatus" class="java.lang.String">
+		<constructor-arg type="java.lang.String">
+			<value><![CDATA[ insert into igp_data_gather_obj_status(gather_obj,sub_gather_obj,data_time,task_id,access_start_time,access_end_time,access_cause,parse_start_time,parse_end_time,parse_cause,warehouse_start_time,warehouse_end_time,warehouse_point,warehouse_cause,status,pc_name,export_status)values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)  ]]></value>
+		</constructor-arg>
+	</bean>
+	
+	<!-- 插入一条新的采集对象状态信息到数据表 ORACLE 数据库-->
+	<bean name="getGatherObjStatusIdFromOracle" class="java.lang.String">
+		<constructor-arg type="java.lang.String">
+			<value><![CDATA[ select IGP_GATHER_OBJ_STATUS_ID.Nextval from dual]]></value>
+		</constructor-arg>
+	</bean>
+	
+	<!-- 插入一条新的采集对象状态信息到数据表 ORACLE 数据库-->
+	<bean name="sqlForInsertOracleGatherObjStatus" class="java.lang.String">
+		<constructor-arg type="java.lang.String">
+			<value><![CDATA[ insert into igp_data_gather_obj_status(id,gather_obj,sub_gather_obj,data_time,task_id,access_start_time,access_end_time,access_cause,parse_start_time,parse_end_time,parse_cause,warehouse_start_time,warehouse_end_time,warehouse_point,warehouse_cause,status,pc_name,export_status)values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)  ]]></value>
+		</constructor-arg>
+	</bean>
+
+	<!-- 获取当前采集对象状态ID -->
+	<bean name="sqlForGetId" class="java.lang.String">
+		<constructor-arg type="java.lang.String">
+			<value><![CDATA[  select @@identity as ID  ]]></value>
+		</constructor-arg>
+	</bean>
+
+	<!-- 检查采集对象状态是否开始/完成 -->
+	<bean name="sqlForCheckGatherObj" class="java.lang.String">
+		<constructor-arg type="java.lang.String">
+			<value><![CDATA[ SELECT status FROM igp_data_gather_obj_status WHERE gather_obj = ? AND status >= -1 AND task_id=?]]></value>
+		</constructor-arg>
+	</bean>
+
+	<!-- 更新采集对象状态到数据库表 -->
+	<bean name="sqlForUpdateGatherObjStatus" class="java.lang.String">
+		<constructor-arg type="java.lang.String">
+			<value><![CDATA[ update igp_data_gather_obj_status set access_start_time=?,access_end_time=?,access_cause=?,parse_start_time=?,parse_end_time=?,parse_cause=?,warehouse_start_time=?,warehouse_end_time=?,warehouse_point=?,warehouse_cause=?,status=?,parse_num=?,sub_gather_obj=? where id=?  ]]></value>
+		</constructor-arg>
+	</bean>
+
+	<!-- 根据采集对象名称和任务Id来搜寻采集对象状态 -->
+	<bean name="sqlForSearchGatherObjStatus" class="java.lang.String">
+		<constructor-arg type="java.lang.String">
+			<value><![CDATA[ SELECT * FROM igp_data_gather_obj_status WHERE gather_obj = ? AND task_id = ? ]]></value>
+		</constructor-arg>
+	</bean>
+	
+	<!-- 根据采集对象名称,任务Id和pc name来搜寻采集对象状态 -->
+	<bean name="sqlForSearchGatherObjStatusWithPCName" class="java.lang.String">
+		<constructor-arg type="java.lang.String">
+			<value><![CDATA[ SELECT * FROM igp_data_gather_obj_status WHERE gather_obj = ? AND task_id = ? AND pc_name = ? ]]></value>
+		</constructor-arg>
+	</bean>
+
+	<!-- 更新断点信息 -->
+	<bean name="sqlForUpdateBreakPoint" class="java.lang.String">
+		<constructor-arg type="java.lang.String">
+			<value><![CDATA[ update igp_data_gather_obj_status set warehouse_point=? where id= ? ]]></value>
+		</constructor-arg>
+	</bean>
+	
+	<!-- 完成输出后根据输出报表更新输出状态 -->
+	<bean name="sqlForAfterFinishExport" class="java.lang.String">
+		<constructor-arg type="java.lang.String">
+			<value><![CDATA[ update igp_data_gather_obj_status set export_status=? where id= ? ]]></value>
+		</constructor-arg>
+	</bean>
+
+	<!-- 根据采集对象名称,任务Id和pc name来搜寻采集对象状态 -->
+	<bean name="sqlForGatherObjStatusRevert" class="java.lang.String">
+		<constructor-arg type="java.lang.String">
+			<value><![CDATA[ update igp_data_gather_obj_status set status=0 where status=9 and data_time >= sysdate-7 and export_status < 9 and pc_name = ? ]]></value>
+		</constructor-arg>
+	</bean>
+	<bean name="mysqlForGatherObjStatusRevert" class="java.lang.String">
+		<constructor-arg type="java.lang.String">
+			<value><![CDATA[ update igp_data_gather_obj_status set status=0 where status=9 and data_time >= DATE_SUB(sysdate(), INTERVAL '7' DAY) and export_status < 9 and pc_name = ? ]]></value>
+		</constructor-arg>
+	</bean>
+	
+	<!-- 数据库输出模板读取MySQL sql -->
+	<bean name="loadDbExportTargetSQLForMysql" class="java.lang.String">
+		<constructor-arg type="java.lang.String">
+			<value><![CDATA[ 
+				select 	b.id,
+					a.batch_num,
+					c.driver,
+					c.url,
+					b.description description,
+					b.user_name,
+					b.user_pwd,
+					concat_ws('-',a.group_id,a.data_type,a.export_template_id) as key_name,
+					ifnull(c.max_active,30) as max_active,
+					ifnull(c.max_wait,5) as max_wait
+				from igp_cfg_db_export      a,
+				igp_cfg_connection     b,
+				igp_cfg_connection_db c
+				where (a.relate_conn_id = b.id)
+					and b.conn_relate_id = c.id
+					and a.is_used = 1
+					
+			 union all
+			 
+				select a.relate_conn_id as id,
+				       a.batch_num,
+				       'hbase' as driver,
+				       'hbase' as url,
+				       '' as description,
+				       '' as user_name,
+				       '' as user_pwd,
+				       concat_ws('-',a.group_id,a.data_type,a.export_template_id) as key_name,
+				       ifnull(null,30) as max_active,
+				       ifnull(null,5) as max_wait
+				  from igp_cfg_db_export a
+				 where (a.relate_conn_id <= -200)
+				     and a.is_used = 1
+			 ]]></value>
+		</constructor-arg>
+	</bean>
+	
+	<!-- 数据库输出模板读取Oracle sql -->
+	<bean name="loadDbExportTargetSQLForOracle" class="java.lang.String">
+		<constructor-arg type="java.lang.String">
+			<value><![CDATA[ 
+				select b.id,
+       				a.batch_num,
+       				c.driver,
+       				c.url,
+       				b.description description,
+       				b.user_name,
+       				b.user_pwd,
+       				a.group_id || '-' || a.data_type || '-' || a.export_template_id as key_name,
+       				nvl(c.max_active,30) as max_active,
+       				nvl(c.max_wait,5) as max_wait
+  				from igp_cfg_db_export a, igp_cfg_connection b, igp_cfg_connection_db c
+ 				where (a.relate_conn_id = b.id)
+  			 		and b.conn_relate_id = c.id
+   					and a.is_used = 1
+
+        	 union all
+         
+	        select a.relate_conn_id as id,
+	               a.batch_num,
+	               'hbase' as driver,
+	               'hbase' as url,
+	               '' as description,
+	               '' as user_name,
+	               '' as user_pwd,
+	               a.group_id || '-' || a.data_type || '-' || a.export_template_id as key_name,
+	               nvl(null,30) as max_active,
+	               nvl(null,5) as max_wait
+	          from igp_cfg_db_export a
+	         where (a.relate_conn_id <= -200)
+	             and a.is_used = 1   					
+
+			 ]]></value>
+		</constructor-arg>
+	</bean>
+	
+	<!-- 文件输出模板读取MySQL sql -->
+	<bean name="loadFileExportTargetSQLForMysql" class="java.lang.String">
+		<constructor-arg type="java.lang.String">
+			<value><![CDATA[ 
+				select  a.relate_conn_id as id,
+				a.batch_num,
+				a.export_path,
+				a.export_filename,
+				a.compress_format,
+				a.split_char,
+				a.export_header,
+				a.encode,
+				a.addition_params,
+				concat_ws('-',a.group_id,a.data_type,a.export_template_id) as key_name
+				from igp_cfg_file_export   a
+				where a.is_used = 1
+			 ]]></value>
+		</constructor-arg>
+	</bean>
+	
+	<!-- 文件输出模板读取Oracle sql -->
+	<bean name="loadFileExportTargetSQLForOracle" class="java.lang.String">
+		<constructor-arg type="java.lang.String">
+			<value><![CDATA[ 
+				select  a.relate_conn_id as id,
+				a.batch_num,
+				a.export_path,
+				a.export_filename,
+				a.compress_format,
+				a.split_char,
+				a.export_header,
+				a.encode,
+				a.addition_params,
+				a.group_id || '-' || a.data_type || '-' || a.export_template_id as key_name
+				from igp_cfg_file_export      a
+				where a.is_used = 1
+			 ]]></value>
+		</constructor-arg>
+	</bean>
+	
+	<!-- 根据采集对象名称,任务Id和pc name来搜寻采集对象状态 -->
+	<bean name="sqlForGetMaxTaskDataTime" class="java.lang.String">
+		<constructor-arg type="java.lang.String">
+			<value><![CDATA[ select max(data_time) from igp_data_gather_obj_status where task_id = ? ]]></value>
+		</constructor-arg>
+	</bean>
+	
+	<bean name="sqlForInitOracleGatherObj" class="java.lang.String">
+		<constructor-arg type="java.lang.String">
+			<value><![CDATA[ 
+				select t.gather_obj
+				from igp_data_gather_obj_status t
+				where t.task_id = ?
+				and t.data_time >= to_date(?, 'yyyy-mm-dd hh24:mi:ss')
+				and t.data_time <= to_date(?, 'yyyy-mm-dd hh24:mi:ss')
+				and t.status>=-1
+			 ]]></value>
+		</constructor-arg>
+	</bean>
+	
+	<bean name="sqlForInitMySqlGatherObj" class="java.lang.String">
+		<constructor-arg type="java.lang.String">
+			<value><![CDATA[ 
+				select t.gather_obj
+				from igp_data_gather_obj_status t
+				where t.task_id = ?
+				and t.data_time >= ?
+				and t.data_time <= ?
+				and t.status>=-1
+			 ]]></value>
+		</constructor-arg>
+	</bean>
+	
+	<!-- add by tyler for summary begin-->
+	<!-- 插入汇总输出日志表sql -->
+	<bean name="sqlForInsertSummaryExportLogRecords" class="java.lang.String">
+		<constructor-arg type="java.lang.String">
+			<value><![CDATA[ INSERT INTO ds_log_clt_to_group(OMCID,TASKID,DATA_TIME,DATATYPE,TABLE_NAME,BEGIN_TIME,END_TIME,TOTAL_NUM,INSERT_NUM,FAIL_NUM,IS_REPAIR,IS_CAL1,IS_CAL2,IS_CAL3,IS_CAL4,IS_CAL5,NET_TYPE) VALUES (?,?,?,?,UPPER(?),?,?,?,?,?,?,0,0,0,0,0,?) ]]></value>
+		</constructor-arg>
+	</bean>
+	
+	<!-- 根据任务id，exportid，data_time查找汇总输出日志表 -->
+	<bean name="sqlForGetSummaryExportLogRecords" class="java.lang.String">
+		<constructor-arg type="java.lang.String">
+			<value><![CDATA[ select count(*) from ds_log_clt_to_group where taskid = ? and datatype = ? and data_time = to_date(?,'yyyymmddhh24miss') ]]></value>
+		</constructor-arg>
+	</bean>
+	<bean name="mysqlForGetSummaryExportLogRecords" class="java.lang.String">
+		<constructor-arg type="java.lang.String">
+			<value><![CDATA[ select count(*) from ds_log_clt_to_group where taskid = ? and datatype = ? and data_time = ? ]]></value>
+		</constructor-arg>
+	</bean>
+	<!-- add by tyler for summary end-->
+</beans>

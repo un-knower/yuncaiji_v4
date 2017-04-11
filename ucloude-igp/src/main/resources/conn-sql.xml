@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<!-- 通过ID查询连接基本信息SQL语句 -->
+	<bean name="sqlForGetConnById" class="java.lang.String">
+		<constructor-arg type="java.lang.String">
+			<value><![CDATA[select * from igp_cfg_connection where id = ?]]></value>
+		</constructor-arg>
+	</bean>
+	
+	<!-- 通过ID查询连接基本信息SQL语句 -->
+	<bean name="sqlForGetDBConnById" class="java.lang.String">
+		<constructor-arg type="java.lang.String">
+			<value><![CDATA[select * from igp_cfg_connection_db where id = ?]]></value>
+		</constructor-arg>
+	</bean>
+	
+	<!-- 通过ID查询连接基本信息SQL语句 -->
+	<bean name="sqlForGetFTPConnById" class="java.lang.String">
+		<constructor-arg type="java.lang.String">
+			<value>
+				<![CDATA[
+				select t.port,
+			       t.charset as ftp_charset,
+			       t.passive,
+			       t.breakpoint,
+			       t.max_connections,
+			       t.max_wait_second,
+			       t.validate_cmd,
+			       t.retry_times,
+			       t.retry_delay_second
+			  	from igp_cfg_connection_ftp t
+					where t.id = ?
+		 	]]>
+		 </value>
+		</constructor-arg>
+	</bean>
+	
+	<!-- 通过ID查询连接基本信息SQL语句 -->
+	<bean name="sqlForGetTelnetConnById" class="java.lang.String">
+		<constructor-arg type="java.lang.String">
+			<value><![CDATA[select * from igp_cfg_connection_telnet where id = ?]]></value>
+		</constructor-arg>
+	</bean>
+</beans>

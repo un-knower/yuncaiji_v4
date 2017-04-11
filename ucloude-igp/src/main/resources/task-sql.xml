@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<!-- 查询任务列表的SQL语句。 -->
+	<bean name="sqlForGetTaskList" class="java.lang.String">
+		<constructor-arg type="java.lang.String">
+			<value><![CDATA[ select * from igp_cfg_task t where t.is_used = 1 and t.pc_name = ? and t.data_time < ? and (t.end_data_time is null or t.data_time <= t.end_data_time) ]]></value>
+		</constructor-arg>
+	</bean>
+
+	<!-- 查询补采任务列表的SQL语句。 -->
+	<bean name="sqlForGetRTaskList" class="java.lang.String">
+		<constructor-arg type="java.lang.String">
+			<value><![CDATA[ select r.id,r.gather_path as regather_path,r.data_time as regather_datetime,r.status,r.cause,r.times,r.success_date,t.* from igp_cfg_rtask r, igp_cfg_task t where r.task_id = t.task_id and r.pc_name = ? and r.data_time < ? and r.times < t.max_gather_count and status = 0 ]]></value>
+		</constructor-arg>
+	</bean>
+	
+	<!-- add by tyler for delay data begin -->
+	<!-- 查询延迟数据任务的SQL语句。 -->
+	<bean name="sqlForDelayDataList" class="java.lang.String">
+		<constructor-arg type="java.lang.String">
+			<value><![CDATA[
+select d.id,d.data_time,d.data_scan_curr_time,d.create_time,t.delay_data_scan_period,t.delay_data_time_delay,t.task_id,t.task_name,
+t.worker_type,t.city_id,t.omc_id,t.bsc_id,t.solution_id,t.conn_id,t.gather_path,t.is_period,t.period,t.timeout,t.shell_before_gather,
+t.shell_after_gather,t.shell_timeout,t.is_used,t.max_gather_count,t.gather_time_delay,t.pc_name,t.group_id,t.end_data_time,
+t.regather_time_offset,t.task_description,t.paser_templates,t.export_templates,t.net_type 
+  from igp_cfg_delay_data_task d, igp_cfg_task t
+ where t.task_id = d.task_id and t.delay_data_scan_period is not null and t.delay_data_time_delay is not null and t.is_used = 1 
+ and t.pc_name = ? and d.data_scan_curr_time<d.data_scan_end_time and d.data_scan_curr_time+t.delay_data_scan_period / 1440<=?
+   order by d.data_scan_curr_time
+     ]]></value>
+		</constructor-arg>
+	</bean>
+	
+	<!-- 更新延迟任务到下一时间点。create_time第一次添加时为记录创建时间、更新时为记录修改时间 -->
+	<bean name="sqlForDelayDataNextTime" class="java.lang.String">
+		<constructor-arg type="java.lang.String">
+			<value><![CDATA[ update igp_cfg_delay_data_task d set d.data_scan_curr_time=? where id=?]]></value>
+		</constructor-arg>
+	</bean>
+	
+	<!-- 添加延迟数据任务，除了补采任务和延迟任务不用添加。 -->
+	<bean name="sqlForDelayDataInsert" class="java.lang.String">
+		<constructor-arg type="java.lang.String">
+			<value><![CDATA[ insert into igp_cfg_delay_data_task(id,task_id,data_time,data_scan_curr_time,data_scan_end_time,create_time) 
+			values(SEQ_igp_cfg_delay_data_task.Nextval,?,?,?,?,?) ]]></value>
+		</constructor-arg>
+	</bean>
+	<bean name="mysqlForDelayDataInsert" class="java.lang.String">
+		<constructor-arg type="java.lang.String">
+			<value><![CDATA[ insert into igp_cfg_delay_data_task(task_id,data_time,data_scan_curr_time,data_scan_end_time,create_time) 
+			values(?,?,?,?,?) ]]></value>
+		</constructor-arg>
+	</bean>
+	
+	<!-- 删除以下三种情况的任务：
+	1.延迟任务(IGP_CFG_DELAY_DATA_TASK表中记录)在igp_cfg_task表中找不到对应记录;
+	2.取消延功能的任务；delay_data_time_delay、delay_data_scan_period为空的任务;
+	3.时效到期并且已经超过一天的任务；-->
+	<bean name="sqlForDelayDataDelete" class="java.lang.String">
+		<constructor-arg type="java.lang.String">
+			<value><![CDATA[ delete from IGP_CFG_DELAY_DATA_TASK d
+ where (d.data_scan_curr_time > d.data_scan_end_time and d.create_time + 1 < sysdate and
+       d.task_id in (select t.task_id from igp_cfg_task t where t.pc_name = ?))
+    or d.task_id in (select t.task_id from igp_cfg_task t where t.delay_data_scan_period is null or t.delay_data_time_delay is null)
+    or d.task_id not in (select t.task_id from igp_cfg_task t)]]></value>
+		</constructor-arg>
+	</bean>
+	<!-- add by tyler for delay data end -->
+	
+	
+	<!-- 根据正常任务ID和补采路径查询补采任务是否存在的SQL。 -->
+	<bean name="sqlForTestReTaskExists" class="java.lang.String">
+		<constructor-arg type="java.lang.String">
+			<value><![CDATA[ select count(*) from igp_cfg_rtask where task_id=? and gather_path=? ]]></value>
+		</constructor-arg>
+	</bean>
+	
+	<!-- 插入补采表的sql语句(oracle版本) -->
+	<bean name="sqlForInsertRTaskRecords" class="java.lang.String">
+		<constructor-arg type="java.lang.String">
+			<value><![CDATA[ insert into igp_cfg_rtask(id,task_id,gather_path,data_time,status,pc_name,create_time,cause,times) values (SEQ_IGP_CONF_RTASK.Nextval,?,?,?,0,?,?,?,0) ]]></value>
+		</constructor-arg>
+	</bean>
+	
+	<!-- 插入补采表的sql语句(mysql版本) -->
+	<bean name="mysqlForInsertRTaskRecords" class="java.lang.String">
+		<constructor-arg type="java.lang.String">
+			<value><![CDATA[ insert into igp_cfg_rtask(task_id,gather_path,data_time,status,pc_name,create_time,cause,times) values (?,?,?,0,?,?,?,0) ]]></value>
+		</constructor-arg>
+	</bean>
+	
+	<!-- 修改补采表的sql语句 -->
+	<bean name="sqlForUpdateRTaskRecords" class="java.lang.String">
+		<constructor-arg type="java.lang.String">
+			<value><![CDATA[ update igp_cfg_rtask set gather_path = ?,times = ?,status = ?,success_date = ?,cause = ? where id = ? ]]></value>
+		</constructor-arg>
+	</bean>
+	<!--将任务表时间点改到下一周期的MySQL语句。 -->
+	<bean name="mysqlForSetTaskDataTimeToNextPeriod" class="java.lang.String">
+		<constructor-arg type="java.lang.String">
+			<value><![CDATA[ UPDATE igp_cfg_task SET data_time =  CASE WHEN period = 31*24*60 THEN DATE_ADD(data_time, INTERVAL 1 MONTH) ELSE DATE_ADD(data_time, INTERVAL period MINUTE) END WHERE task_id=?  ]]></value>
+		</constructor-arg>
+	</bean>
+	
+	<!--将任务表时间点改到下一周期的SQL语句。 -->
+	<bean name="sqlForSetTaskDataTimeToNextPeriod" class="java.lang.String">
+		<constructor-arg type="java.lang.String">
+			<value><![CDATA[ update igp_cfg_task set data_time= case when period = 31*24*60 then add_months(data_time,1) else data_time + period/60/24 end where task_id=?  ]]></value>
+		</constructor-arg>
+	</bean>
+	
+	<!--修改补采任务状态的sql语句。 -->
+	<bean name="sqlForUpdateReTaskStatus" class="java.lang.String">
+		<constructor-arg type="java.lang.String">
+			<value><![CDATA[ update igp_cfg_rtask set status=?,times=nvl(times,0)+1,success_date=? where id=?  ]]></value>
+		</constructor-arg>
+	</bean>
+	<bean name="mysqlForUpdateReTaskStatus" class="java.lang.String">
+		<constructor-arg type="java.lang.String">
+			<value><![CDATA[ update igp_cfg_rtask set status=?,times=IFNULL(times,0)+1,success_date=? where id=?  ]]></value>
+		</constructor-arg>
+	</bean>	
+	
+	<!-- 根据任务group_id查找db输出表记录 -->
+	<bean name="sqlForGetDBExportRecords" class="java.lang.String">
+		<constructor-arg type="java.lang.String">
+			<value><![CDATA[ select data_type,export_template_id,group_id from igp_cfg_db_export where group_id in ( ? ) and is_used = 1 ]]></value>
+		</constructor-arg>
+	</bean>
+</beans>

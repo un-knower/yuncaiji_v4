@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<!-- DB Accessor Config -->
+	<bean name="dbAccessor" class="cn.uway.framework.accessor.DbAccessor"
+		scope="prototype" />
+	<!-- end -->
+
+	<!-- Telnet Accessor Config -->
+	<bean name="TelnetAccessor" class="cn.uway.framework.accessor.TelnetAccessor"
+		scope="prototype">
+	</bean>
+	<!-- end -->
+
+	<bean name="ftpAccessor" class="cn.uway.framework.accessor.StreamFTPAccessor"
+		scope="prototype">
+		<property name="poolFactory" ref="basicFTPClientPoolFactory"></property>
+		<property name="poolMgr" ref="syncStringKeyFTPClientPoolMgr"></property>
+	</bean>
+	
+	<!-- ftp文件下载到本地，经过处理之后，然后解析（比如excel文件） -->
+	<bean name="ftpToLocalAccessor" class="cn.uway.framework.accessor.FTPToLocalAccessor"
+		scope="prototype">
+		<property name="poolFactory" ref="basicFTPClientPoolFactory"></property>
+		<property name="poolMgr" ref="syncStringKeyFTPClientPoolMgr"></property>
+	</bean>
+
+	<bean name="reusableFtpAccessor" class="cn.uway.framework.accessor.ReusableFTPAccessor"
+		scope="prototype">
+	</bean>
+
+	<!-- Luc Do Accessor Config -->
+	<bean name="LucDoAccessor" class="cn.uway.framework.accessor.LucDoAccessor"
+		scope="prototype">
+	</bean>
+	<!-- end -->
+	
+	<!-- 本地文件扫描接入器 -->
+	<bean name="localAccessor" class="cn.uway.framework.accessor.LocalAccessor"
+		scope="prototype">
+	</bean>
+	
+	<bean name="httpAccessor" class="cn.uway.framework.accessor.HttpAccessor"
+		scope="prototype">
+	</bean>
+	
+	
+	
+</beans>
