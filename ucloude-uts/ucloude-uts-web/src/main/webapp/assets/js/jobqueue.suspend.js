@@ -31,7 +31,6 @@ require(
 					data : jobTypes
 				}
 			});
-			$("#gdJobs").loading();
 			$("#gdJobs")
 					.ufaGrid(
 							{
@@ -74,13 +73,6 @@ require(
 											// },
 											}
 										},
-									},
-									requestEnd : function(e) {
-										if(e.response.data.length == 0){
-											$("#gdJobs").complete().info('查询没有数据');;
-										}else{
-											$("#gdJobs").complete().noInfo();
-										};
 									}
 								},
 								columns : [{
@@ -147,10 +139,10 @@ require(
 										text : "否",
 										value : false
 									}]
-								}, {
-									field : "extParams",
-									width : 100,
-									title : "用户参数"
+//								}, {
+//									field : "extParams",
+//									width : 100,
+//									title : "用户参数"
 								}, {
 									field : "gmtCreated",
 									width : 150,
@@ -249,6 +241,7 @@ require(
 										}
 									}]
 								}],
+								dataBinding: onDataBinding,
 								groupable : false,
 								sortable : true,
 								resizable : true,
@@ -271,7 +264,6 @@ require(
 							});
 
 			$("#btnSearch").bind("click", function(e) {
-				$("#gdJobs").loading();
 				$("#gdJobs").data().ufaGrid.dataSource.read();
 			});
 			$("#btnReset").bind("click", function(e) {
@@ -279,4 +271,20 @@ require(
 				$("#ddlClientNodeGroups").data("ufaDropDownList").value('');
 				$("#ddlTaskType").data().ufaDropDownList.value('');
 			});
+			function onDataBinding(arg) {
+            	gridHeight();
+            	if(this.dataSource._data && this.dataSource._data.length>0){
+            		$("#gdJobs").complete().noInfo();
+            	}else{
+            		$("#gdJobs").complete().info('查询没有数据');
+            	}
+            }
+			//表格高度自适应
+			function gridHeight() {
+			    var H = $(window).height() - 260 + "px";
+			    $('.k-grid-content').css('height', H)
+			}
+		    $(window).resize(function () {
+		        gridHeight()
+		    })
 		});

@@ -6,7 +6,7 @@ import java.util.List;
 import org.apache.commons.lang.time.DateUtils;
 import org.junit.Test;
 
-import cn.uway.ucloude.uts.minitor.access.domain.JobClientMDataPo;
+import cn.uway.ucloude.uts.monitor.access.domain.JobClientMDataPo;
 import cn.uway.ucloude.uts.web.access.db.DbBackendAccessFactory;
 import cn.uway.ucloude.uts.web.access.face.BackendJobClientMAccess;
 import cn.uway.ucloude.uts.web.request.MDataRequest;

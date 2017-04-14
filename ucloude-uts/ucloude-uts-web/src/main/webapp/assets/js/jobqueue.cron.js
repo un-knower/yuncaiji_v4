@@ -31,7 +31,6 @@ require([ "jquery","common","ufa.dropdownlist", "ufa.grid", "ufa.mobile.switch",
 				optionLabel:"全部",
 				dataSource : taskTracks
 			});
-			$("#gdJobs").loading();
 			$("#gdJobs").ufaGrid(
 					{
 						dataSource : {
@@ -58,7 +57,7 @@ require([ "jquery","common","ufa.dropdownlist", "ufa.grid", "ufa.mobile.switch",
 									},
 									type : "POST",
 									dataType : "json"
-								},
+								}
 							},
 							pageSize : 30,
 							serverPaging : true,
@@ -75,13 +74,6 @@ require([ "jquery","common","ufa.dropdownlist", "ufa.grid", "ufa.mobile.switch",
 									 },
 									}
 								},
-							},
-							requestEnd : function(e) {
-								if(e.response.data.length == 0){
-									$("#gdJobs").complete().info('查询没有数据');
-								}else{
-									$("#gdJobs").complete().noInfo();
-								};								
 							}
 						},
 						columns : [
@@ -149,10 +141,10 @@ require([ "jquery","common","ufa.dropdownlist", "ufa.grid", "ufa.mobile.switch",
 								text : "否",
 								value : false
 							}]
-						}, {
-							field : "extParams",
-							width : 100,
-							title : "用户参数"
+//						}, {
+//							field : "extParams",
+//							width : 100,
+//							title : "用户参数"
 						}, {
 							field : "gmtCreated",
 							width : 150,
@@ -186,13 +178,14 @@ require([ "jquery","common","ufa.dropdownlist", "ufa.grid", "ufa.mobile.switch",
 						            }
 						            $(document.body).append($("<div id='editWindow'></div"));
 						            $("#editWindow").ufaWindow({
-				                        width:600,
+				                        width:700,
 				                        height:500,
 				                        modal: true,
 				                        title: "任务编辑",
 				                        visible: false,
 				                        content: "job-add.htm?jobqueue=cron&jobId="+data.jobId
 				                    }).data().ufaWindow.center().open();
+						            
 								}
 							},{
 								text:"暂停",
@@ -254,6 +247,7 @@ require([ "jquery","common","ufa.dropdownlist", "ufa.grid", "ufa.mobile.switch",
 								}
 							}]
 						} ],
+						dataBinding: onDataBinding,
 						groupable : false,
 						sortable : true,
 						resizable : true,
@@ -275,7 +269,6 @@ require([ "jquery","common","ufa.dropdownlist", "ufa.grid", "ufa.mobile.switch",
 						},
 					});			
 			$("#btnSearch").bind("click", function(e) {
-				$("#gdJobs").loading();
 				$("#gdJobs").data().ufaGrid.dataSource.read();
 			});
 			$("#btnReset").bind("click", function(e) {
@@ -284,4 +277,20 @@ require([ "jquery","common","ufa.dropdownlist", "ufa.grid", "ufa.mobile.switch",
 				 $("#ddlClientNodeGroups").data("ufaDropDownList").value('');
 				 $("#ddlTaskTrackeNodeGroup").data("ufaDropDownList").value('');
 			});
+            function onDataBinding(arg) {
+            	gridHeight();
+            	if(this.dataSource._data && this.dataSource._data.length>0){
+            		$("#gdJobs").complete().noInfo();
+            	}else{
+            		$("#gdJobs").complete().info('查询没有数据');
+            	}
+            }
+			//表格高度自适应
+			function gridHeight() {
+			    var H = $(window).height() - 260 + "px";
+			    $('.k-grid-content').css('height', H)
+			}
+		    $(window).resize(function () {
+		        gridHeight()
+		    })
 		});

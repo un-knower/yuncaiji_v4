@@ -9,6 +9,7 @@ import cn.uway.ucloude.uts.web.access.face.BackendJobClientMAccess;
 import cn.uway.ucloude.uts.web.access.face.BackendJobTrackerMAccess;
 import cn.uway.ucloude.uts.web.access.face.BackendNodeOnOfflineLogAccess;
 import cn.uway.ucloude.uts.web.access.face.BackendTaskTrackerMAccess;
+import cn.uway.ucloude.uts.web.access.face.ShopIdAccess;
 
 public class DbBackendAccessFactory implements BackendAccessFactory {
 
@@ -52,6 +53,11 @@ public class DbBackendAccessFactory implements BackendAccessFactory {
 	public BackendTaskTrackerMAccess getBackendTaskTrackerMAccess() {
 		// TODO Auto-generated method stub
 		return new DbBackendTaskTrackerMAccess(ExtConfigKeys.CONNECTION_KEY);
+	}
+
+	@Override
+	public ShopIdAccess getShopIdAccess() {
+		return new DbShopIdAccess(ExtConfigKeys.CONNECTION_KEY);
 	}
 
 }

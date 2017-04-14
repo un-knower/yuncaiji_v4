@@ -49,6 +49,12 @@ public class CommonView {
 		model.addAttribute("identity", identity);
 		return "nodeJvmInfo";
 	}
+	
+	@RequestMapping("node-txt-log")
+	public String nodeTxtLog(Model model, String identity) {
+		model.addAttribute("identity", identity);
+		return "nodeTxtLog";
+	}
 
 	@RequestMapping("job-add")
 	public String addJobUI(Model model, String jobId, String jobqueue) {

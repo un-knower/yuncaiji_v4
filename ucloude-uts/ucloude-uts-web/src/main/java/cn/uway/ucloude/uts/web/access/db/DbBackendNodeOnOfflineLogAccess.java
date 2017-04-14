@@ -49,8 +49,8 @@ class DbBackendNodeOnOfflineLogAccess extends JdbcAbstractAccess implements Back
 				logTime = new java.sql.Timestamp(po.getLogTime().getTime());
 			}
 			insertSql.values(logTime, po.getEvent(), po.getClusterName(), po.getIp(), po.getPort(), po.getHostName(),
-					po.getNodeType().getValue(), createTime, po.getThreads(), po.getIdentity(),
-					po.getNodeType() == null ? null : po.getNodeType().ordinal(), po.getHttpCmdPort());
+					po.getGroup(), createTime, po.getThreads(), po.getIdentity(),
+					po.getNodeType() == null ? null : po.getNodeType().getValue(), po.getHttpCmdPort());
 		}
 		insertSql.doBatchInsert();
 	}

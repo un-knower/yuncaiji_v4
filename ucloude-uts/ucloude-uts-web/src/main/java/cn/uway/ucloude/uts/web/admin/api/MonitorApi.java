@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import cn.uway.ucloude.utils.CollectionUtil;
 import cn.uway.ucloude.utils.StringUtil;
-import cn.uway.ucloude.uts.minitor.access.domain.MDataPo;
+import cn.uway.ucloude.uts.monitor.access.domain.MDataPo;
 import cn.uway.ucloude.uts.web.admin.AbstractMVC;
 import cn.uway.ucloude.uts.web.admin.support.Builder;
 import cn.uway.ucloude.uts.web.admin.vo.RestfulResponse;

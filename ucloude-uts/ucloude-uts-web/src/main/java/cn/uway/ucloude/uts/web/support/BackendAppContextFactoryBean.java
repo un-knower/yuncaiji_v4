@@ -115,6 +115,7 @@ public class BackendAppContextFactoryBean implements FactoryBean<BackendAppConte
         appContext.setBackendJVMThreadAccess(factory.getBackendJVMThreadAccess());
         appContext.setBackendNodeOnOfflineLogAccess(factory.getBackendNodeOnOfflineLogAccess());
         appContext.setNodeMemCacheAccess(new NodeMemCacheAccess());
+        appContext.setShopIdAccess(factory.getShopIdAccess());
     }
 
 }

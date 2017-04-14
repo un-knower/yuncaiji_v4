@@ -1,0 +1,20 @@
+#set($layout = "/layout/empty.vm")
+<style type="text/css">
+	 .fixPager {
+	 	position: fixed;
+	    bottom: 0px;
+	    width: 100%;
+    }
+		.fixPager .k-pager-last{
+			display:none	
+		}
+	  
+</style>
+<div id="divTxtLog">
+
+</div>
+<div id="divPager" class="fixPager"></div>
+<script type="text/javascript">
+	var identity = '$identity';
+</script>
+<script src="assets/js/node.txt.log.js" type="text/javascript"></script>

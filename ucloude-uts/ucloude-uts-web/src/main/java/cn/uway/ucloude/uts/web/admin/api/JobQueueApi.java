@@ -26,6 +26,7 @@ import cn.uway.ucloude.uts.core.domain.JobType;
 import cn.uway.ucloude.uts.core.queue.domain.JobPo;
 import cn.uway.ucloude.uts.core.queue.domain.JobQueueReq;
 import cn.uway.ucloude.uts.core.support.CronExpression;
+import cn.uway.ucloude.uts.web.access.domain.ShopItem;
 import cn.uway.ucloude.uts.web.admin.AbstractMVC;
 import cn.uway.ucloude.uts.web.admin.support.Builder;
 import cn.uway.ucloude.uts.web.admin.vo.RestfulResponse;
@@ -41,6 +42,14 @@ import java.util.Map;
 
 /**
  * @author magic.s.g.xie
+ */
+/**
+ * @author Uway-M3
+ *
+ */
+/**
+ * @author Uway-M3
+ *
  */
 @RestController
 public class JobQueueApi extends AbstractMVC {
@@ -298,6 +307,18 @@ public class JobQueueApi extends AbstractMVC {
 		return Builder.build(pair.getKey(), pair.getValue());
 	}
 
+	
+	/**获取shopId可选列表
+	 * @return
+	 */
+	@RequestMapping("/job-queue/shop-id-get")
+	public RestfulResponse getShopIdList(){
+		List<ShopItem> shops = appContext.getShopIdAccess().getShopIdList();
+		RestfulResponse response = Builder.build(true, "获取成功。");
+		response.setRows(shops);
+		return response;
+	}
+	
 	private Pair<Boolean, String> addJob(JobQueueReq request) {
 
 		Job job = new Job();

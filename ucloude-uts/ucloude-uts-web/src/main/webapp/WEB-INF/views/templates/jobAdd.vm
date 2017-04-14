@@ -19,6 +19,10 @@
 		        <label >任务类型：</label>
 		        <input type="text" id="jobType"/><span class="register-prompt"></span><i class="jobHint"  style="display:none"></i>
 		    </li>
+		    <li>
+		        <label >业务类型：</label>
+		        <input type="text" id="shopId"/><span class="register-prompt">*</span><i class="shopIdHint"  style="display:none"></i>
+		    </li>
 		    <li id="liCron">                  				 
 		    	<label >运行周期：</label>                                
 		        <input type="text" class="k-input k-textbox" id="cronExpression" placeholder="请输入CronExpression"style="width:161px" readonly="readonly">
@@ -67,7 +71,7 @@
 		    </li >
 		    <li >
 		         <button class="k-button k-primary" type="button" id="addBtn">添加</button>
-		         <button class="k-button k-primary" type="reset" id="resetBtn">重置</button>
+		         <button class="k-button k-primary" type="button" id="resetBtn">重置</button>
 			</li>
 		</ul>
 	</form>	

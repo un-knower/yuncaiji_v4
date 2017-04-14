@@ -89,6 +89,7 @@ public class BackendAppContext extends UtsContext {
 	    private BackendJVMGCAccess backendJVMGCAccess;
 	    private BackendJVMMemoryAccess backendJVMMemoryAccess;
 	    private BackendJVMThreadAccess backendJVMThreadAccess;
+	    private ShopIdAccess shopIdAccess;
 //
 //	    private NoRelyJobGenerator noRelyJobGenerator;
 	    
@@ -190,5 +191,13 @@ public class BackendAppContext extends UtsContext {
 
 		public void setBackendRegistrySrv(BackendRegistrySrv backendRegistrySrv) {
 			this.backendRegistrySrv = backendRegistrySrv;
+		}
+
+		public ShopIdAccess getShopIdAccess() {
+			return shopIdAccess;
+		}
+
+		public void setShopIdAccess(ShopIdAccess shopIdAccess) {
+			this.shopIdAccess = shopIdAccess;
 		}
 }

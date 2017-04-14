@@ -1,21 +1,22 @@
 /**
  * 添加任务
  */
-require(["jquery", "ufa.dropdownlist", "ufa.mobile.switch", "ufa.window",
-		"ufa.numerictextbox", "ufa.datetimepicker", "ufa.dialog",
+require(["jquery", "common", "ufa.dropdownlist", "ufa.mobile.switch",
+		"ufa.window", "ufa.numerictextbox", "ufa.datetimepicker", "ufa.dialog",
 		"messages/ufa.messages.zh-CN", "cultures/ufa.culture.zh-CN"], function(
 		$, ufa) {
 	ufa.culture("zh-CN");
-	ufa.ui.Confirm.prototype.options.messages =
-	$.extend(true, ufa.ui.Confirm.prototype.options.messages,{
-	  "okText": "确定",
-	  "cancel": "取消",
-	  "title":"警告"
-	});
-	ufa.ui.Alert.prototype.options.messages =
-		$.extend(true, ufa.ui.Alert.prototype.options.messages,{
-		  "okText": "确定"
-		});
+	console.log("job.add");
+	ufa.ui.Confirm.prototype.options.messages = $.extend(true,
+			ufa.ui.Confirm.prototype.options.messages, {
+				"okText" : "确定",
+				"cancel" : "取消",
+				"title" : "警告"
+			});
+	ufa.ui.Alert.prototype.options.messages = $.extend(true,
+			ufa.ui.Alert.prototype.options.messages, {
+				"okText" : "确定"
+			});
 	$("#jobType").ufaDropDownList({
 		dataValueField : "value",
 		dataTextField : "name",
@@ -24,6 +25,23 @@ require(["jquery", "ufa.dropdownlist", "ufa.mobile.switch", "ufa.window",
 		},
 		change : function(e) {
 			jobTypeChange();
+		}
+	});
+	$("#shopId").ufaDropDownList({
+		dataValueField : "id",
+		dataTextField : "id",
+		optionLabel : "请选择",
+		dataSource : {
+			transport : {
+				read : {
+					url : 'api/job-queue/shop-id-get',
+					type : "get",
+					dataType : "json"
+				}
+			},
+			schema : {
+				"data" : "rows"
+			}
 		}
 	});
 	$("#taskTrackerNodeGroup").ufaDropDownList({
@@ -47,8 +65,12 @@ require(["jquery", "ufa.dropdownlist", "ufa.mobile.switch", "ufa.window",
 			data : jobClientNodeGroups
 		}
 	});
-	$("#maxRetryTimes").ufaNumericTextBox();
-	$("#priority").ufaNumericTextBox();
+	$("#maxRetryTimes").ufaNumericTextBox({
+		format : "n0"
+	});
+	$("#priority").ufaNumericTextBox({
+		format : "n0"
+	});
 	$("#repeatInterval").ufaNumericTextBox();
 	$("#repeatCount").ufaNumericTextBox();
 	$("#triggerTime").ufaDateTimePicker();
@@ -102,7 +124,7 @@ require(["jquery", "ufa.dropdownlist", "ufa.mobile.switch", "ufa.window",
 			} else if (jobqueue == 'executable') {
 				url = "api/job-queue/executable-job-getById";
 			} else {
-				alert('无效的任务类型');
+				ufa.alert('系统提示', '无效的任务类型');
 				return;
 			}
 			$.ajax({
@@ -116,11 +138,11 @@ require(["jquery", "ufa.dropdownlist", "ufa.mobile.switch", "ufa.window",
 					if (obj.success) {
 						callBack(obj.rows[0]);
 					} else {
-						alert(obj.msg);
+						ufa.alert('系统提示', obj.msg);
 					}
 				},
 				error : function() {
-					alert("获取任务内容异常。");
+					ufa.alert('系统提示', "获取任务内容异常。");
 				}
 			});
 		} else {
@@ -211,15 +233,24 @@ function checkParam(validate) {
 		try {
 			jobInfo.extParams = $.parseJSON(json);
 		} catch (e) {
-			alert("参数必须为Json格式。");
+			// alert("参数必须为Json格式。");
+			$(".extHint").show().html("参数必须为Json格式")
 		}
 		for ( var item in jobInfo.extParams) {
 			var type = typeof jobInfo.extParams[item];
 			if (type != "string" && type != "number" && type != "boolean") {
-				alert("参数只支持key:value 结构。");
-				return;
+				// alert("参数只支持key:value 结构。");
+				$(".extHint").show().html("参数只支持key:value 结构")
+				validate.check = false;
 			}
 		}
+	}
+	if ($("#shopId").val()) {
+		$(".shopIdHint").hide();
+		jobInfo.extParams.shopId = $("#shopId").val();
+	}else{
+		$(".shopIdHint").show().text("业务类型不允许为空！");
+		validate.check = false;
 	}
 	return jobInfo;
 }
@@ -232,12 +263,11 @@ function saveJob() {
 	var jobInfo = checkParam(validate);
 	if (!validate.check) {
 		return false;
-
 	} else {
 		// $('form').submit();
 		// alert('提交成功')
 	}
-
+	$("#page-wrapper").loading();
 	// var = checkParam();
 	// if (!jobInfo) {
 	// return;
@@ -265,20 +295,23 @@ function saveJob() {
 		dataType : "json",
 		success : function(obj) {
 			if (obj.success) {
+				$("#page-wrapper").complete();
 				if (jobInfo.jobId) {
 					$("#editWindow").data().ufaWindow.close();
 					$("#gdJobs").data().ufaGrid.dataSource.read();
 				} else {
-					ufa.alert('系统提示',"保存成功").then(function(){
+					ufa.alert('系统提示', "保存成功").then(function() {
 						window.location.href = "job-add.htm";
 					});
 				}
 			} else {
-				ufa.alert('系统提示',obj.msg);
+				$("#page-wrapper").complete();
+				ufa.alert('系统提示', obj.msg);
 			}
 		},
 		error : function() {
-			ufa.alert('系统提示',"保存异常，请重试!");
+			$("#page-wrapper").complete();
+			ufa.alert('系统提示', "保存异常，请重试!");
 		}
 	});
 }
@@ -288,7 +321,7 @@ function reset(jobInfo) {
 	if (jobInfo) {
 		$("#taskId").attr("readonly", "readonly");
 		$("#jobType").data("ufaDropDownList").readonly(true);
-		// $("#jobId").val(jobInfo.jobId);
+		$("#shopId").data("ufaDropDownList").readonly(true);
 		$("#realTaskId").val(jobInfo.realTaskId);
 		$("#taskId").val(jobInfo.taskId);
 		var jobType = jobTypes.filter(function(value) {
@@ -314,12 +347,18 @@ function reset(jobInfo) {
 		$("#taskTrackerNodeGroup").data("ufaDropDownList").value(
 				jobInfo.taskTrackerNodeGroup);
 		if (jobInfo.extParams) {
-			$("#extParams").val(JSON.stringify(jobInfo.extParams));
+			var tempExtParams = $.extend(true,{},jobInfo.extParams);
+			delete tempExtParams["shopId"];
+			$("#shopId").data("ufaDropDownList").value(jobInfo.extParams.shopId);
+			if(!$.isEmptyObject()){
+				$("#extParams").val(JSON.stringify(tempExtParams));
+			}
 		}
 	} else {
 		// $("#jobId").val('');
 		$("#taskId").val('');
 		$("#jobType").data("ufaDropDownList").value(0);
+		$("#shopId").data("ufaDropDownList").value('');
 		jobTypeChange();
 		$("#triggerTime").data("ufaDateTimePicker").value(null);
 		$("#cronExpression").val('');

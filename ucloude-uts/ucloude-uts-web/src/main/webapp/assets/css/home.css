@@ -4,7 +4,17 @@ body {
     font-size:13px;
     font-family: Arial,"宋体";
 }
-
+body,html,.wrapper,#page-wrapper{
+width:100%
+}
+.loading{
+    width:100%;
+    position:absolute;
+    top: 0;
+    left: 0; 
+    z-index: 9999; 
+    background:rgba(255,255,255,.2) url(./images/loading-image.gif) no-repeat center center;
+}
 
 .icon {
    width: 1em; height: 1em;
@@ -410,5 +420,13 @@ body {
 }
 .editData li{
 	padding:8px 0
+}
+#editWindow{
+	overflow-x: hidden;
+}
+#editWindow #page-wrapper{
+	left:0;
+	top:0;
+	padding:0
 }
 

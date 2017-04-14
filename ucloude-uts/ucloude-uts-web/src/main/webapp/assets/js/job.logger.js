@@ -32,14 +32,9 @@ require(["jquery","common","ufa.datetimepicker", "ufa.dropdownlist", "ufa.grid",
 					url : 'api/node/node-group-all',
 					type : "POST",
 					dataType : "json"
-				}
-			},
-			requestEnd : function(e) {
-				// console.log(e);
-			}
+				}			}
 		}
 	});
-	$("#gdJobLogger").loading();
 	$("#gdJobLogger").ufaGrid({
 		columns : [{
 			field : "taskId",
@@ -192,8 +187,9 @@ require(["jquery","common","ufa.datetimepicker", "ufa.dropdownlist", "ufa.grid",
 			field : "msg",
 			width : 100,
 			title : "内容",
-			template: '<a style="color:grey;cursor:pointer" onclick="windowShow(this)">#=msg# </a>'
+			template: '<a style="color:grey;cursor:pointer" onclick="windowShow(this)">#=msg==null ?"" : msg # </a>'
 		}],
+		dataBinding: onDataBinding,
 		groupable : false,
 		sortable : true,
 		resizable : true,
@@ -233,19 +229,11 @@ require(["jquery","common","ufa.datetimepicker", "ufa.dropdownlist", "ufa.grid",
 				"data" : "data",
 				"total" : "total",
 				"errors" : "errors",
-			},
-			requestEnd : function(e) {
-				if(e.response.data.length == 0){
-					$("#gdJobLogger").complete().info('查询没有数据');;
-				}else{
-					$("#gdJobLogger").complete().noInfo();
-				}
 			}
 		}
 	});
 
 	$("#btnSearch").bind("click", function() {
-		$("#gdJobLogger").loading();
 		$("#gdJobLogger").data().ufaGrid.dataSource.read();
 	});
 
@@ -266,18 +254,22 @@ require(["jquery","common","ufa.datetimepicker", "ufa.dropdownlist", "ufa.grid",
 			params["taskId"] = taskID;
 		return params;
 	}
+	function onDataBinding(arg) {
+    	gridHeight();
+    	if(this.dataSource._data && this.dataSource._data.length>0){
+    		$("#gdJobLogger").complete().noInfo();
+    	}else{
+    		$("#gdJobLogger").complete().info('查询没有数据');
+    	}
+    }
 	//表格高度自适应
 	function gridHeight() {
 	    var H = $(window).height() - 310 + "px";
 	    $('.k-grid-content').css('height', H)
-
 	}
     $(window).resize(function () {
         gridHeight()
-
-    })
-    
-
+    })    
 });
 //弹窗生成
 function windowShow(_this) {
@@ -293,7 +285,5 @@ function windowShow(_this) {
 	if(text.trim()!="null"){
 		$(".details").html(text);
 		$("#winWrap").data('ufaWindow').center().open();
-	} 
-    
-    
+	}    
 }   

@@ -11,7 +11,7 @@ import cn.uway.ucloude.serialize.JsonFactory;
 import cn.uway.ucloude.utils.PlatformUtils;
 import cn.uway.ucloude.utils.StringUtil;
 import cn.uway.ucloude.uts.core.ExtConfigKeys;
-import cn.uway.ucloude.uts.minitor.MonitorAgentStartup;
+import cn.uway.ucloude.uts.monitor.MonitorAgentStartup;
 
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;

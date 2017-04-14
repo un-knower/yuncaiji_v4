@@ -16,7 +16,7 @@ import cn.uway.ucloude.uts.jobtracker.support.cluster.JobClientManager;
 import cn.uway.ucloude.uts.jobtracker.support.cluster.TaskTrackerManager;
 
 public class JobTrackerContext extends UtsContext {
-	
+	private String nodeName;//节点名称
 	   // dead job checker
     private ExecutingDeadJobChecker executingDeadJobChecker;
     private FeedbackJobSendChecker feedbackJobSendChecker;
@@ -219,5 +219,13 @@ public class JobTrackerContext extends UtsContext {
 
 	public void setRpcServer(RpcServerDelegate rpcServer) {
 		this.rpcServer = rpcServer;
+	}
+
+	public String getNodeName() {
+		return nodeName;
+	}
+
+	public void setNodeName(String nodeName) {
+		this.nodeName = nodeName;
 	}
 }

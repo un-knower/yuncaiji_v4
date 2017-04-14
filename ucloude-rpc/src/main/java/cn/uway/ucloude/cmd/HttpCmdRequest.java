@@ -46,7 +46,7 @@ public class HttpCmdRequest {
             }
             return value;
         }
-        return null;
+        return defaultValue;
     }
 
     public void addParam(String key, String value) {

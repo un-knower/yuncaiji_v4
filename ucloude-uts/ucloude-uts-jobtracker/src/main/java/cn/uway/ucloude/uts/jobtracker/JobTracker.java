@@ -8,6 +8,7 @@ import cn.uway.ucloude.uts.core.cluster.AbstractServerNode;
 import cn.uway.ucloude.uts.core.queue.JobQueueFactory;
 import cn.uway.ucloude.uts.jobtracker.channel.ChannelManager;
 import cn.uway.ucloude.uts.jobtracker.cmd.AddJobHttpCmd;
+import cn.uway.ucloude.uts.jobtracker.cmd.JobTrackerReadFileHttpCmd;
 import cn.uway.ucloude.uts.jobtracker.cmd.LoadJobHttpCmd;
 import cn.uway.ucloude.uts.jobtracker.cmd.TriggerJobManuallyHttpCmd;
 import cn.uway.ucloude.uts.jobtracker.domain.JobTrackerContext;
@@ -28,11 +29,13 @@ import cn.uway.ucloude.uts.jobtracker.support.listener.JobTrackerMasterChangeLis
 import cn.uway.ucloude.uts.jobtracker.support.policy.OldDataDeletePolicy;
 
 /**
- * Job Tracker 
+ * Job Tracker
+ * 
  * @author uway
  *
  */
 public class JobTracker extends AbstractServerNode<JobTrackerNode, JobTrackerContext> {
+	private String nodeName;//节点名称
 
 	public JobTracker() {
 		// 添加节点变化监听器
@@ -89,11 +92,11 @@ public class JobTracker extends AbstractServerNode<JobTrackerNode, JobTrackerCon
 		context.setSuspendJobQueue(factory.getSuspendJobQueue());
 		context.setJobFeedbackQueue(factory.getJobFeedbackQueue());
 		context.setNodeGroupStore(factory.getNodeGroupStore());
-		context.setPreLoader(factory.getPreLoader(context.getConfiguration().getParameter(ExtConfigKeys.JOB_TRACKER_PRELOADER_SIZE, 300),
+		context.setPreLoader(factory.getPreLoader(
+				context.getConfiguration().getParameter(ExtConfigKeys.JOB_TRACKER_PRELOADER_SIZE, 300),
 				context.getConfiguration().getParameter(ExtConfigKeys.JOB_TRACKER_PRELOADER_FACTOR, 0.2),
 				context.getConfiguration().getParameter(ExtConfigKeys.JOB_TRACKER_PRELOADER_SIGNAL_CHECK_INTERVAL, 100),
-				context.getConfiguration().getIdentity(),
-				context.getEventCenter()));
+				context.getConfiguration().getIdentity(), context.getEventCenter()));
 		context.setJobReceiver(new JobReceiver(context));
 		context.setJobSender(new JobSender(context));
 		context.setNonRelyOnPrevCycleJobScheduler(new NonRelyOnPrevCycleJobScheduler(context));
@@ -102,7 +105,8 @@ public class JobTracker extends AbstractServerNode<JobTrackerNode, JobTrackerCon
 		context.setFeedbackJobSendChecker(new FeedbackJobSendChecker(context));
 
 		context.getHttpCmdServer().registerCommands(new LoadJobHttpCmd(context), // 手动加载任务
-				new AddJobHttpCmd(context), new TriggerJobManuallyHttpCmd(context)); // 添加任务;
+				new AddJobHttpCmd(context), new TriggerJobManuallyHttpCmd(context), // 添加任务;
+				new JobTrackerReadFileHttpCmd(context)); // 读日志
 		if (context.getOldDataHandler() == null) {
 			setOldDataHandler(new OldDataDeletePolicy());
 		}
@@ -131,6 +135,14 @@ public class JobTracker extends AbstractServerNode<JobTrackerNode, JobTrackerCon
 
 	public void setOldDataHandler(OldDataHandler oldDataHandler) {
 		context.setOldDataHandler(oldDataHandler);
+	}
+
+	public String getNodeName() {
+		return nodeName;
+	}
+
+	public void setNodeName(String nodeName) {
+		this.nodeName = nodeName;
 	}
 
 }

@@ -13,6 +13,8 @@ import java.util.Map;
  */
 public class Pagination<T> {
 	private long total;
+	
+	private String errors;
 
 	private List<T> data;
 	
@@ -40,6 +42,14 @@ public class Pagination<T> {
 
 	public void setData(List<T> data) {
 		this.data = data;
+	}
+
+	public String getErrors() {
+		return errors;
+	}
+
+	public void setErrors(String errors) {
+		this.errors = errors;
 	}
 
 }

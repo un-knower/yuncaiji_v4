@@ -26,6 +26,7 @@ import cn.uway.ucloude.uts.core.protocol.command.CommandBodyWrapper;
 import cn.uway.ucloude.uts.core.protocol.command.JobCancelRequest;
 import cn.uway.ucloude.uts.core.protocol.command.JobSubmitRequest;
 import cn.uway.ucloude.uts.core.protocol.command.JobSubmitResponse;
+import cn.uway.ucloude.uts.jobclient.cmd.JobClientReadFileHttpCmd;
 import cn.uway.ucloude.uts.jobclient.domain.JobClientContext;
 import cn.uway.ucloude.uts.jobclient.domain.JobClientNode;
 import cn.uway.ucloude.uts.jobclient.domain.Response;
@@ -62,6 +63,7 @@ public class JobClient<T extends JobClientNode, Context extends UtsContext> exte
 		// TODO Auto-generated method stub
 	    context.setRpcClient(rpcClient);
         protector = new JobSubmitProtector(context);
+        context.getHttpCmdServer().registerCommands(new JobClientReadFileHttpCmd(context)); //读日志
 	}
 
 	@Override

@@ -9,6 +9,7 @@ import cn.uway.ucloude.uts.web.access.face.BackendJobClientMAccess;
 import cn.uway.ucloude.uts.web.access.face.BackendJobTrackerMAccess;
 import cn.uway.ucloude.uts.web.access.face.BackendNodeOnOfflineLogAccess;
 import cn.uway.ucloude.uts.web.access.face.BackendTaskTrackerMAccess;
+import cn.uway.ucloude.uts.web.access.face.ShopIdAccess;
 
 @SPI(key = "uts.web.access.db", dftValue = "db")
 public interface BackendAccessFactory {
@@ -25,4 +26,6 @@ public interface BackendAccessFactory {
     BackendNodeOnOfflineLogAccess getBackendNodeOnOfflineLogAccess();
 
     BackendTaskTrackerMAccess getBackendTaskTrackerMAccess();
+    
+    ShopIdAccess getShopIdAccess();
 }

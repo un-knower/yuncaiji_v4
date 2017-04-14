@@ -11,7 +11,7 @@ import org.springframework.context.annotation.Configuration;
 
 import cn.uway.ucloude.utils.CollectionUtil;
 import cn.uway.ucloude.utils.StringUtil;
-import cn.uway.ucloude.uts.minitor.MonitorAgent;
+import cn.uway.ucloude.uts.monitor.MonitorAgent;
 import cn.uway.ucloude.uts.spring.boot.annotation.EnableMonitor;
 import cn.uway.ucloude.uts.spring.boot.properties.MonitorProperties;
 

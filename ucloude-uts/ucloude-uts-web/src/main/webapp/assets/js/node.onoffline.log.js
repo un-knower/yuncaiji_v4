@@ -118,9 +118,9 @@ require(["jquery","common","ufa.dropdownlist", "ufa.datetimepicker", "ufa.grid",
 			attributes:{title:"#:threads#"},
 			title : "工作线程数"
 		}],
+		dataBinding: onDataBinding,
 		groupable : false,
 		sortable : false,
-		height : 500,
 		resizable : true,
 		pageable : {
 			refresh : true,
@@ -158,13 +158,6 @@ require(["jquery","common","ufa.dropdownlist", "ufa.datetimepicker", "ufa.grid",
 				"data" : "data",
 				"total" : "total",
 				"errors" : "errors",
-			},
-			requestEnd : function(e) {
-				if(e.response.data.length == 0){
-					$("#gdNodeLogger").complete().info('查询没有数据');;
-				}else{
-					$("#gdNodeLogger").complete();
-				}
 			}
 		}
 	});
@@ -177,4 +170,20 @@ require(["jquery","common","ufa.dropdownlist", "ufa.datetimepicker", "ufa.grid",
 	$('.header_tab a').each(function(){
 		$('.header_tab a').removeClass('tab_active').eq(2).addClass("tab_active").html("节点上下线日志")
 	});
+	function onDataBinding(arg) {
+    	gridHeight();
+    	if(this.dataSource._data && this.dataSource._data.length>0){
+    		$("#gdNodeLogger").complete().noInfo();
+    	}else{
+    		$("#gdNodeLogger").complete().info('查询没有数据');
+    	}
+    }
+	//表格高度自适应
+	function gridHeight() {
+	    var H = $(window).height() - 316 + "px";
+	    $('.k-grid-content').css('height', H)
+	}
+    $(window).resize(function () {
+        gridHeight()
+    })
 });

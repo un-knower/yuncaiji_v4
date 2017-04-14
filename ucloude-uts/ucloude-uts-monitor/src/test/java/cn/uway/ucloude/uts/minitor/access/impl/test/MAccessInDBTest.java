@@ -9,8 +9,8 @@ import org.junit.Test;
 
 import cn.uway.ucloude.uts.core.ExtConfigKeys;
 import cn.uway.ucloude.uts.core.cluster.NodeType;
-import cn.uway.ucloude.uts.minitor.access.db.*;
-import cn.uway.ucloude.uts.minitor.access.domain.*;
+import cn.uway.ucloude.uts.monitor.access.db.*;
+import cn.uway.ucloude.uts.monitor.access.domain.*;
 
 public class MAccessInDBTest {
 	@Test
