@@ -9,6 +9,16 @@
   <artifactId>ucloude-uts</artifactId>
   <packaging>pom</packaging>
   <groupId>cn.uway.ucloude.uts</groupId>
+  <repositories>
+    <repository>
+      <snapshots>
+        <enabled>false</enabled>
+      </snapshots>
+      <id>cloudera</id>
+      <name>cloudera</name>
+      <url>https://repository.cloudera.com/artifactory/cloudera-repos/</url>
+    </repository>
+  </repositories>
   <modules>
   	<module>ucloude-uts-core</module>
   	<module>ucloude-uts-jobtracker</module>

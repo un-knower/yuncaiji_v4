@@ -35,6 +35,8 @@ target/
 *.MF
 .classpath
 *.svn/
+*.jar
+*.war
 binary_dist/
 
 
