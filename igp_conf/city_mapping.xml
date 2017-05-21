@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<mapping>
+    <province province_en="JS" province_cn="江苏">
+      	<city city_id="25" city_en="NJ" city_cn="南京"/>
+		
+		<city city_id="510" city_en="WX" city_cn="无锡"/>
+		
+		<city city_id="511" city_en="ZJ" city_cn="镇江"/>
+		
+		<city city_id="512" city_en="SZ" city_cn="苏州"/>
+		
+		<city city_id="513" city_en="NT" city_cn="南通"/>
+		
+		<city city_id="514" city_en="YZ" city_cn="扬州"/>
+		
+		<city city_id="515" city_en="YC" city_cn="盐城"/>
+		
+		<city city_id="516" city_en="XZ" city_cn="徐州"/>
+		
+		<city city_id="517" city_en="HA" city_cn="淮安"/>
+		
+		<city city_id="518" city_en="LYG" city_cn="连云港"/>
+		
+		<city city_id="519" city_en="CZ" city_cn="常州"/>
+		
+		<city city_id="523" city_en="TZ" city_cn="泰州"/>
+		
+		<city city_id="527" city_en="SQ" city_cn="宿迁"/>
+    </province>
+</mapping>

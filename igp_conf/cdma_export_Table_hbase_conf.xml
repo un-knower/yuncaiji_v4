@@ -1,0 +1,338 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<root>
+	<!--
+	配置结构说明：
+	<table name="输出类型表（主表名称）" partitionNum="分区数量" compressionAlgorithm="压缩算法" keyBuilder="ROWKEY创建器">
+		<主表配置，必选>
+		<mainTale index="表索引号">
+			<primarykey可以有多个，生成ROWKEY时，按配置先后排列>
+			<primarykey name = "索引属性名，对应的解析内部名称，非原数据库字段名" 
+						type="属性类型，默认字符串" 
+						precision="精度, ss秒" 
+						splitTabKeyFlag="是否用于分表标识" 
+						splitTabKeyFormat="分表key的格式化串,yyyyMMdd按年月日分表" />
+			...
+			...
+		</mainTable>
+		
+		<索引表配置，每一个标签，代表一个索引表>
+		<indexTable index="表索引号" name="索引表的子名称" >
+			<primarykey可以有多个，生成ROWKEY时，按配置先后排列/>
+			<primarykey name = "索引属性名，对应的解析内部名称，非原数据库字段名" 
+						type="属性类型，默认字符串" 
+						precision="精度, ss秒" 
+						splitTabKeyFlag="是否用于分表标识" 
+						splitTabKeyFormat="分表key的格式化串,yyyyMMdd按年月日分表" />
+			...
+			...
+		</mainTable>
+		
+	</table>
+	-->
+	
+	<!-- 所有的数据列，暂时因为测试环境未安装SNAPPY压缩组件，暂时不选择压缩方式， 待环境好后，将compressionAlgorithm由"NONE"修改为"SNAPPY" -->
+	<table name="MOD_CDR_HW" partitionNum="6" compressionAlgorithm="NONE" keyBuilder="cn.uway.framework.warehouse.exporter.GeneralHBaseKeyBuilder">
+		<mainTable index="0" >
+			<primaryKey name ="ACCESS_TIME" type="DATE" precision="ss" splitTabKeyFlag="true" splitTabKeyFormat="yyyyMMdd" />
+		</mainTable>
+		
+		<indexTable index="1" name="IMSI">
+			<primaryKey name ="IMSI" />
+			<primaryKey name ="ACCESS_TIME" type="DATE" precision="ss" splitTabKeyFlag="true" splitTabKeyFormat="yyyyMMdd" />
+		</indexTable>
+		
+		<indexTable index="2" name="RELATED_CELL">
+			<primaryKey name ="RELATED_CELL" />
+			<primaryKey name ="ACCESS_TIME" type="DATE" precision="ss" splitTabKeyFlag="true" splitTabKeyFormat="yyyyMMdd" />
+		</indexTable>
+		
+		<indexTable index="3" name="RELEASE_CAUSE">
+			<primaryKey name ="RELEASE_CAUSE" />
+			<primaryKey name ="ACCESS_TIME" type="DATE" precision="ss" splitTabKeyFlag="true" splitTabKeyFormat="yyyyMMdd" />
+		</indexTable>
+		
+		<indexTable index="4" name="RELEASE_CELL">
+			<primaryKey name ="RELEASE_CELL1" />
+			<primaryKey name ="RELEASE_TIME" type="DATE" precision="ss" splitTabKeyFlag="true" splitTabKeyFormat="yyyyMMdd" />
+			<primaryKey name ="ACCESS_TIME" type="DATE" precision="ss" />
+		</indexTable>
+		
+		<indexTable index="5" name="DIALED_DIGITS">
+			<primaryKey name ="DIALED_DIGITS" />
+			<primaryKey name ="ACCESS_TIME" type="DATE" precision="ss" splitTabKeyFlag="true" splitTabKeyFormat="yyyyMMdd" />
+		</indexTable>
+		
+		<indexTable index="6" name="TER_ID">
+			<primaryKey name ="TER_ID" />
+			<primaryKey name ="ACCESS_TIME" type="DATE" precision="ss" splitTabKeyFlag="true" splitTabKeyFormat="yyyyMMdd" />
+		</indexTable>
+	</table>
+	
+	<table name="MOD_JS_CDR_HW" partitionNum="6" compressionAlgorithm="NONE" keyBuilder="cn.uway.framework.warehouse.exporter.GeneralHBaseKeyBuilder">
+		<mainTable index="0" >
+			<primaryKey name ="ACCESS_TIME" type="DATE" precision="ss" splitTabKeyFlag="true" splitTabKeyFormat="yyyyMMdd" />
+		</mainTable>
+		
+		<indexTable index="1" name="IMSI">
+			<primaryKey name ="IMSI" />
+			<primaryKey name ="ACCESS_TIME" type="DATE" precision="ss" splitTabKeyFlag="true" splitTabKeyFormat="yyyyMMdd" />
+		</indexTable>
+		
+		<indexTable index="2" name="RELATED_CELL">
+			<primaryKey name ="RELATED_CELL" />
+			<primaryKey name ="ACCESS_TIME" type="DATE" precision="ss" splitTabKeyFlag="true" splitTabKeyFormat="yyyyMMdd" />
+		</indexTable>
+		
+		<indexTable index="3" name="RELEASE_CAUSE">
+			<primaryKey name ="RELEASE_CAUSE" />
+			<primaryKey name ="ACCESS_TIME" type="DATE" precision="ss" splitTabKeyFlag="true" splitTabKeyFormat="yyyyMMdd" />
+		</indexTable>
+		
+		<indexTable index="4" name="RELEASE_CELL">
+			<primaryKey name ="RELEASE_CELL1" />
+			<primaryKey name ="RELEASE_TIME" type="DATE" precision="ss" splitTabKeyFlag="true" splitTabKeyFormat="yyyyMMdd" />
+			<primaryKey name ="ACCESS_TIME" type="DATE" precision="ss" />
+		</indexTable>
+		
+		<indexTable index="5" name="DIALED_DIGITS">
+			<primaryKey name ="DIALED_DIGITS" />
+			<primaryKey name ="ACCESS_TIME" type="DATE" precision="ss" splitTabKeyFlag="true" splitTabKeyFormat="yyyyMMdd" />
+		</indexTable>
+		
+		<indexTable index="6" name="TER_ID">
+			<primaryKey name ="TER_ID" />
+			<primaryKey name ="ACCESS_TIME" type="DATE" precision="ss" splitTabKeyFlag="true" splitTabKeyFormat="yyyyMMdd" />
+		</indexTable>
+	</table>
+	
+	<table name="MOD_DO_HW" partitionNum="6" compressionAlgorithm="NONE" keyBuilder="cn.uway.framework.warehouse.exporter.GeneralHBaseKeyBuilder">
+		<mainTable index="0" >
+			<primaryKey name ="ACCESS_TIME" type="DATE" precision="ss" splitTabKeyFlag="true" splitTabKeyFormat="yyyyMMdd" />
+		</mainTable>
+		
+		<indexTable index="1" name="IMSI">
+			<primaryKey name ="IMSI" />
+			<primaryKey name ="ACCESS_TIME" type="DATE" precision="ss" splitTabKeyFlag="true" splitTabKeyFormat="yyyyMMdd" />
+		</indexTable>
+		
+		<indexTable index="2" name="RELATED_CELL">
+			<primaryKey name ="RELATED_CELL" />
+			<primaryKey name ="ACCESS_TIME" type="DATE" precision="ss" splitTabKeyFlag="true" splitTabKeyFormat="yyyyMMdd" />
+		</indexTable>
+		
+		<indexTable index="3" name="RELEASE_CAUSE">
+			<primaryKey name ="RELEASE_CAUSE" />
+			<primaryKey name ="ACCESS_TIME" type="DATE" precision="ss" splitTabKeyFlag="true" splitTabKeyFormat="yyyyMMdd" />
+		</indexTable>
+		
+		<indexTable index="4" name="RELEASE_CELL">
+			<primaryKey name ="RELEASE_CELL1" />
+			<primaryKey name ="RELEASE_TIME" type="DATE" precision="ss" splitTabKeyFlag="true" splitTabKeyFormat="yyyyMMdd" />
+			<primaryKey name ="ACCESS_TIME" type="DATE" precision="ss" />
+		</indexTable>
+		
+		<!--
+		<indexTable index="5" name="DIALED_DIGITS">
+			<primaryKey name ="DIALED_DIGITS" />
+			<primaryKey name ="ACCESS_TIME" type="DATE" precision="ss" splitTabKeyFlag="true" splitTabKeyFormat="yyyyMMdd" />
+		</indexTable>
+		-->
+		
+		<indexTable index="6" name="TER_ID">
+			<primaryKey name ="TER_ID" />
+			<primaryKey name ="ACCESS_TIME" type="DATE" precision="ss" splitTabKeyFlag="true" splitTabKeyFormat="yyyyMMdd" />
+		</indexTable>
+	</table>
+	
+	<table name="MOD_JS_DO_HW" partitionNum="6" compressionAlgorithm="NONE" keyBuilder="cn.uway.framework.warehouse.exporter.GeneralHBaseKeyBuilder">
+		<mainTable index="0" >
+			<primaryKey name ="ACCESS_TIME" type="DATE" precision="ss" splitTabKeyFlag="true" splitTabKeyFormat="yyyyMMdd" />
+		</mainTable>
+		
+		<indexTable index="1" name="IMSI">
+			<primaryKey name ="IMSI" />
+			<primaryKey name ="ACCESS_TIME" type="DATE" precision="ss" splitTabKeyFlag="true" splitTabKeyFormat="yyyyMMdd" />
+		</indexTable>
+		
+		<indexTable index="2" name="RELATED_CELL">
+			<primaryKey name ="RELATED_CELL" />
+			<primaryKey name ="ACCESS_TIME" type="DATE" precision="ss" splitTabKeyFlag="true" splitTabKeyFormat="yyyyMMdd" />
+		</indexTable>
+		
+		<indexTable index="3" name="RELEASE_CAUSE">
+			<primaryKey name ="RELEASE_CAUSE" />
+			<primaryKey name ="ACCESS_TIME" type="DATE" precision="ss" splitTabKeyFlag="true" splitTabKeyFormat="yyyyMMdd" />
+		</indexTable>
+		
+		<indexTable index="4" name="RELEASE_CELL">
+			<primaryKey name ="RELEASE_CELL1" />
+			<primaryKey name ="RELEASE_TIME" type="DATE" precision="ss" splitTabKeyFlag="true" splitTabKeyFormat="yyyyMMdd" />
+			<primaryKey name ="ACCESS_TIME" type="DATE" precision="ss" />
+		</indexTable>
+		
+		<!--
+		<indexTable index="5" name="DIALED_DIGITS">
+			<primaryKey name ="DIALED_DIGITS" />
+			<primaryKey name ="ACCESS_TIME" type="DATE" precision="ss" splitTabKeyFlag="true" splitTabKeyFormat="yyyyMMdd" />
+		</indexTable>
+		-->
+		
+		<indexTable index="6" name="TER_ID">
+			<primaryKey name ="TER_ID" />
+			<primaryKey name ="ACCESS_TIME" type="DATE" precision="ss" splitTabKeyFlag="true" splitTabKeyFormat="yyyyMMdd" />
+		</indexTable>
+	</table>
+	
+	
+	<table name="MOD_CDT_ZTE" partitionNum="6" compressionAlgorithm="NONE" keyBuilder="cn.uway.framework.warehouse.exporter.GeneralHBaseKeyBuilder">
+		<mainTable index="0" >
+			<primaryKey name ="CALL_START_TIME" type="DATE" precision="ss" splitTabKeyFlag="true" splitTabKeyFormat="yyyyMMdd" />
+		</mainTable>
+		
+		<indexTable index="1" name="IMSI">
+			<primaryKey name ="IMSI" />
+			<primaryKey name ="CALL_START_TIME" type="DATE" precision="ss" splitTabKeyFlag="true" splitTabKeyFormat="yyyyMMdd" />
+		</indexTable>
+		
+		<indexTable index="2" name="RELATED_CELL">
+			<primaryKey name ="RELATED_CELL" />
+			<primaryKey name ="CALL_START_TIME" type="DATE" precision="ss" splitTabKeyFlag="true" splitTabKeyFormat="yyyyMMdd" />
+		</indexTable>
+		
+		<indexTable index="3" name="RELEASE_CAUSE">
+			<primaryKey name ="CALLCAUSE" />
+			<primaryKey name ="CALL_START_TIME" type="DATE" precision="ss" splitTabKeyFlag="true" splitTabKeyFormat="yyyyMMdd" />
+		</indexTable>
+		
+		<indexTable index="4" name="RELEASE_CELL">
+			<primaryKey name ="RELEASE_CELL1" />
+			<primaryKey name ="RELEASE_TIME" type="DATE" precision="ss" splitTabKeyFlag="true" splitTabKeyFormat="yyyyMMdd" />
+			<primaryKey name ="CALL_START_TIME" type="DATE" precision="ss" />
+		</indexTable>
+		
+		<indexTable index="5" name="DIALED_DIGITS">
+			<primaryKey name ="PHONENUMBER" />
+			<primaryKey name ="CALL_START_TIME" type="DATE" precision="ss" splitTabKeyFlag="true" splitTabKeyFormat="yyyyMMdd" />
+		</indexTable>
+		
+		<indexTable index="6" name="TER_ID">
+			<primaryKey name ="TER_ID" />
+			<primaryKey name ="CALL_START_TIME" type="DATE" precision="ss" splitTabKeyFlag="true" splitTabKeyFormat="yyyyMMdd" />
+		</indexTable>
+	</table>
+	
+	<table name="MOD_JS_CDT_ZTE" partitionNum="6" compressionAlgorithm="NONE" keyBuilder="cn.uway.framework.warehouse.exporter.GeneralHBaseKeyBuilder">
+		<mainTable index="0" >
+			<primaryKey name ="CALL_START_TIME" type="DATE" precision="ss" splitTabKeyFlag="true" splitTabKeyFormat="yyyyMMdd" />
+		</mainTable>
+		
+		<indexTable index="1" name="IMSI">
+			<primaryKey name ="IMSI" />
+			<primaryKey name ="CALL_START_TIME" type="DATE" precision="ss" splitTabKeyFlag="true" splitTabKeyFormat="yyyyMMdd" />
+		</indexTable>
+		
+		<indexTable index="2" name="RELATED_CELL">
+			<primaryKey name ="RELATED_CELL" />
+			<primaryKey name ="CALL_START_TIME" type="DATE" precision="ss" splitTabKeyFlag="true" splitTabKeyFormat="yyyyMMdd" />
+		</indexTable>
+		
+		<indexTable index="3" name="RELEASE_CAUSE">
+			<primaryKey name ="CALLCAUSE" />
+			<primaryKey name ="CALL_START_TIME" type="DATE" precision="ss" splitTabKeyFlag="true" splitTabKeyFormat="yyyyMMdd" />
+		</indexTable>
+		
+		<indexTable index="4" name="RELEASE_CELL">
+			<primaryKey name ="RELEASE_CELL1" />
+			<primaryKey name ="RELEASE_TIME" type="DATE" precision="ss" splitTabKeyFlag="true" splitTabKeyFormat="yyyyMMdd" />
+			<primaryKey name ="CALL_START_TIME" type="DATE" precision="ss" />
+		</indexTable>
+		
+		<indexTable index="5" name="DIALED_DIGITS">
+			<primaryKey name ="PHONENUMBER" />
+			<primaryKey name ="CALL_START_TIME" type="DATE" precision="ss" splitTabKeyFlag="true" splitTabKeyFormat="yyyyMMdd" />
+		</indexTable>
+		
+		<indexTable index="6" name="TER_ID">
+			<primaryKey name ="TER_ID" />
+			<primaryKey name ="CALL_START_TIME" type="DATE" precision="ss" splitTabKeyFlag="true" splitTabKeyFormat="yyyyMMdd" />
+		</indexTable>
+	</table>
+	
+	<table name="MOD_DO_ZTE" partitionNum="6" compressionAlgorithm="NONE" keyBuilder="cn.uway.framework.warehouse.exporter.GeneralHBaseKeyBuilder">
+		<mainTable index="0" >
+			<primaryKey name ="CALLSTARTTIME" type="DATE" precision="ss" splitTabKeyFlag="true" splitTabKeyFormat="yyyyMMdd" />
+		</mainTable>
+		
+		<indexTable index="1" name="IMSI">
+			<primaryKey name ="MNID" />
+			<primaryKey name ="CALLSTARTTIME" type="DATE" precision="ss" splitTabKeyFlag="true" splitTabKeyFormat="yyyyMMdd" />
+		</indexTable>
+		
+		<indexTable index="2" name="RELATED_CELL">
+			<primaryKey name ="RELATED_CELL" />
+			<primaryKey name ="CALLSTARTTIME" type="DATE" precision="ss" splitTabKeyFlag="true" splitTabKeyFormat="yyyyMMdd" />
+		</indexTable>
+		
+		<indexTable index="3" name="RELEASE_CAUSE">
+			<primaryKey name ="UWAY_RELEASE_CAUSE" />
+			<primaryKey name ="CALLSTARTTIME" type="DATE" precision="ss" splitTabKeyFlag="true" splitTabKeyFormat="yyyyMMdd" />
+		</indexTable>
+		
+		<indexTable index="4" name="RELEASE_CELL">
+			<primaryKey name ="UWAY_RELEASE_CELL" />
+			<primaryKey name ="UWAY_RELEASE_TIME" type="DATE" precision="ss" splitTabKeyFlag="true" splitTabKeyFormat="yyyyMMdd" />
+			<primaryKey name ="CALLSTARTTIME" type="DATE" precision="ss" />
+		</indexTable>
+		
+		<!--
+		<indexTable index="5" name="DIALED_DIGITS">
+			<primaryKey name ="PHONENUMBER" />
+			<primaryKey name ="CALLSTARTTIME" type="DATE" precision="ss" splitTabKeyFlag="true" splitTabKeyFormat="yyyyMMdd" />
+		</indexTable>
+		-->
+		
+		<indexTable index="6" name="TER_ID">
+			<primaryKey name ="TER_ID" />
+			<primaryKey name ="CALLSTARTTIME" type="DATE" precision="ss" splitTabKeyFlag="true" splitTabKeyFormat="yyyyMMdd" />
+		</indexTable>
+	</table>
+	
+	<table name="MOD_JS_DO_ZTE" partitionNum="6" compressionAlgorithm="NONE" keyBuilder="cn.uway.framework.warehouse.exporter.GeneralHBaseKeyBuilder">
+		<mainTable index="0" >
+			<primaryKey name ="CALLSTARTTIME" type="DATE" precision="ss" splitTabKeyFlag="true" splitTabKeyFormat="yyyyMMdd" />
+		</mainTable>
+		
+		<indexTable index="1" name="IMSI">
+			<primaryKey name ="MNID" />
+			<primaryKey name ="CALLSTARTTIME" type="DATE" precision="ss" splitTabKeyFlag="true" splitTabKeyFormat="yyyyMMdd" />
+		</indexTable>
+		
+		<indexTable index="2" name="RELATED_CELL">
+			<primaryKey name ="RELATED_CELL" />
+			<primaryKey name ="CALLSTARTTIME" type="DATE" precision="ss" splitTabKeyFlag="true" splitTabKeyFormat="yyyyMMdd" />
+		</indexTable>
+		
+		<indexTable index="3" name="RELEASE_CAUSE">
+			<primaryKey name ="UWAY_RELEASE_CAUSE" />
+			<primaryKey name ="CALLSTARTTIME" type="DATE" precision="ss" splitTabKeyFlag="true" splitTabKeyFormat="yyyyMMdd" />
+		</indexTable>
+		
+		<indexTable index="4" name="RELEASE_CELL">
+			<primaryKey name ="UWAY_RELEASE_CELL" />
+			<primaryKey name ="UWAY_RELEASE_TIME" type="DATE" precision="ss" splitTabKeyFlag="true" splitTabKeyFormat="yyyyMMdd" />
+			<primaryKey name ="CALLSTARTTIME" type="DATE" precision="ss" />
+		</indexTable>
+		
+		<!--
+		<indexTable index="5" name="DIALED_DIGITS">
+			<primaryKey name ="PHONENUMBER" />
+			<primaryKey name ="CALLSTARTTIME" type="DATE" precision="ss" splitTabKeyFlag="true" splitTabKeyFormat="yyyyMMdd" />
+		</indexTable>
+		-->
+		
+		<indexTable index="6" name="TER_ID">
+			<primaryKey name ="TER_ID" />
+			<primaryKey name ="CALLSTARTTIME" type="DATE" precision="ss" splitTabKeyFlag="true" splitTabKeyFormat="yyyyMMdd" />
+		</indexTable>
+	</table>
+</root>

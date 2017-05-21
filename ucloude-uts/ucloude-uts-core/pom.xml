@@ -60,6 +60,19 @@
 			<version>${leveldbjni.version}</version>
 			<scope>provided</scope>
 		</dependency>
+
+		<dependency>
+			<groupId>org.fusesource.leveldbjni</groupId>
+			<artifactId>leveldbjni-win64</artifactId>
+			<version>1.8</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.fusesource.leveldbjni</groupId>
+			<artifactId>leveldbjni</artifactId>
+			<version>1.8</version>
+		</dependency>
+
 		<dependency>
 			<groupId>org.apache.zookeeper</groupId>
 			<artifactId>zookeeper</artifactId>

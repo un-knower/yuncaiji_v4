@@ -1,0 +1,566 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+	<!-- type: 1.db 2.local file 3.remote file (ftp) -->
+	<!-- summary export -->
+	<export id="1" on="true">
+		<path value="../basesummary_data/%%VENDOR_groupid=%%GROUPID/%%TASKID/" />
+		<filename
+			value="BaseSummary_%%TASKID_%%OMC__%%Y%%M%%D%%H%%m%%S_%%EXPORTID-%%NUM.dat" />
+		<zip value="false" />
+		<header value="true" /> <!-- 是否输出表头，默认是不输出。 -->
+	</export>
+	<export id="2" on="true">
+		<path value="../basesummary_data/zte/1x/0%%CITYBSCNUM/going/" />
+		<filename
+			value="BaseSummary_ZTE_1X__%%CITYBSCNUM__%%Y%%M%%D%%H%%m%%S__3.dat.csv" />
+		<zip value="false" />
+		<header value="false" /> <!-- 是否输出表头，默认是不输出。 -->
+	</export>
+
+	<export id="3" on="true">
+		<path value="../basesummary_data/zte/do/0%%CITYBSCNUM/going/" />
+		<filename
+			value="BaseSummary_ZTE_DO__%%CITYBSCNUM__%%Y%%M%%D%%H%%m%%S__4.dat.csv" />
+		<zip value="false" />
+	</export>
+
+	<export id="4" on="true">
+		<path value="../basesummary_data/hw/1x/0%%CITYBSCNUM/going/" />
+		<filename
+			value="BaseSummary_HW_1X__%%CITYBSCNUM__%%Y%%M%%D%%H%%m%%S__0.dat.csv" />
+		<zip value="false" />
+		<header value="false" /> <!-- 是否输出表头，默认是不输出。 -->
+	</export>
+
+	<export id="5" on="true">
+		<path value="../basesummary_data/hw/do/0%%CITYBSCNUM/going/" />
+		<filename
+			value="BaseSummary_HW_DO__%%CITYBSCNUM__%%Y%%M%%D%%H%%m%%S__1.dat.csv" />
+		<zip value="false" />
+	</export>
+
+	<export id="7" on="true">
+		<path value="../basesummary_data/hw/psmm/0%%CITYBSCNUM/going/" />
+		<filename
+			value="BaseSummary_HW_PSMM__%%CITYBSCNUM__%%Y%%M%%D%%H%%m00__7.dat.csv" />
+		<zip value="false" />
+	</export>
+
+	<export id="8" on="true">
+		<path value="../basesummary_data/hw/ru/0%%CITYBSCNUM/going/" />
+		<filename
+			value="BaseSummary_HW_RU__%%CITYBSCNUM__%%Y%%M%%D%%H%%m00__8.dat.csv" />
+		<zip value="false" />
+	</export>
+
+	<export id="9" on="true">
+		<path value="../basesummary_data/hw/pchr/0%%CITYBSCNUM/going/" />
+		<filename
+			value="BaseSummary_HW_PCHR__%%CITYBSCNUM__%%Y%%M%%D%%H%%m00__50.dat.csv" />
+		<zip value="false" />
+	</export>
+
+	<export id="10" on="true">
+		<path value="../basesummary_data/luc/1x/0%%CITYBSCNUM/going/" />
+		<filename
+			value="BaseSummary_LUC_1X__%%CITYBSCNUM__%%Y%%M%%D%%H%%m00__5.dat.csv" />
+		<zip value="false" />
+	</export>
+
+	<export id="11" on="true">
+		<path value="../basesummary_data/luc/do/0%%CITYBSCNUM/going/" />
+		<filename
+			value="BaseSummary_LUC_DO__%%CITYBSCNUM__%%Y%%M%%D%%H%%m00__6.dat.csv" />
+		<zip value="false" />
+	</export>
+	<!--GP 原始数据文件输出配置 -->
+	<export id="12" on="true">
+		<path value="../cdr_greenplum/hw/1x/" />
+		<filename value="cdr_greenplum__%%CITYBSCNUM__%%Y%%M%%D%%H%%m00.dat.csv" />
+		<zip value="false" />
+	</export>
+	<!--GP 原始数据文件输出配置 -->
+	<export id="13" on="true">
+		<path value="../cdr_greenplum/hw/do/" />
+		<filename value="cdr_greenplum__%%CITYBSCNUM__%%Y%%M%%D%%H%%m00.dat.csv" />
+		<zip value="false" />
+	</export>
+	<!--GP 原始数据文件输出配置 -->
+	<export id="14" on="true">
+		<path value="../cdr_greenplum/zte/1x/" />
+		<filename value="cdr_greenplum__%%CITYBSCNUM__%%Y%%M%%D%%H%%m00.dat.csv" />
+		<zip value="false" />
+	</export>
+	<!--GP 原始数据文件输出配置 -->
+	<export id="15" on="true">
+		<path value="../cdr_greenplum/zte/do/" />
+		<filename value="cdr_greenplum__%%CITYBSCNUM__%%Y%%M%%D%%H%%m00.dat.csv" />
+		<zip value="false" />
+	</export>
+	<!--GP 原始数据文件输出配置 -->
+	<export id="16" on="true">
+		<path value="../cdr_greenplum/luc/1x/" />
+		<filename value="cdr_greenplum__%%CITYBSCNUM__%%Y%%M%%D%%H%%m00.dat.csv" />
+		<zip value="false" />
+	</export>
+	<!--GP 原始数据文件输出配置 -->
+	<export id="17" on="true">
+		<path value="../cdr_greenplum/luc/do/" />
+		<filename value="cdr_greenplum__%%CITYBSCNUM__%%Y%%M%%D%%H%%m00.dat.csv" />
+		<zip value="false" />
+	</export>
+
+
+
+	<!-- add on 20140617 西安个性化话单需求 -->
+	<export id="21" on="true">
+		<path value="../basesummary_data/hw/1x/xian/0%%CITYBSCNUM/going/" />
+		<filename value="HW_XA_1X_%%BSC_%%Y%%M%%D.%%H%%m.csv" />
+		<zip value="false" />
+		<header value="true" /> <!-- 是否输出表头，默认是不输出。 -->
+	</export>
+
+	<export id="22" on="true">
+		<path value="../basesummary_data/hw/do/xian/0%%CITYBSCNUM/going/" />
+		<filename value="HW_XA_DO_%%BSC_%%Y%%M%%D.%%H%%m.csv" />
+		<zip value="false" />
+		<header value="true" /> <!-- 是否输出表头，默认是不输出。 -->
+	</export>
+
+	<!-- end -->
+
+
+
+	<export id="100" on="true">
+		<path value="../ftp/innerdata/cfc/hw" />
+		<filename value="hw%%Y%%M%%D.csv" />
+		<zip value="true" />
+	</export>
+
+	<export id="101" on="true">
+		<path value="../ftp/innerdata/cfc/zte1x" />
+		<filename value="zte1x%%Y%%M%%D.csv" />
+		<zip value="true" />
+	</export>
+
+	<export id="102" on="true">
+		<path value="../ftp/innerdata/cfc/ztedo" />
+		<filename value="ztedo%%Y%%M%%D.csv" />
+		<zip value="true" />
+	</export>
+
+	<export id="103" on="true">
+		<path value="../ftp/innerdata/ne/" />
+		<filename value="ne%%Y%%M%%D.csv" />
+		<zip value="true" />
+	</export>
+
+	<export id="104" on="true">
+		<path value="../ftp/innerdata/city/" />
+		<filename value="city%%Y%%M%%D.csv" />
+		<zip value="true" />
+	</export>
+
+	<export id="105" on="true">
+		<path value="../ftp/innerdata/nbr" />
+		<filename value="nei%%CITY_ID%%Y%%M%%D.csv" />
+		<zip value="true" />
+	</export>
+
+	<export id="106" on="true">
+		<path value="../ftp/innerdata/pnnbr" />
+		<filename value="layernei%%CITY_ID%%Y%%M%%D.csv" />
+		<zip value="true" />
+	</export>
+
+	<export id="107" on="true">
+		<path value="../ftp/innerdata/vipUser" />
+		<filename value="vipUserInfo%%Y%%M%%D.csv" />
+		<zip value="true" />
+	</export>
+
+	<export id="108" on="true">
+		<path value="../ftp/innerdata/terminfo" />
+		<filename value="terminfo%%Y%%M%%D.csv" />
+		<zip value="true" />
+	</export>
+
+	<export id="110" on="true">
+		<path value="../ftp/innerdata/belongtype/" />
+		<filename value="belongtype%%Y%%M%%D.csv" />
+		<zip value="true" />
+	</export>
+
+	<export id="111" on="true">
+		<path value="../ftp/innerdata/necellg/" />
+		<filename value="necellg%%Y%%M%%D.csv" />
+		<zip value="true" />
+	</export>
+
+	<export id="112" on="true">
+		<path value="../ftp/innerdata/necellw/" />
+		<filename value="necellw%%Y%%M%%D.csv" />
+		<zip value="true" />
+	</export>
+
+	<export id="113" on="true">
+		<path value="../ftp/innerdata/sp/" />
+		<filename value="sp%%Y%%M%%D.csv" />
+		<zip value="true" />
+	</export>
+
+	<export id="114" on="true">
+		<path value="../ftp/innerdata/uetype/" />
+		<filename value="uetype%%Y%%M%%D.csv" />
+		<zip value="true" />
+	</export>
+
+	<export id="115" on="true">
+		<path value="../ftp/innerdata/mscid/" />
+		<filename value="mscid%%Y%%M%%D.csv" />
+		<zip value="true" />
+	</export>
+
+	<export id="116" on="true">
+		<path value="../ftp/innerdata/lucterid/" />
+		<filename value="lucterid%%Y%%M%%D.csv" />
+		<zip value="true" />
+	</export>
+
+	<export id="117" on="true">
+		<path value="../ftp/innerdata/reseauCfg/" />
+		<filename value="reseau%%Y%%M%%D.csv" />
+		<zip value="true" />
+	</export>
+
+	<!-- 联通新版本外部数据输出配置 -->
+	<export id="200" on="true">
+		<path value="../infobright_1x/" />
+		<filename value="infobright_hw_1x__%%CITYBSCNUM__%%Y%%M%%D%%H%%m%%S__0.csv" />
+		<zip value="false" />
+		<header value="false" /> <!-- 是否输出表头，默认是不输出。 -->
+	</export>
+
+	<export id="201" on="true">
+		<path value="../infobright_do/" />
+		<filename value="infobright_hw_do__%%CITYBSCNUM__%%Y%%M%%D%%H%%m%%S__1.csv" />
+		<zip value="false" />
+		<header value="false" /> <!-- 是否输出表头，默认是不输出。 -->
+	</export>
+
+	<export id="301" on="true">
+		<path value="../infobright/" />
+		<filename value="NE_CELL_C.csv" />
+		<zip value="false" />
+		<header value="false" /> <!-- 是否输出表头，默认是不输出。 -->
+	</export>
+	<export id="302" on="true">
+		<path value="../infobright/" />
+		<filename value="CLT_DS_PERF_CELL_H.csv" />
+		<zip value="false" />
+		<header value="false" /> <!-- 是否输出表头，默认是不输出。 -->
+	</export>
+
+	<!-- 400~500是WCDMA输出模版配置 -->
+	<!-- GPEH 原始数据输出配置 start -->
+	<export id="401" on="true">
+		<path value="../basesummary_data/eric/iu/%%CITYBSCNUM/going/" />
+		<filename
+			value="BaseSummary_ERIC_IU__%%CITYBSCNUM__%%Y%%M%%D%%H%%m%%S__61.dat.yyzc" />
+		<zip value="false" />
+		<header value="true" />
+	</export>
+	<export id="402" on="true">
+		<path value="../basesummary_data/eric/lub/%%CITYBSCNUM/going/" />
+		<filename
+			value="BaseSummary_ERIC_LUB__%%CITYBSCNUM__%%Y%%M%%D%%H%%m%%S__62.dat.yyzc" />
+		<zip value="false" />
+		<header value="true" />
+	</export>
+	<export id="403" on="true">
+		<path value="../basesummary_data/eric/mr/%%CITYBSCNUM/going/" />
+		<filename
+			value="BaseSummary_ERIC_MR__%%CITYBSCNUM__%%Y%%M%%D%%H%%m%%S__30.dat.yyzc" />
+		<zip value="false" />
+		<header value="true" />
+	</export>
+	<export id="404" on="true">
+		<path value="../basesummary_data/eric/cdr/%%CITYBSCNUM/going/" />
+		<filename
+			value="BaseSummary_ERIC_CDR__%%CITYBSCNUM__%%Y%%M%%D%%H%%m%%S__60.dat.yyzc" />
+		<zip value="false" />
+		<header value="true" />
+	</export>
+	<export id="416" on="true">
+		<path value="../basesummary_data/eric/cellLog/%%CITYBSCNUM/going/" />
+		<filename
+			value="BaseSummary_ERIC_CELLLOG__%%CITYBSCNUM__%%Y%%M%%D%%H%%m%%S__00.dat.yyzc" />
+		<zip value="false" />
+		<header value="true" />
+	</export>
+	<export id="417" on="true">
+		<path value="../basesummary_data/eric/sig/%%CITYBSCNUM/going/" />
+		<filename
+			value="BaseSummary_ERIC_SIG__%%CITYBSCNUM__%%Y%%M%%D%%H%%m%%S__00.dat.yyzc" />
+		<zip value="false" />
+		<header value="true" />
+	</export>
+
+	<!-- GPEH 原始数据输出配置 end -->
+
+
+	<!-- NOKIA WCAS 原始数据输出配置 start -->
+	<export id="425" on="true">
+		<path value="../basesummary_data/nsn/lub/%%CITYBSCNUM/going/" />
+		<filename
+			value="BaseSummary_nsn_LUB__%%CITYBSCNUM__%%Y%%M%%D%%H%%m%%S__62.dat.yyzc" />
+		<zip value="false" />
+		<header value="true" />
+	</export>
+
+	<export id="426" on="true">
+		<path value="../basesummary_data/nsn/cdr/%%CITYBSCNUM/going/" />
+		<filename
+			value="BaseSummary_nsn_CDR__%%CITYBSCNUM__%%Y%%M%%D%%H%%m%%S__60.dat.yyzc" />
+		<zip value="false" />
+		<header value="true" />
+	</export>
+	<!-- NOKIA WCAS 原始数据输出配置 end -->
+
+	<!-- MR 原始数据输出配置 start -->
+	<export id="405" on="true">
+		<path value="../ftp/innerdata/mr/necellg/" />
+		<filename value="necellg%%Y%%M%%D.csv" />
+		<zip value="true" />
+	</export>
+	<export id="406" on="true">
+		<path value="../ftp/innerdata/mr/neicellg/" />
+		<filename value="neicellg%%Y%%M%%D.csv" />
+		<zip value="true" />
+	</export>
+	<export id="407" on="true">
+		<path value="../ftp/innerdata/mr/paraZTEV3Trx/" />
+		<filename value="paraZtev3Trx%%Y%%M%%D.csv" />
+		<zip value="true" />
+	</export>
+	<export id="408" on="true">
+		<path value="../ftp/innerdata/mr/cltHWv9r11Trx/" />
+		<filename value="cltHWv9r11Trx%%Y%%M%%D.csv" />
+		<zip value="true" />
+	</export>
+	<export id="410" on="true">
+		<path value="../basesummary_data/hw/mr_2g/0%%CITYBSCNUM/going/" />
+		<filename
+			value="BaseSummary_GSM_MR__%%CITYBSCNUM__%%Y%%M%%D%%H%%m00__40.dat.csv" />
+		<zip value="false" />
+	</export>
+	<export id="411" on="true">
+		<path value="../ftp/innerdata/mr/necellw/" />
+		<filename value="necellw%%Y%%M%%D.csv" />
+		<zip value="true" />
+	</export>
+	<export id="412" on="true">
+		<path value="../ftp/innerdata/mr/neicellw/" />
+		<filename value="neicellw%%Y%%M%%D.csv" />
+		<zip value="true" />
+	</export>
+	<export id="413" on="true">
+		<path value="../basesummary_data/hw/mr/0%%CITYBSCNUM/going/" />
+		<filename
+			value="BaseSummary_WCDMA_MR__%%CITYBSCNUM__%%Y%%M%%D%%H%%m%%S__30.dat.csv" />
+		<zip value="false" />
+	</export>
+	<export id="409" on="true">
+		<path value="../raw_data/%%CITY_ID/%%VENDOR/%%BSC/mr/" />
+		<filename value="WCDMA_MR__%%CITYBSCNUM__%%Y%%M%%D%%H%%m%%S__30.dat.csv" />
+		<zip value="false" />
+	</export>
+
+	<!-- 诺西WCAS+诺西MR输出到诺西目录目录 -->
+	<!-- <export id="413" on="true"> <path value="../basesummary_data/nsn/mr/0%%CITYBSCNUM/going/" 
+		/> <filename value="BaseSummary_WCDMA_MR__%%CITYBSCNUM__%%Y%%M%%D%%H%%m%%S__30.dat.yyzc" 
+		/> <zip value="false" /> <header value="true" /> </export> -->
+	<!-- MR 原始数据输出配置 end -->
+
+	<!-- GPEH 网元数据输出配置 start -->
+	<export id="414" on="true">
+		<path value="../ftp/innerdata/ne/cellw/" />
+		<filename value="necellw%%Y%%M%%D.csv" />
+		<zip value="true" />
+	</export>
+	<export id="415" on="true">
+		<path value="../ftp/innerdata/nei/cellw/" />
+		<filename value="neicellw%%Y%%M%%D.csv" />
+		<zip value="true" />
+	</export>
+	<!-- GPEH 网元数据输出配置 end -->
+	<!-- usualUser 数据输出配置 Start -->
+	<export id="418" on="true">
+		<path value="../basesummary_data/eric/usualUser/0%%CITYBSCNUM/going/" />
+		<filename
+			value="BaseSummary_WCDMA_UsualUser__%%CITYBSCNUM__%%Y%%M%%D%%H%%m%%S__00.dat.yyzc" />
+		<zip value="false" />
+	</export>
+	<!-- usualUser 数据输出配置 end -->
+	<export id="420" on="true">
+		<path value="../ftp/innerdata/ne/lteCell/" />
+		<filename value="ltecell%%Y%%M%%D.csv" />
+		<zip value="true" />
+	</export>
+	<!-- 江西个性化上报 数据输出配置 -->
+	<export id="421" on="true">
+		<path value="../cdrData/hw/1x/" />
+		<filename value="HW_%%ENNAME_%%BSC_1X_PART_%%Y%%M%%D.%%H%%m00.csv.gz" />
+		<zip value="true" compressFormat="gz" />
+		<header value="true" />
+	</export>
+	<export id="422" on="true">
+		<path value="../cdrData/hw/do/" />
+		<filename value="HW_%%ENNAME_%%BSC_DO_PART_%%Y%%M%%D.%%H%%m00.csv.gz" />
+		<zip value="true" compressFormat="gz" />
+		<header value="true" />
+	</export>
+	<export id="423" on="true">
+		<path value="../cdrData/zte/1x/" />
+		<filename value="ZTE_%%ENNAME_%%BSC_1X_PART_%%Y%%M%%D.%%H%%m00.csv.gz" />
+		<zip value="true" compressFormat="gz" />
+		<header value="true" />
+	</export>
+	<export id="424" on="true">
+		<path value="../cdrData/zte/do/" />
+		<filename value="ZTE_%%ENNAME_%%BSC_DO_PART_%%Y%%M%%D.%%H%%m00.csv.gz" />
+		<zip value="true" compressFormat="gz" />
+		<header value="true" />
+	</export>
+	<!-- end -->
+
+	<!-- 电信大数据采集前置 wcdr 中兴华为输出目录配置 -->
+
+	<export id="525" on="true">
+		<path value="../wcdr/hw/1x/%%CITY_ID_WCDR/" />
+		<split value="|" />
+		<filename value="1X_%%ENNAMEBSC%%BSC_%%Y%%M%%D%%H%%m%%S.data" />
+		<zip value="true" compressFormat="tar.gz" />
+		<header value="false" />
+	</export>
+	<export id="526" on="true">
+		<path value="../wcdr/hw/do/%%CITY_ID_WCDR/" />
+		<split value="|" />
+		<filename value="DO_%%ENNAMEBSC%%BSC_%%Y%%M%%D%%H%%m%%S.data" />
+		<zip value="true" compressFormat="tar.gz" />
+		<header value="false" />
+	</export>
+	<export id="527" on="true">
+		<path value="../wcdr/zte/1x/%%CITY_ID_WCDR/" />
+		<split value="|" />
+		<filename value="1x_%%ENNAMEBSC%%BSC_%%Y%%M%%D%%H%%m%%S.data" />
+		<zip value="true" compressFormat="tar.gz" />
+		<header value="false" />
+
+	</export>
+	<export id="528" on="true">
+		<path value="../wcdr/zte/do/%%CITY_ID_WCDR/" />
+		<split value="|" />
+		<filename value="DO_%%ENNAMEBSC%%BSC_%%Y%%M%%D%%H%%m%%S.data" />
+		<zip value="true" compressFormat="tar.gz" />
+		<header value="false" />
+	</export>
+
+	<!-- end -->
+
+	<!-- LTE hw cdr -->
+	<export id="430" on="true">
+		<path value="../basesummary_data/hw/cdr/0%%OMC_%%TASKID/going/" />
+		<filename
+			value="BaseSummary_HW_CDR__%%OMC_%%TASKID__%%Y%%M%%D%%H%%m00__10.dat.csv" />
+		<zip value="false" />
+	</export>
+
+	<!-- LTE bell cdr -->
+	<export id="460" on="true">
+		<path value="../basesummary_data/bell/cdr/0%%OMC_%%TASKID/going/" />
+		<filename
+			value="BaseSummary_BELL_CDR__%%OMC_%%TASKID__%%Y%%M%%D%%H%%m00__10.dat.csv" />
+		<zip value="false" />
+		<header value="true" />
+	</export>
+
+	<!--智能管道输出配置 (start) -->
+	<export id="470" on="true">
+		<path
+			value="../basesummary_data/smart_pipe/GN_POWER_OFF_ON/0%%CITYBSCNUM_%%TASKID/going/" />
+		<filename
+			value="BaseSummary_GN_POWER_OFF_ON__%%CITYBSCNUM_%%TASKID__%%Y%%M%%D%%H%%m00__00.dat.csv" />
+		<zip value="false" />
+		<header value="true" />
+	</export>
+
+	<export id="471" on="true">
+		<path
+			value="../basesummary_data/smart_pipe/GN_CDR_EVENT/0%%CITYBSCNUM_%%TASKID/going/" />
+		<filename
+			value="BaseSummary_GN_CDR_EVENT__%%CITYBSCNUM_%%TASKID__%%Y%%M%%D%%H%%m00__00.dat.csv" />
+		<zip value="false" />
+		<header value="true" />
+	</export>
+
+	<export id="472" on="true">
+		<path
+			value="../basesummary_data/smart_pipe/GN_CDR_USER_TRAJECTORY/0%%CITYBSCNUM_%%TASKID/going/" />
+		<filename
+			value="BaseSummary_GN_CDR_USER_TRAJECTORY__%%CITYBSCNUM_%%TASKID__%%Y%%M%%D%%H%%m00__00.dat.csv" />
+		<zip value="false" />
+		<header value="true" />
+	</export>
+
+	<export id="473" on="true">
+		<path
+			value="../basesummary_data/smart_pipe/GN_3G2G_HO_RAT/0%%CITYBSCNUM_%%TASKID/going/" />
+		<filename
+			value="BaseSummary_GN_3G2G_HO_RAT__%%CITYBSCNUM_%%TASKID__%%Y%%M%%D%%H%%m00__00.dat.csv" />
+		<zip value="false" />
+		<header value="true" />
+	</export>
+	<!--智能管道输出配置 (end) -->
+
+	<!--lte输出配置 (start) -->
+	<export id="500" on="true">
+		<path value="../basesummary_data/lte/mre/0%%CITYBSCNUM_%%TASKID/going/" />
+		<filename
+			value="BaseSummary_CLT_LTE_MRE_%%CITYBSCNUM_%%TASKID_%%RAWFILE_%%Y%%M%%D%%H%%m00__00.dat.csv" />
+		<zip value="false" />
+		<header value="true" />
+	</export>
+
+	<export id="501" on="true">
+		<path value="../basesummary_data/lte/mre/0%%CITYBSCNUM_%%TASKID/going/" />
+		<filename
+			value="BaseSummary_CLT_LTE_MRO_%%CITYBSCNUM_%%TASKID_%%RAWFILE_%%Y%%M%%D%%H%%m00__00.dat.csv" />
+		<zip value="false" />
+		<header value="true" />
+	</export>
+	<!--lte输出配置 (end) -->
+
+	<!-- wcdr 输出到本地文件 -->
+	<export id="1012" on="true">
+		<path value="/hdl/wcdr/mobil/chk/data/convert_bsid_day/%%CITY_ID/" />
+		<filename value="BSID%%Y%%M%%D%%H%%m.csv" />
+		<zip value="false" />
+		<header value="true" />
+	</export>
+
+	<export id="1013" on="true">
+		<path value="/hdl/wcdr/mobil/chk/data/convert_imsi_day/%%CITY_ID/" />
+		<filename value="IMSI%%Y%%M%%D%%H%%m00.csv" />
+		<zip value="false" />
+		<header value="true" />
+	</export>
+	
+		<!-- 本kafka export使用-->
+	<export id="1110" on="true">
+		<path value="192.168.15.192:9092" />
+		<filename value="igp3Topic" />
+		<zip value="false" />
+		<split value="|" />
+	</export>
+</configuration>

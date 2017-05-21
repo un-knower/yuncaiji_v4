@@ -1,8 +1,6 @@
 package cn.uway.ucloude.uts.igp.tasktracker;
 
 
-import org.springframework.beans.factory.annotation.Autowired;
-
 import cn.uway.ucloude.log.ILogger;
 import cn.uway.ucloude.log.LoggerManager;
 import cn.uway.ucloude.uts.core.domain.Action;

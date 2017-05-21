@@ -1,7 +1,6 @@
 package cn.uway.ucloude.uts.core;
 
 import cn.uway.ucloude.cmd.HttpCmdServer;
-import cn.uway.ucloude.data.dataaccess.DataSourceProvider;
 import cn.uway.ucloude.ec.IEventCenter;
 import cn.uway.ucloude.uts.core.cluster.MasterElector;
 import cn.uway.ucloude.uts.core.cluster.SubscribedNodeManager;

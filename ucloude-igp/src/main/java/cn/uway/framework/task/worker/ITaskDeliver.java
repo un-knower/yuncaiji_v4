@@ -7,4 +7,6 @@ import cn.uway.framework.task.Task;
 
 public interface ITaskDeliver {
 	public boolean submit(Task task, ConnectionInfo connInfo, GatherPathEntry pathEntry, int fileIndex);
+
+	void runnerValidate();
 }

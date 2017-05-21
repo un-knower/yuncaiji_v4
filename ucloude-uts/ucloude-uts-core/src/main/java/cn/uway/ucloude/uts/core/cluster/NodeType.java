@@ -1,7 +1,5 @@
 package cn.uway.ucloude.uts.core.cluster;
 
-import cn.uway.ucloude.utils.StringUtil;
-
 public enum NodeType {
 	All(-1,"所有"),
 	// job tracker

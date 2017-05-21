@@ -37,96 +37,70 @@
 	</bean>
 
 	<!-- (START) IGP 使用Mysql配置 -->
-	<!--    
-	<bean name="datasource" class="org.apache.commons.dbcp2.BasicDataSource">
-		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
-		<property name="url">
-			<value><![CDATA[jdbc:mysql://${system.db.ip}:${system.db.port}/${system.db.dbName}?useUnicode=true&characterEncoding=${system.db.charset}]]></value>
-		</property>
-		<property name="username" value="${system.db.username}" />
-		<property name="password" value="${system.db.password}" />
-		<property name="maxTotal" value="${system.db.maxConnection}" />
-		<property name="maxIdle" value="${system.db.maxConnection}" />
-		<property name="maxWaitMillis" value="300000" />
-		<property name="testOnBorrow" value="true" />
-		<property name="validationQuery" value="select now() " />
-	</bean>
-   <bean name="jdbcConnection" class="org.apache.commons.dbcp2.BasicDataSource">
-		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
-		<property name="url">
-			<value><![CDATA[jdbc:mysql://${system.db.oracle.ip}:${system.db.oracle.port}/${system.db.oracle.dbName}?useUnicode=true&characterEncoding=${system.db.charset}]]></value>
-		</property>
-		<property name="username" value="${system.db.oracle.username}" />
-		<property name="password" value="${system.db.oracle.password}" />
-		<property name="maxTotal" value="${system.db.maxConnection}" />
-		<property name="maxIdle" value="${system.db.maxConnection}" />
-		<property name="maxWaitMillis" value="300000" />
-		<property name="testOnBorrow" value="true" />
-		<property name="validationQuery" value="select now() " />
-	</bean>
-	<bean name="gatherstatusDS" class="org.apache.commons.dbcp2.BasicDataSource">
-		<property name="testOnBorrow" value="true" />
-		<property name="validationQuery" value="select now() " />
-		<property name="maxTotal" value="5" />
-		<property name="maxIdle" value="5" />
-		<property name="maxWaitMillis" value="1200000" />
-		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
-		<property name="url">
-			<value><![CDATA[jdbc:mysql://${system.db.gatherstatus.ip}:${system.db.gatherstatus.port}/${system.db.gatherstatus.dbName}?useUnicode=true&characterEncoding=${system.db.charset}]]></value>
-		</property>
-		<property name="username" value="${system.db.gatherstatus.username}" />
-		<property name="password" value="${system.db.gatherstatus.password}" /> 
-	</bean>
-	<bean name="statusDAO" class="cn.uway.framework.status.dao.impl.MysqlStatusDAO">
-		<property name="datasource" ref="gatherstatusDS" />
-		<property name="sqlForInsertGatherObjStatus" ref="sqlForInsertGatherObjStatus" />
-		<property name="sqlForGetId" ref="sqlForGetId" />
-		<property name="sqlForCheckGatherObj" ref="sqlForCheckGatherObj" />
-		<property name="sqlForInitGatherObj" ref="sqlForInitMySqlGatherObj" />
-		<property name="sqlForUpdateGatherObjStatus" ref="sqlForUpdateGatherObjStatus" />
-		<property name="sqlForSearchGatherObjStatus" ref="sqlForSearchGatherObjStatus" />
-		<property name="sqlForSearchGatherObjStatusWithPCName" ref="sqlForSearchGatherObjStatusWithPCName" />
-		<property name="sqlForAfterFinishExport" ref="sqlForAfterFinishExport" />
-		<property name="sqlForGatherObjStatusRevert" ref="mysqlForGatherObjStatusRevert" />
-		<property name="sqlForGetMaxTaskDataTime" ref="sqlForGetMaxTaskDataTime" />
-		<property name="getGatherObjStatusIdFromOracle" ref="getGatherObjStatusIdFromOracle" />
-		<property name="sqlForInsertOracleGatherObjStatus" ref="sqlForInsertOracleGatherObjStatus" />
-	</bean>
-	<bean name="exportTargetDAO" class="cn.uway.framework.warehouse.destination.dao.impl.MysqlExportTargetDAO">
-		<property name="datasource" ref="datasource" />
-		<property name="loadDbExportTargetSQLForMysql" ref="loadDbExportTargetSQLForMysql" />
-		<property name="loadDbExportTargetSQLForOracle" ref="loadDbExportTargetSQLForOracle" />
-		<property name="loadFileExportTargetSQLForMysql" ref="loadFileExportTargetSQLForMysql" />
-		<property name="loadFileExportTargetSQLForOracle" ref="loadFileExportTargetSQLForOracle" />
-	</bean> 	
-	<bean name="taskDAO" class="cn.uway.framework.task.dao.TaskDAO">
-		<property name="datasource" ref="datasource" />
-		<property name="pid" value="${system.pid}" />
-		<property name="sqlForGetTaskList" ref="sqlForGetTaskList" />
-		<property name="sqlForGetRTaskList" ref="sqlForGetRTaskList" />
-		<property name="sqlForDelayDataList" ref="sqlForDelayDataList" />
-		<property name="sqlForDelayDataInsert" ref="mysqlForDelayDataInsert" />
-		<property name="sqlForDelayDataNextTime" ref="sqlForDelayDataNextTime" />
-		
-		<property name="sqlForInsertRTaskRecords" ref="mysqlForInsertRTaskRecords" />
-		<property name="sqlForUpdateRTaskRecords" ref="sqlForUpdateRTaskRecords" />
-		<property name="sqlForSetTaskDataTimeToNextPeriod" ref="mysqlForSetTaskDataTimeToNextPeriod" />
-		<property name="sqlForGetDBExportRecords" ref="sqlForGetDBExportRecords" />
-		
-		<property name="sqlForUpdateReTaskStatus" ref="mysqlForUpdateReTaskStatus" />
-		<property name="sqlForTestReTaskExists" ref="sqlForTestReTaskExists" />
-	</bean>  
-	<bean name="summaryDAO" class="cn.uway.framework.log.SummaryDAO">
-		<property name="dataSource" ref="jdbcConnection" />
-		<property name="sqlForInsertSummaryExportLogRecords" ref="sqlForInsertSummaryExportLogRecords" />
-		<property name="sqlForGetSummaryExportLogRecords" ref="mysqlForGetSummaryExportLogRecords" />
-	</bean> --> 
+	<!-- <bean name="datasource" class="org.apache.commons.dbcp2.BasicDataSource"> 
+		<property name="driverClassName" value="com.mysql.jdbc.Driver" /> <property 
+		name="url"> <value><![CDATA[jdbc:mysql://${system.db.ip}:${system.db.port}/${system.db.dbName}?useUnicode=true&characterEncoding=${system.db.charset}]]></value> 
+		</property> <property name="username" value="${system.db.username}" /> <property 
+		name="password" value="${system.db.password}" /> <property name="maxTotal" 
+		value="${system.db.maxConnection}" /> <property name="maxIdle" value="${system.db.maxConnection}" 
+		/> <property name="maxWaitMillis" value="300000" /> <property name="testOnBorrow" 
+		value="true" /> <property name="validationQuery" value="select now() " /> 
+		</bean> <bean name="jdbcConnection" class="org.apache.commons.dbcp2.BasicDataSource"> 
+		<property name="driverClassName" value="com.mysql.jdbc.Driver" /> <property 
+		name="url"> <value><![CDATA[jdbc:mysql://${system.db.oracle.ip}:${system.db.oracle.port}/${system.db.oracle.dbName}?useUnicode=true&characterEncoding=${system.db.charset}]]></value> 
+		</property> <property name="username" value="${system.db.oracle.username}" 
+		/> <property name="password" value="${system.db.oracle.password}" /> <property 
+		name="maxTotal" value="${system.db.maxConnection}" /> <property name="maxIdle" 
+		value="${system.db.maxConnection}" /> <property name="maxWaitMillis" value="300000" 
+		/> <property name="testOnBorrow" value="true" /> <property name="validationQuery" 
+		value="select now() " /> </bean> <bean name="gatherstatusDS" class="org.apache.commons.dbcp2.BasicDataSource"> 
+		<property name="testOnBorrow" value="true" /> <property name="validationQuery" 
+		value="select now() " /> <property name="maxTotal" value="5" /> <property 
+		name="maxIdle" value="5" /> <property name="maxWaitMillis" value="1200000" 
+		/> <property name="driverClassName" value="com.mysql.jdbc.Driver" /> <property 
+		name="url"> <value><![CDATA[jdbc:mysql://${system.db.gatherstatus.ip}:${system.db.gatherstatus.port}/${system.db.gatherstatus.dbName}?useUnicode=true&characterEncoding=${system.db.charset}]]></value> 
+		</property> <property name="username" value="${system.db.gatherstatus.username}" 
+		/> <property name="password" value="${system.db.gatherstatus.password}" /> 
+		</bean> <bean name="statusDAO" class="cn.uway.framework.status.dao.impl.MysqlStatusDAO"> 
+		<property name="datasource" ref="gatherstatusDS" /> <property name="sqlForInsertGatherObjStatus" 
+		ref="sqlForInsertGatherObjStatus" /> <property name="sqlForGetId" ref="sqlForGetId" 
+		/> <property name="sqlForCheckGatherObj" ref="sqlForCheckGatherObj" /> <property 
+		name="sqlForInitGatherObj" ref="sqlForInitMySqlGatherObj" /> <property name="sqlForUpdateGatherObjStatus" 
+		ref="sqlForUpdateGatherObjStatus" /> <property name="sqlForSearchGatherObjStatus" 
+		ref="sqlForSearchGatherObjStatus" /> <property name="sqlForSearchGatherObjStatusWithPCName" 
+		ref="sqlForSearchGatherObjStatusWithPCName" /> <property name="sqlForAfterFinishExport" 
+		ref="sqlForAfterFinishExport" /> <property name="sqlForGatherObjStatusRevert" 
+		ref="mysqlForGatherObjStatusRevert" /> <property name="sqlForGetMaxTaskDataTime" 
+		ref="sqlForGetMaxTaskDataTime" /> <property name="getGatherObjStatusIdFromOracle" 
+		ref="getGatherObjStatusIdFromOracle" /> <property name="sqlForInsertOracleGatherObjStatus" 
+		ref="sqlForInsertOracleGatherObjStatus" /> </bean> <bean name="exportTargetDAO" 
+		class="cn.uway.framework.warehouse.destination.dao.impl.MysqlExportTargetDAO"> 
+		<property name="datasource" ref="datasource" /> <property name="loadDbExportTargetSQLForMysql" 
+		ref="loadDbExportTargetSQLForMysql" /> <property name="loadDbExportTargetSQLForOracle" 
+		ref="loadDbExportTargetSQLForOracle" /> <property name="loadFileExportTargetSQLForMysql" 
+		ref="loadFileExportTargetSQLForMysql" /> <property name="loadFileExportTargetSQLForOracle" 
+		ref="loadFileExportTargetSQLForOracle" /> </bean> <bean name="taskDAO" class="cn.uway.framework.task.dao.TaskDAO"> 
+		<property name="datasource" ref="datasource" /> <property name="pid" value="${system.pid}" 
+		/> <property name="sqlForGetTaskList" ref="sqlForGetTaskList" /> <property 
+		name="sqlForGetRTaskList" ref="sqlForGetRTaskList" /> <property name="sqlForDelayDataList" 
+		ref="sqlForDelayDataList" /> <property name="sqlForDelayDataInsert" ref="mysqlForDelayDataInsert" 
+		/> <property name="sqlForDelayDataNextTime" ref="sqlForDelayDataNextTime" 
+		/> <property name="sqlForInsertRTaskRecords" ref="mysqlForInsertRTaskRecords" 
+		/> <property name="sqlForUpdateRTaskRecords" ref="sqlForUpdateRTaskRecords" 
+		/> <property name="sqlForSetTaskDataTimeToNextPeriod" ref="mysqlForSetTaskDataTimeToNextPeriod" 
+		/> <property name="sqlForGetDBExportRecords" ref="sqlForGetDBExportRecords" 
+		/> <property name="sqlForUpdateReTaskStatus" ref="mysqlForUpdateReTaskStatus" 
+		/> <property name="sqlForTestReTaskExists" ref="sqlForTestReTaskExists" /> 
+		</bean> <bean name="summaryDAO" class="cn.uway.framework.log.SummaryDAO"> 
+		<property name="dataSource" ref="jdbcConnection" /> <property name="sqlForInsertSummaryExportLogRecords" 
+		ref="sqlForInsertSummaryExportLogRecords" /> <property name="sqlForGetSummaryExportLogRecords" 
+		ref="mysqlForGetSummaryExportLogRecords" /> </bean> -->
 	<!-- (END) IGP 使用Mysql配置 -->
-	
-	
+
+
 	<!-- (START) IGP Oracle数据库配置 -->
 	<!-- IGP任务配置表数据源配置 -->
-	<!--     --> 
+	<!-- -->
 	<bean name="datasource" class="org.apache.commons.dbcp2.BasicDataSource">
 		<property name="driverClassName" value="oracle.jdbc.driver.OracleDriver" />
 		<property name="url">
@@ -147,9 +121,10 @@
 		<property name="maxIdle" value="5" />
 		<property name="maxWaitMillis" value="1200000" />
 		<property name="driverClassName" value="oracle.jdbc.driver.OracleDriver" />
-		<property name="url" value="jdbc:oracle:thin:@${system.db.oracle.ip}:${system.db.oracle.port}:${system.db.oracle.dbName}" />
+		<property name="url"
+			value="jdbc:oracle:thin:@${system.db.oracle.ip}:${system.db.oracle.port}:${system.db.oracle.dbName}" />
 		<property name="username" value="${system.db.oracle.username}" />
-		<property name="password" value="${system.db.oracle.password}" /> 
+		<property name="password" value="${system.db.oracle.password}" />
 	</bean>
 	<bean name="gatherstatusDS" class="org.apache.commons.dbcp2.BasicDataSource">
 		<property name="testOnBorrow" value="true" />
@@ -158,11 +133,12 @@
 		<property name="maxIdle" value="5" />
 		<property name="maxWaitMillis" value="1200000" />
 		<property name="driverClassName" value="oracle.jdbc.driver.OracleDriver" />
-		<property name="url" value="jdbc:oracle:thin:@${system.db.gatherstatus.ip}:${system.db.gatherstatus.port}:${system.db.gatherstatus.dbName}" />
+		<property name="url"
+			value="jdbc:oracle:thin:@${system.db.gatherstatus.ip}:${system.db.gatherstatus.port}:${system.db.gatherstatus.dbName}" />
 		<property name="username" value="${system.db.gatherstatus.username}" />
-		<property name="password" value="${system.db.gatherstatus.password}" /> 
+		<property name="password" value="${system.db.gatherstatus.password}" />
 	</bean>
-	
+
 	<bean name="statusDAO" class="cn.uway.framework.status.dao.impl.OracleStatusDAO">
 		<property name="datasource" ref="gatherstatusDS" />
 		<property name="sqlForInsertGatherObjStatus" ref="sqlForInsertGatherObjStatus" />
@@ -207,9 +183,9 @@
 		<property name="dataSource" ref="jdbcConnection" />
 		<property name="sqlForInsertSummaryExportLogRecords" ref="sqlForInsertSummaryExportLogRecords" />
 		<property name="sqlForGetSummaryExportLogRecords" ref="sqlForGetSummaryExportLogRecords" />
-	</bean>	
+	</bean>
 	<!-- (END) IGP Oracle数据库配置 -->
-	
+
 
 	<!-- FTP Accessor Config -->
 	<bean name="basicFTPClientPoolFactory"
@@ -219,66 +195,7 @@
 	<bean name="syncStringKeyFTPClientPoolMgr"
 		class="cn.uway.framework.connection.pool.ftp.FTPClientPoolMgr">
 	</bean>
-
-	<!-- 控制台配置。 -->
-	<bean name="killCommand" class="cn.uway.framework.console.command.KillCommand">
-	    <property name="taskTrigger" ref="taskTrigger" />
-	</bean>
-	<bean name="sysCommand" class="cn.uway.framework.console.command.SysCommand">
-	</bean>
-	<bean name="verCommand" class="cn.uway.framework.console.command.VerCommand">
-	</bean>
-	<bean name="dateCommand" class="cn.uway.framework.console.command.DateCommand">
-	</bean>
-	<bean name="diskCommand" class="cn.uway.framework.console.command.DiskCommand">
-	</bean>
-	<bean name="errorCommand" class="cn.uway.framework.console.command.ErrorCommand">
-	</bean>
-	<bean name="hostCommand" class="cn.uway.framework.console.command.HostCommand">
-	</bean>
-	<bean name="jvmCommand" class="cn.uway.framework.console.command.JvmCommand">
-	</bean>
-	<bean name="osCommand" class="cn.uway.framework.console.command.OsCommand">
-	</bean>
-	<bean name="threadCommand" class="cn.uway.framework.console.command.ThreadCommand">
-	</bean>
-	<bean name="listCommand" class="cn.uway.framework.console.command.ListCommand">
-		<property name="taskTrigger" ref="taskTrigger" />
-	</bean>
-	<bean name="stopCommand" class="cn.uway.framework.console.command.StopCommand">
-		<property name="taskTrigger" ref="taskTrigger" />
-	</bean>
-	<bean name="exitCommand" class="cn.uway.framework.console.command.ExitCommand">
-	</bean>
-	<bean name="helpCommand" class="cn.uway.framework.console.command.HelpCommand">
-	</bean>
-	<bean name="notFoundAction" class="cn.uway.framework.console.NotFoundAction"></bean>
-	<bean name="console" class="cn.uway.framework.console.IGP3Console">
-		<property name="port" value="${system.console.port}" />
-		<property name="welcomeMessage"
-			value="*****************IGP_V3 CONSOLE（输入help显示命令列表）*****************" />
-		<property name="clientTimeoutSecond" value="300" />
-		<property name="cmdNotFoundAction" ref="notFoundAction" />
-		<property name="commands">
-			<map>
-				<entry key="list" value-ref="listCommand" />
-				<entry key="exit" value-ref="exitCommand" />
-				<entry key="help" value-ref="helpCommand" />
-				<entry key="stop" value-ref="stopCommand" />
-				<entry key="date" value-ref="dateCommand" />
-				<entry key="disk" value-ref="diskCommand" />
-				<entry key="error" value-ref="errorCommand" />
-				<entry key="host" value-ref="hostCommand" />
-				<entry key="jvm" value-ref="jvmCommand" />
-				<entry key="kill" value-ref="killCommand" />
-				<entry key="os" value-ref="osCommand" />
-				<entry key="sys" value-ref="sysCommand" />
-				<entry key="thread" value-ref="threadCommand" />
-				<entry key="ver" value-ref="verCommand" />
-			</map>
-		</property>
-	</bean>
-
+	<!-- 控制台配置取消 -->
 	<!-- 单任务最大并发Job线程数 -->
 	<bean name="maxJobSize" class="java.lang.Integer">
 		<constructor-arg>
@@ -306,19 +223,19 @@
 			<value type="java.lang.Integer">${system.tempRegister.maxSize}</value>
 		</constructor-arg>
 	</bean>
-	
+
 	<bean name="dbLoggerFlag" class="java.lang.Boolean">
 		<constructor-arg>
 			<value type="java.lang.Boolean">true</value>
 		</constructor-arg>
 	</bean>
-	
+
 	<bean name="logCltInsertFlag" class="java.lang.String">
 		<constructor-arg>
 			<value type="java.lang.String">${system.logcltinsert.flag}</value>
 		</constructor-arg>
 	</bean>
-	
+
 
 	<!-- 采集省份ID 写log_cdr_insert表使用 目前这部分放框架很不合理 只是增加了一个开关控制 -->
 	<bean name="provinceId" class="java.lang.String">
@@ -338,7 +255,7 @@
 			<value>${system.cache.cacheFileSizeMB}</value>
 		</constructor-arg>
 	</bean>
-	
+
 	<bean name="mappingFileCount" class="java.lang.String">
 		<constructor-arg type="java.lang.String">
 			<value>${system.cache.mappingFileCount}</value>
@@ -368,42 +285,42 @@
 			<value>5</value>
 		</constructor-arg>
 	</bean>
-	
-	<!--  程序临时文件目录，临时存放解析过程中的性能参数等数据的原始文件。 -->
+
+	<!-- 程序临时文件目录，临时存放解析过程中的性能参数等数据的原始文件。 -->
 	<bean name="tempFileDir" class="java.lang.String">
 		<constructor-arg type="java.lang.String">
 			<value>${system.tempFileDir}</value>
 		</constructor-arg>
 	</bean>
-	
-	<!--  sqlldr文件目录，存放要入库的数据、入库日志信息文件 -->
+
+	<!-- sqlldr文件目录，存放要入库的数据、入库日志信息文件 -->
 	<bean name="sqlldrFileDir" class="java.lang.String">
 		<constructor-arg type="java.lang.String">
 			<value>${system.sqlldrFileDir}</value>
 		</constructor-arg>
 	</bean>
-	
+
 	<!-- 每个数据库同时在实行的sqlldr个数 -->
 	<bean name="sqlldrSameDataBaseLimitNum" class="java.lang.String">
 		<constructor-arg type="java.lang.String">
 			<value>${system.sqlldrSameDataBaseLimitNum}</value>
 		</constructor-arg>
 	</bean>
-	
+
 	<!-- sqlldr文件紧急优先入库尺寸阀值, 单位：M, 默认:45 -->
 	<bean name="sqlldrUrgentFileSize" class="java.lang.String">
 		<constructor-arg type="java.lang.String">
 			<value>${system.sqlldrUrgentFileSize}</value>
 		</constructor-arg>
-	</bean>	
-	
+	</bean>
+
 	<!--每个采集任务最大的WareHouse使用个数 -->
 	<bean name="maxWorkingTaskRepository" class="java.lang.Integer">
 		<constructor-arg type="java.lang.String">
 			<value>${system.warehouse.perTaskSize}</value>
 		</constructor-arg>
 	</bean>
-	
+
 	<!-- 每个warehouse Exporter线程最大数 -->
 	<bean name="wareHouseExporterMaxThread" class="java.lang.String">
 		<constructor-arg>
@@ -429,14 +346,15 @@
 			<value>${ftp.isUsedFTPPool}</value>
 		</constructor-arg>
 	</bean>
-	
-	<!--分组文件个数最大检测时间(单位：分钟)，默认:6 应用于GroupingFTPTaskWork中-->
-	<bean name="maxGroupFileNumCheckMinuteTime" class="java.lang.String" lazy-init="true">
+
+	<!--分组文件个数最大检测时间(单位：分钟)，默认:6 应用于GroupingFTPTaskWork中 -->
+	<bean name="maxGroupFileNumCheckMinuteTime" class="java.lang.String"
+		lazy-init="true">
 		<constructor-arg type="java.lang.String">
 			<value>${system.groupfileNumCheckMinute}</value>
 		</constructor-arg>
 	</bean>
-	
+
 	<!-- 周期性采集任务缺失文件检测时间(仅对周期性采集有效) -->
 	<!-- 假如当前时间是6有10日0，那么在采集6-7号前的所有文件，无论文件是否完整或存在，系统每次运行后，跳到下一个时间点 -->
 	<bean name="periodTaskMissFileCheckHour" class="java.lang.String">
@@ -444,35 +362,35 @@
 			<value type="java.lang.String">${system.periodTask.missFileCheckHour}</value>
 		</constructor-arg>
 	</bean>
-	
+
 	<!-- 网元数据文件基础目录(就是innerdata文件所在的目录，目前只支持cdma_cdl) -->
 	<bean name="innerdataBaseDir" class="java.lang.String">
 		<constructor-arg>
 			<value type="java.lang.String">${system.innerdata.basedir}</value>
 		</constructor-arg>
 	</bean>
-	
+
 	<!-- 栅格尺寸定义，默认100,400,800 -->
 	<bean name="gridSize" class="java.lang.String" lazy-init="true">
 		<constructor-arg type="java.lang.String">
 			<value>${system.grid.size}</value>
 		</constructor-arg>
 	</bean>
-	
+
 	<!-- 用于配置是否向ds_log_clt_to_group插入数据开关,true或者false -->
 	<bean name="isDsLogOn" class="java.lang.String">
 		<constructor-arg>
 			<value type="java.lang.String">${system.isDsLogOn}</value>
 		</constructor-arg>
 	</bean>
-	
+
 	<!-- 运营商标识 0：联通 2：电信 -->
 	<bean name="operatorsMark" class="java.lang.String">
 		<constructor-arg>
 			<value type="java.lang.String">${system.operators.mark}</value>
 		</constructor-arg>
 	</bean>
-	
+
 	<!-- 周期性ftp采集双周期检查，主要用于核心网采集 -->
 	<bean name="periodFtpDoublePeriodCheck" class="java.lang.Boolean">
 		<constructor-arg>

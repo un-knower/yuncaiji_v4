@@ -1,0 +1,16 @@
+<ehcache>   
+      <diskStore path="./cachefile"/>  
+      
+      <defaultCache 
+            maxElementsInMemory="1"
+            eternal="true"
+            timeToIdleSeconds="120000"
+            timeToLiveSeconds="120000"
+            overflowToDisk="true"
+            diskSpoolBufferSizeMB="50000"
+            maxElementsOnDisk="10000000"
+            diskPersistent="false"
+            diskExpiryThreadIntervalSeconds="12000"
+            memoryStoreEvictionPolicy="FIFO"
+            />
+</ehcache>

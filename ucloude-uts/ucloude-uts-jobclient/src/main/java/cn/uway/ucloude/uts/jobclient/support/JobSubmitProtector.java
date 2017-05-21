@@ -12,40 +12,43 @@ import cn.uway.ucloude.uts.jobclient.domain.Response;
 
 /**
  * 用来处理客户端请求过载问题
+ * 
  * @author uway
  *
  */
 public class JobSubmitProtector {
+
 	private int maxQPS;
-    // 用信号量进行过载保护
-    RateLimiter rateLimiter;
-    private int acquireTimeout = 100;
-    private String errorMsg;
 
-    public JobSubmitProtector(JobClientContext appContext) {
+	// 用信号量进行过载保护
+	RateLimiter rateLimiter;
 
-        this.maxQPS = appContext.getConfiguration().getParameter(ExtConfigKeys.JOB_SUBMIT_MAX_QPS,
-        		ExtConfigKeys.DEFAULT_JOB_SUBMIT_MAX_QPS);
-        if (this.maxQPS < 10) {
-            this.maxQPS = ExtConfigKeys.DEFAULT_JOB_SUBMIT_MAX_QPS;
-        }
+	private int acquireTimeout = 100;
 
-        this.errorMsg = "the maxQPS is " + maxQPS +
-                " , submit too fast , use " + ExtConfigKeys.JOB_SUBMIT_MAX_QPS +
-                " can change the concurrent size .";
-        this.acquireTimeout = appContext.getConfiguration().getParameter(ExtConfigKeys.JOB_SUBMIT_LOCK_ACQUIRE_TIMEOUT, 100);
+	private String errorMsg;
 
-        this.rateLimiter = RateLimiter.create(this.maxQPS);
-    }
+	public JobSubmitProtector(JobClientContext appContext) {
 
-    public Response execute(final List<Job> jobs, final JobSubmitExecutor<Response> jobSubmitExecutor) throws JobSubmitException {
-        if (!rateLimiter.tryAcquire(acquireTimeout, TimeUnit.MILLISECONDS)) {
-            throw new JobSubmitProtectException(maxQPS, errorMsg);
-        }
-        return jobSubmitExecutor.execute(jobs);
-    }
+		this.maxQPS = appContext.getConfiguration().getParameter(ExtConfigKeys.JOB_SUBMIT_MAX_QPS, ExtConfigKeys.DEFAULT_JOB_SUBMIT_MAX_QPS);
+		if (this.maxQPS < 10) {
+			this.maxQPS = ExtConfigKeys.DEFAULT_JOB_SUBMIT_MAX_QPS;
+		}
 
-    public int getMaxQPS() {
-        return maxQPS;
-    }
+		this.errorMsg = "the maxQPS is " + maxQPS + " , submit too fast , use " + ExtConfigKeys.JOB_SUBMIT_MAX_QPS
+				+ " can change the concurrent size .";
+		this.acquireTimeout = appContext.getConfiguration().getParameter(ExtConfigKeys.JOB_SUBMIT_LOCK_ACQUIRE_TIMEOUT, 100);
+
+		this.rateLimiter = RateLimiter.create(this.maxQPS);
+	}
+
+	public Response execute(final List<Job> jobs, final JobSubmitExecutor<Response> jobSubmitExecutor) throws JobSubmitException {
+		if (!rateLimiter.tryAcquire(acquireTimeout, TimeUnit.MILLISECONDS)) {
+			throw new JobSubmitProtectException(maxQPS, errorMsg);
+		}
+		return jobSubmitExecutor.execute(jobs);
+	}
+
+	public int getMaxQPS() {
+		return maxQPS;
+	}
 }

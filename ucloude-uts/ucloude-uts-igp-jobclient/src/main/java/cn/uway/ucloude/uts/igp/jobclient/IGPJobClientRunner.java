@@ -18,11 +18,13 @@ import cn.uway.ucloude.log.LoggerManager;
 import cn.uway.ucloude.uts.core.domain.Job;
 import cn.uway.ucloude.uts.jobclient.JobClient;
 import cn.uway.ucloude.uts.jobclient.domain.Response;
+import cn.uway.ucloude.uts.spring.jobclient.JobSubmitHandler;
 import cn.uway.util.StringUtil;
 
 
-public class IGPJobClientRunner implements ITaskDeliver {
+public class IGPJobClientRunner implements ITaskDeliver,JobSubmitHandler {
 	private static final ILogger LOGGER = LoggerManager.getLogger(IGPJobClientRunner.class);
+	
 	
 	// 由spring注入
 	private TaskLoader taskLoader;
@@ -36,16 +38,8 @@ public class IGPJobClientRunner implements ITaskDeliver {
 		
 	}
 	
-	public static IGPJobClientRunner getInstance() {
-		if (Main.context.containsBean("igpJobClientRunner")) {
-			IGPJobClientRunner igpRunner = (IGPJobClientRunner)Main.context
-					.getBean("igpJobClientRunner");
-			return igpRunner;
-		}
-		
-		return null;
-	}
-	
+
+	@Override
 	public void runnerValidate() {
 		if (taskLoader == null) {
 			LOGGER.error("IGPJobClientRunner:taskLoader invalid.");

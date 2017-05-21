@@ -21,160 +21,157 @@ import cn.uway.ucloude.uts.core.exception.JobTrackerNotFoundException;
 import cn.uway.ucloude.uts.core.loadbalance.LoadBalance;
 
 public class RpcClientDelegate {
+
 	private static final ILogger LOGGER = LoggerManager.getLogger(RpcClientDelegate.class);
 
-    private RpcClient rpcClient;
-    private UtsContext context;
+	private RpcClient rpcClient;
 
-    // JobTracker 是否可用
-    private volatile boolean serverEnable = false;
-    private List<Node> jobTrackers;
+	private UtsContext context;
 
-    public RpcClientDelegate(RpcClient rpcClient, UtsContext context) {
-        this.rpcClient = rpcClient;
-        this.context = context;
-        this.jobTrackers = new CopyOnWriteArrayList<Node>();
-    }
+	// JobTracker 是否可用
+	private volatile boolean serverEnable = false;
 
-    private Node getJobTrackerNode() throws JobTrackerNotFoundException {
-        try {
-    
-            if (jobTrackers.size() == 0) {
-            	LOGGER.info("rpc client delegate getJobTrackerNode no available jobTracker");
-                throw new JobTrackerNotFoundException("no available jobTracker!");
-            }
-            // 连JobTracker的负载均衡算法
-            LoadBalance loadBalance = ServiceFactory.load(LoadBalance.class, context.getConfiguration(), ExtConfigKeys.JOB_TRACKER_SELECT_LOADBALANCE);
-            return loadBalance.select(jobTrackers, context.getConfiguration().getIdentity());
-        } catch (JobTrackerNotFoundException e) {
-            this.serverEnable = false;
-            // publish msg
-            EventInfo eventInfo = new EventInfo(EcTopic.NO_JOB_TRACKER_AVAILABLE);
-            context.getEventCenter().publishAsync(eventInfo);
-            throw e;
-        }
-    }
+	private List<Node> jobTrackers;
 
-    public void start() {
-        try {
-            rpcClient.start();
-        } catch (RpcException e) {
-            throw new RuntimeException(e);
-        }
-    }
+	public RpcClientDelegate(RpcClient rpcClient, UtsContext context) {
+		this.rpcClient = rpcClient;
+		this.context = context;
+		this.jobTrackers = new CopyOnWriteArrayList<Node>();
+	}
 
-    public boolean contains(Node jobTracker) {
-        return jobTrackers.contains(jobTracker);
-    }
+	private Node getJobTrackerNode() throws JobTrackerNotFoundException {
+		try {
 
-    public void addJobTracker(Node jobTracker) {
-        if (!contains(jobTracker)) {
-            jobTrackers.add(jobTracker);
-        }
-    }
+			if (jobTrackers.size() == 0) {
+				LOGGER.info("rpc client delegate getJobTrackerNode no available jobTracker");
+				throw new JobTrackerNotFoundException("no available jobTracker!");
+			}
+			// 连JobTracker的负载均衡算法
+			LoadBalance loadBalance = ServiceFactory.load(LoadBalance.class, context.getConfiguration(),
+					ExtConfigKeys.JOB_TRACKER_SELECT_LOADBALANCE);
+			return loadBalance.select(jobTrackers, context.getConfiguration().getIdentity());
+		} catch (JobTrackerNotFoundException e) {
+			this.serverEnable = false;
+			// publish msg
+			EventInfo eventInfo = new EventInfo(EcTopic.NO_JOB_TRACKER_AVAILABLE);
+			context.getEventCenter().publishAsync(eventInfo);
+			throw e;
+		}
+	}
 
-    public boolean removeJobTracker(Node jobTracker) {
-        return jobTrackers.remove(jobTracker);
-    }
+	public void start() {
+		try {
+			rpcClient.start();
+		} catch (RpcException e) {
+			throw new RuntimeException(e);
+		}
+	}
 
-    /**
-     * 同步调用
-     */
-    public RpcCommand invokeSync(RpcCommand request)
-            throws JobTrackerNotFoundException {
-    	LOGGER.info("rpc client delegate invokeSync");
-        Node jobTracker = getJobTrackerNode();
+	public boolean contains(Node jobTracker) {
+		return jobTrackers.contains(jobTracker);
+	}
 
-        try {
-            RpcCommand response = rpcClient.invokeSync(jobTracker.getAddress(),
-                    request, context.getConfiguration().getInvokeTimeoutMillis());
-            this.serverEnable = true;
-            return response;
-        } catch (Exception e) {
-            // 将这个JobTracker移除
-            jobTrackers.remove(jobTracker);
-            try {
-                Thread.sleep(100L);
-            } catch (InterruptedException e1) {
-                LOGGER.error(e1.getMessage(), e1);
-            }
-            // 只要不是节点 不可用, 轮询所有节点请求
-            return invokeSync(request);
-        }
-    }
+	public void addJobTracker(Node jobTracker) {
+		if (!contains(jobTracker)) {
+			jobTrackers.add(jobTracker);
+		}
+	}
 
-    /**
-     * 异步调用
-     */
-    public void invokeAsync(RpcCommand request, AsyncCallback asyncCallback)
-            throws JobTrackerNotFoundException {
+	public boolean removeJobTracker(Node jobTracker) {
+		return jobTrackers.remove(jobTracker);
+	}
 
-        Node jobTracker = getJobTrackerNode();
-        LOGGER.info("rpc client delegate invokeAsync");
-        try {
-            rpcClient.invokeAsync(jobTracker.getAddress(), request,
-                    context.getConfiguration().getInvokeTimeoutMillis(), asyncCallback);
-            this.serverEnable = true;
-        } catch (Throwable e) {
-            // 将这个JobTracker移除
-            jobTrackers.remove(jobTracker);
-            try {
-                Thread.sleep(100L);
-            } catch (InterruptedException e1) {
-                LOGGER.error(e1.getMessage(), e1);
-            }
-            // 只要不是节点 不可用, 轮询所有节点请求
-            invokeAsync(request, asyncCallback);
-        }
-    }
+	/**
+	 * 同步调用
+	 */
+	public RpcCommand invokeSync(RpcCommand request) throws JobTrackerNotFoundException {
+		LOGGER.info("rpc client delegate invokeSync");
+		Node jobTracker = getJobTrackerNode();
 
-    /**
-     * 单向调用
-     */
-    public void invokeOneway(RpcCommand request)
-            throws JobTrackerNotFoundException {
-    	LOGGER.info("rpc client delegate invokeOneway");
-        Node jobTracker = getJobTrackerNode();
+		try {
+			RpcCommand response = rpcClient.invokeSync(jobTracker.getAddress(), request, context.getConfiguration().getInvokeTimeoutMillis());
+			this.serverEnable = true;
+			return response;
+		} catch (Exception e) {
+			// 将这个JobTracker移除
+			jobTrackers.remove(jobTracker);
+			try {
+				Thread.sleep(100L);
+			} catch (InterruptedException e1) {
+				LOGGER.error(e1.getMessage(), e1);
+			}
+			// 只要不是节点 不可用, 轮询所有节点请求
+			return invokeSync(request);
+		}
+	}
 
-        try {
-            rpcClient.invokeOneway(jobTracker.getAddress(), request,
-                    context.getConfiguration().getInvokeTimeoutMillis());
-            this.serverEnable = true;
-        } catch (Throwable e) {
-            // 将这个JobTracker移除
-            jobTrackers.remove(jobTracker);
-            try {
-                Thread.sleep(100L);
-            } catch (InterruptedException e1) {
-                LOGGER.error(e1.getMessage(), e1);
-            }
-            // 只要不是节点 不可用, 轮询所有节点请求
-            invokeOneway(request);
-        }
-    }
+	/**
+	 * 异步调用
+	 */
+	public void invokeAsync(RpcCommand request, AsyncCallback asyncCallback) throws JobTrackerNotFoundException {
 
-    public void registerProcessor(int requestCode, RpcProcessor processor,
-                                  ExecutorService executor) {
-        rpcClient.registerProcessor(requestCode, processor, executor);
-    }
+		Node jobTracker = getJobTrackerNode();
+		LOGGER.info("rpc client delegate invokeAsync");
+		try {
+			rpcClient.invokeAsync(jobTracker.getAddress(), request, context.getConfiguration().getInvokeTimeoutMillis(), asyncCallback);
+			this.serverEnable = true;
+		} catch (Throwable e) {
+			// 将这个JobTracker移除
+			jobTrackers.remove(jobTracker);
+			try {
+				Thread.sleep(100L);
+			} catch (InterruptedException e1) {
+				LOGGER.error(e1.getMessage(), e1);
+			}
+			// 只要不是节点 不可用, 轮询所有节点请求
+			invokeAsync(request, asyncCallback);
+		}
+	}
 
-    public void registerDefaultProcessor(RpcProcessor processor, ExecutorService executor) {
-        rpcClient.registerDefaultProcessor(processor, executor);
-    }
+	/**
+	 * 单向调用
+	 */
+	public void invokeOneway(RpcCommand request) throws JobTrackerNotFoundException {
+		LOGGER.info("rpc client delegate invokeOneway");
+		Node jobTracker = getJobTrackerNode();
 
-    public boolean isServerEnable() {
-        return serverEnable;
-    }
+		try {
+			rpcClient.invokeOneway(jobTracker.getAddress(), request, context.getConfiguration().getInvokeTimeoutMillis());
+			this.serverEnable = true;
+		} catch (Throwable e) {
+			// 将这个JobTracker移除
+			jobTrackers.remove(jobTracker);
+			try {
+				Thread.sleep(100L);
+			} catch (InterruptedException e1) {
+				LOGGER.error(e1.getMessage(), e1);
+			}
+			// 只要不是节点 不可用, 轮询所有节点请求
+			invokeOneway(request);
+		}
+	}
 
-    public void setServerEnable(boolean serverEnable) {
-        this.serverEnable = serverEnable;
-    }
+	public void registerProcessor(int requestCode, RpcProcessor processor, ExecutorService executor) {
+		rpcClient.registerProcessor(requestCode, processor, executor);
+	}
 
-    public void shutdown() {
-        rpcClient.shutdown();
-    }
+	public void registerDefaultProcessor(RpcProcessor processor, ExecutorService executor) {
+		rpcClient.registerDefaultProcessor(processor, executor);
+	}
 
-    public RpcClient getRpcClient() {
-        return rpcClient;
-    }
+	public boolean isServerEnable() {
+		return serverEnable;
+	}
+
+	public void setServerEnable(boolean serverEnable) {
+		this.serverEnable = serverEnable;
+	}
+
+	public void shutdown() {
+		rpcClient.shutdown();
+	}
+
+	public RpcClient getRpcClient() {
+		return rpcClient;
+	}
 }
